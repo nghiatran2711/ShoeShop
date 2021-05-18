@@ -31,11 +31,20 @@ class Product extends Model
     public function product_detail(){
         return $this->hasOne(ProductDetail::class);
     }
+
     public function product_images(){
         return $this->hasMany(ProductImage::class);
     }
 
     public function sizes() {
         return $this->belongsToMany(Size::class, 'product_size', 'product_id', 'size_id')->withPivot('quantity')->withTimestamps();
+    }
+
+    public function prices(){
+        return $this->hasMany(Price::class);
+    }
+
+    public function promotions(){
+        return $this->hasMany(Promotion::class);
     }
 }

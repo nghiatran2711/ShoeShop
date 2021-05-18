@@ -4,8 +4,10 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductSizeController;
+use App\Http\Controllers\Admin\PromotionController;
 use App\Http\Controllers\Admin\SizeController;
 use Illuminate\Support\Facades\Route;
 
@@ -82,5 +84,21 @@ Route::middleware('auth:admin')->group(function(){
             Route::put('/update/{size_id}', [ProductSizeController::class, 'update'])->name('update');
             Route::delete('/delete/{size_id}', [ProductSizeController::class, 'destroy'])->name('destroy');
         });
+        Route::group(['prefix' => 'price', 'as' => 'price.'], function () {
+            Route::get('/list', [PriceController::class, 'index'])->name('index');
+            Route::get('/create', [PriceController::class, 'create'])->name('create');
+            Route::post('/store', [PriceController::class, 'store'])->name('store');
+            Route::get('/edit/{price_id}', [PriceController::class, 'edit'])->name('edit');
+            Route::put('/update/{price_id}', [PriceController::class, 'update'])->name('update');
+            Route::delete('/delete/{price_id}', [PriceController::class, 'destroy'])->name('destroy');
+        });
+        Route::group(['prefix' => 'promotion', 'as' => 'promotion.'], function () {  
+            Route::get('/list', [PromotionController::class, 'index'])->name('index');
+            Route::get('/create', [PromotionController::class, 'create'])->name('create');
+            Route::post('/store', [PromotionController::class, 'store'])->name('store');
+            Route::get('/edit/{promotion_id}', [PromotionController::class, 'edit'])->name('edit');
+            Route::put('/update/{promotion_id}', [PromotionController::class, 'update'])->name('update');
+            Route::delete('/delete/{promotion_id}', [PromotionController::class, 'destroy'])->name('destroy');
+        });       
     });
 });

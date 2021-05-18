@@ -44,7 +44,11 @@
                                         <td>{{ $product->status }}</td>
                                         {{-- <td class="center"><a href="{{ route('admin.product.price.index',['product_id'=>$product->id]) }}" class="btn btn-primary">Price product Manage</a></td>
                                         <td class="center"><a href="{{ route('admin.product.promotion.index',['product_id'=>$product->id]) }}" class="btn btn-primary">Promotion product Manage</a></td> --}}
-                                        <td class="center"><a href="{{ route('admin.product.size.index',['product_id'=>$product->id]) }}" class="btn btn-primary">Size product Manage</a></td>
+                                        <td class="center">
+                                            <a href="{{ route('admin.product.size.index',['product_id'=>$product->id]) }}" class="btn btn-primary">Size Manage</a><br><br>
+                                            <a href="{{ route('admin.product.price.index',['product_id'=>$product->id]) }}" class="btn btn-primary">Price Manage</a><br><br>
+                                            <a href="{{ route('admin.product.promotion.index',['product_id'=>$product->id]) }}" class="btn btn-primary">Promotion Manage</a>
+                                        </td>
                                         <td class="center"><a href="" class="btn btn-primary"><i class="fa fa-info" aria-hidden="true"></i></a></td>
                                         <td class="center"><a href="{{ route('admin.product.edit',['id'=>$product->id]) }}" class="btn btn-primary"><i class="fa fa-pencil-square" aria-hidden="true"></i></a></td>
                                         <td class="center">
