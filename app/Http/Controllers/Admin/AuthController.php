@@ -4,41 +4,86 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use Validator;
+use Session;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Http\Requests;
+use App\Models\Admin;
 
 class AuthController extends Controller
 {
+    // /*
+    // |--------------------------------------------------------------------------
+    // | Login Controller
+    // |--------------------------------------------------------------------------
+    // |
+    // | This controller handles authenticating users for the application and
+    // | redirecting them to your home screen. The controller uses a trait
+    // | to conveniently provide its functionality to your applications.
+    // |
+    // */
+
+    // // use AuthenticatesUsers;
+
+    // /**
+    //  * Where to redirect users after login.
+    //  *
+    //  * @var string
+    //  */
+    protected $redirectTo = '/admin/login';
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
     }
-    //View Login Admin
-    public function view_login(){
+
+    public function getLogin()
+    {
+        // echo 111;die;
         return view('admin.login');
     }
-    //Login admin
-    public function login(Request $request){
+
+    // /**
+    //  * Show the application loginprocess.
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    public function postLogin(Request $request)
+    {
         $this->validate($request, [
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
         if (auth()->guard('admin')->attempt(['email' => $request->input('email'), 'password' => $request->input('password')]))
         {
             $user = auth()->guard('admin')->user();
             
-            // Session::put('success','You are Login successfully!!');
-            return redirect()->route('admin.dashboard')->with('success','You are login successfullly');
+            \Session::put('lsuccess','You are Login successfully!!');
+            return redirect()->route('admin.dashboard');
             
         } else {
-            return back()->with('error','your username and password are wrong.');
+            return back()->with('lerror','your username and password are wrong.');
         }
+
     }
-    public function destroy()
+
+    // /**
+    //  * Show the application logout.
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    public function logout(Request $request)
     {
         auth()->guard('admin')->logout();
-        Session::flush();
-        Session::put('success','You are logout successfully');        
+        \Session::flush();
+        \Session::put('lsuccess','You are logout successfully');        
         return redirect()->route('admin.login');
     }
+
 }

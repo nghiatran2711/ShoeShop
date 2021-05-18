@@ -3,12 +3,12 @@
                 <ul class="nav" id="main-menu">
 
                     <li>
-                        <a class="{{ Route::current()->getName() == 'admin.dashboard' ? 'active-menu' : ''  }}  " href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a>
+                        <a class="{{ Route::current()->getName() == 'admin.dashboard' ? 'active-menu' : ''  }}  " href="{{ route('admin.dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
                         <a href="ui-elements.html"><i class="fa fa-desktop"></i> UI Elements</a>
                     </li> 
-					 
+
 					<li>
                         <a href="#" class="{{ Route::current()->getName() == 'admin.brand.create' || Route::current()->getName() == 'admin.brand.index'|| Route::current()->getName() == 'admin.brand.edit' ? 'active-menu' : ''  }}"><i class="fa fa-sitemap"></i> Brands<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -31,6 +31,28 @@
                             </li>
                         </ul>
                     </li>		
+                    <li>
+                        <a href="#" class="{{ Route::current()->getName() == 'admin.size.create' || Route::current()->getName() == 'admin.size.index' || Route::current()->getName() == 'admin.size.edit' ? 'active-menu' : ''  }}"><i class="fa fa-sitemap"></i>Sizes<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{ route('admin.size.create') }}">Create Sizes</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.size.index') }}">List Sizes</a>
+                            </li>
+                        </ul>
+                    </li>	
+                    <li>
+                        <a href="#" class="{{ Route::current()->getName() == 'admin.product.create' || Route::current()->getName() == 'admin.product.index' || Route::current()->getName() == 'admin.product.edit' ? 'active-menu' : ''  }}"><i class="fa fa-sitemap"></i>Products<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{ route('admin.product.create') }}">Create Products</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.product.index') }}">List Products</a>
+                            </li>
+                        </ul>
+                    </li>
 							
                     <li>
                         <a href="tab-panel.html"><i class="fa fa-qrcode"></i> Tabs & Panels</a>
