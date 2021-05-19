@@ -44,6 +44,15 @@ class Product extends Model
         return $this->hasMany(Price::class);
     }
 
+    public function latestPrice()
+    {
+        $currentdate = date('Y-m-d');
+        return $this->hasOne(Price::class)
+            ->where('end_date', '>=', $currentdate)
+            ->where('status', Price::STATUS[1])
+            ->first();
+    }
+
     public function promotions(){
         return $this->hasMany(Promotion::class);
     }

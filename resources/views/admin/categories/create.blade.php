@@ -27,9 +27,17 @@
                           <input type="text" name="name" class="form-control" placeholder="Category name">
                       </div>
                       <div class="sub-title">Parent ID</div>
-                      <div>
-                          <input type="number" name="parent_id" class="form-control" placeholder="Parent ID">
-                      </div><br>
+                        <div>
+                            <select class="custom-select" name="parent_id">
+                                <option></option>
+                                @if (!empty($parent_category))   
+                                    @foreach ($parent_category as $id => $name )
+                                        <option value="{{ $id }}">{{ $name }}</option>
+                                    @endforeach
+                                @endif
+                              </select>
+                        </div>
+                        <br>
                       <div>
                           <button type="submit" class="btn btn-default">Store</button>
                       </div>

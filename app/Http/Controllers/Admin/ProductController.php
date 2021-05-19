@@ -40,7 +40,7 @@ class ProductController extends Controller
     {
         //
         $data=[];
-        $categories=Category::where('parent_id','<>','0')->pluck('name','id');
+        $categories = Category::where('parent_id', '=', 0)->get();
         $brands=Brand::pluck('name','id');
         // dd($categories);
         $data['categories']=$categories;
@@ -158,6 +158,8 @@ class ProductController extends Controller
         $data['categories']=$categories;
         $data['product']=$product;
         $data['brands']=$brands;
+        
+        // dd($data);
         return view('admin.products.edit',$data);
 
     }

@@ -103,8 +103,11 @@
                             <select class="custom-select" name="category_id">
                                 <option></option>
                                 @if (!empty($categories))   
-                                    @foreach ($categories as $id => $name )
-                                        <option value="{{ $id }}">{{ $name }}</option>
+                                    @foreach ($categories as $category )
+                                        <option value="" disabled style="font-weight:bold;">{{ $category->name }}</option>
+                                        @foreach ($category->childs as $child )
+                                            <option value="{{ $child->id }}">--{{ $child->name }}</option>
+                                        @endforeach
                                     @endforeach
                                 @endif
                               </select>

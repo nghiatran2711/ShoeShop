@@ -31,7 +31,10 @@ class CategoryController extends Controller
     public function create()
     {
         //method:get
-        return view('admin.categories.create');
+        $data=[];
+        $parent_category=Category::where('parent_id',0)->pluck('name','id');
+        $data['parent_category']=$parent_category;
+        return view('admin.categories.create',$data);
     }
 
     /**

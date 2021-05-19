@@ -102,7 +102,7 @@
                                         <option value="{{ $id }}" {{ $product->category_id==$id ? 'selected' : '' }}>{{ $name }}</option>
                                     @endforeach
                                 @endif
-                              </select>
+                            </select>
                         </div>
                         <div class="sub-title">Brand</div>
                         <div>
