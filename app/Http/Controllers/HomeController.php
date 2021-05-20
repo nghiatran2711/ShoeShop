@@ -74,7 +74,36 @@ class HomeController extends Controller
 
     public function search_product(Request $request){
         $categories_menu = Category::where('parent_id', '=', 0)->get();
+        $products=Product::with('category');   
+        
+        // search post name
+        if (!empty($request->catsearch)) {
+            $products = Product::where('category_id', 'like', '%' . $request->catsearch . '%');
+        }
+        if (!empty($request->keyword)) {
+            $products = Product::where('name', 'like', '%' . $request->keyword . '%');
+        }
+        // order ID desc
+        $products = $products->orderBy('id', 'desc')->get();
+
         $data['categories']=$categories_menu;
+        $data['products']=$products;
+        // pagination
+       
+        
         return view('search',$data);
+    }
+    public function product_details($id){
+        // Get category for display on menu
+        $data=[];
+        $categories_menu = Category::where('parent_id', '=', 0)->get();
+        // get product by $id
+        $product=Product::find($id);
+        $product_relateds=Product::where('category_id',$product->category_id)->get();
+
+        $data['categories']=$categories_menu;
+        $data['product']=$product;
+        $data['product_relateds']=$product_relateds;
+        return view('product_details',$data);
     }
 }

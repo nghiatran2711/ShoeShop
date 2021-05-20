@@ -9,7 +9,7 @@
                 <div class="bstore-breadcrumb">
                     <a href="index.html">HOME</a>
                     <span><i class="fa fa-caret-right"></i></span>
-                    <span>{{-- $cate->name --}}</span>
+                    <span>Search</span>
                 </div>
                 <!-- BSTORE-BREADCRUMB END -->
             </div>
@@ -32,8 +32,13 @@
                     <div class="product-category-title">
                         <!-- PRODUCT-CATEGORY-TITLE START -->
                         <h1>
-                            <span class="cat-name">{{-- $cate->name --}}</span>
-                            <span class="count-product">There are 13 products.</span>
+                            {{-- <span class="cat-name">{{ $cate->name }}</span> --}}
+                            
+                            @if ($products->count()>0)
+                                <span class="count-product">There are {{ $products->count() }} products.</span>
+                            @else
+                            <span class="count-product">There are 0 products.</span>
+                            @endif
                         </h1>
                         <!-- PRODUCT-CATEGORY-TITLE END -->
                     </div>
@@ -117,11 +122,11 @@
                     <div class="row">
                         <ul class="gategory-product">
                             <!-- SINGLE ITEM START -->
-                            {{-- @foreach ($products as $key => $product ) --}}
+                            @foreach ($products as $key => $product )
                             <li class="gategory-product-list col-lg-3 col-md-4 col-sm-6 col-xs-12">
                                 <div class="single-product-item">
                                     <div class="product-image">
-                                        <a href="single-product.html"><img src="{{-- asset($product->thumbnail) --}}" alt="product-image" /></a>
+                                        <a href="single-product.html"><img src="{{ asset($product->thumbnail) }}" alt="product-image" /></a>
                                         <a href="single-product.html" class="new-mark-box">new</a>
                                         <div class="overlay-content">
                                             <ul>
@@ -145,17 +150,17 @@
                                                 <span>1 Review(s)</span>
                                             </div>
                                         </div> --}}
-                                        <a href="single-product.html">{{-- $product->name --}}</a>
+                                        <a href="single-product.html">{{ $product->name }}</a>
                                                                 <div class="price-box">
-                                                                    {{-- @if (!empty($product->latestPrice()->price))
+                                                                    @if (!empty($product->latestPrice()->price))
                                                                         <span class="price">{{ number_format($product->latestPrice()->price) }} VNĐ</span>
-                                                                    @endif --}}
+                                                                    @endif
                                                                     
                                                                 </div>
                                     </div>
                                 </div>									
                             </li>
-                            {{-- @endforeach --}}
+                            @endforeach
                             <!-- SINGLE ITEM END -->					
                         </ul>
                     </div>

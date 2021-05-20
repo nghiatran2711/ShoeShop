@@ -1,4 +1,4 @@
-<x-guest-layout>
+{{-- <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
@@ -33,4 +33,52 @@
             </div>
         </form>
     </x-auth-card>
-</x-guest-layout>
+</x-guest-layout> --}}
+@extends('layouts.master')
+@section('content')
+    <!-- MAIN-CONTENT-SECTION START -->
+		<section class="main-content-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<!-- BSTORE-BREADCRUMB START -->
+						<div class="bstore-breadcrumb">
+							<a href="index.html">HOMe</a>
+							<span><i class="fa fa-caret-right"></i></span>
+							<span>Quên mật khẩu</span>
+						</div>
+						<!-- BSTORE-BREADCRUMB END -->
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<h2 class="page-title">Quên mật khẩu</h2>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<!-- REGISTERED-ACCOUNT START -->
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <div class="primari-box registered-account">
+                                <form class="new-account-box" action="{{ route('password.email') }}" id="accountLogin" method="POST">
+                                    @csrf
+                                    <h4 class="box-subheading">Quên mật khẩu</h4>
+                                    <p>Bạn đã quên mật khẩu? Không vấn đề gì. Chỉ cần cho chúng tôi biết địa chỉ email của bạn chúng tôi sẽ gửi cho bạn một liên kết đặt lại mật khẩu qua email cho phép bạn chọn một mật khẩu mới</p>
+                                    <div class="form-content">
+                                        <div class="form-group primary-form-group">
+                                            <label for="loginemail">Email</label>
+                                            <input type="text" value="" name="email" id="loginemail" class="form-control input-feild">
+                                        </div>
+                                        <div class="submit-button">
+                                            <button class="btn btn-danger" type="submit"><i class="fa fa-link"></i> Nhận liên kết đặt lại mật khẩu</button>
+                                        </div>
+                                    </div>
+                                </form>							
+                            </div>
+                            <!-- REGISTERED-ACCOUNT END -->
+                        </div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- MAIN-CONTENT-SECTION END -->
+@endsection
+

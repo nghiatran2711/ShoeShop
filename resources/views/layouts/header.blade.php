@@ -53,7 +53,12 @@
 									<li><a href="my-account.html">My Account</a></li>
 									<li><a href="cart.html">My Cart</a></li>
                                     @auth
-                                        <li><a href="registration.html">Logout</a></li>
+                                        <li>
+											<form action="{{ route('logout') }}" method="POST">
+												@csrf
+												<button class="btn btn-dark" style="background-color: #363636; color:#fff;" type="submit">Logout</button>
+											</form>	
+										</li>
                                     @else
                                         @if (Route::has('login'))
                                             <li><a href="{{ route('login') }}">Sign in</a></li>
@@ -89,7 +94,8 @@
 						<!-- HEADER-RIGHT-CALLUS END -->
 						<!-- CATEGORYS-PRODUCT-SEARCH START -->
 						<div class="categorys-product-search">
-							<form action="#" method="get" class="search-form-cat">
+							<form action="{{ route('search_product') }}" method="get" class="search-form-cat">
+								@csrf
 								<div class="search-product form-group">
 									<select name="catsearch" class="cat-search">
 										<option value="">All Categories</option>
@@ -101,8 +107,8 @@
 										@endforeach
 																		
 									</select>
-									<input type="text" class="form-control search-form" name="s" placeholder="Enter your search key ... " />
-									<button class="search-button" value="Search" name="s" type="submit">
+									<input type="text" class="form-control search-form" name="keyword" placeholder="Enter your search key ... " />
+									<button class="search-button" type="submit">
 										<i class="fa fa-search"></i>
 									</button>									 
 								</div>

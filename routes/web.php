@@ -29,3 +29,4 @@ Route::get('/home', [HomeController::class, 'index'])->name('index');
 Route::get('/product-by-category/{id}',[HomeController::class,'product_by_category'])->name('product_by_category');
 Route::get('/product-by-brand/{id}',[HomeController::class,'product_by_brand'])->name('product_by_brand');
 Route::get('/search',[HomeController::class,'search_product'])->name('search_product');
+Route::get('/product-details/{id}',[HomeController::class,'product_details'])->name('product_details');

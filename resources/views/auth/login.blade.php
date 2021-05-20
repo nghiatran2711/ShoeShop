@@ -1,4 +1,4 @@
-<x-guest-layout>
+{{-- <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
@@ -53,4 +53,57 @@
             </div>
         </form>
     </x-auth-card>
-</x-guest-layout>
+</x-guest-layout> --}}
+@extends('layouts.master')
+@section('content')
+    <!-- MAIN-CONTENT-SECTION START -->
+		<section class="main-content-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<!-- BSTORE-BREADCRUMB START -->
+						<div class="bstore-breadcrumb">
+							<a href="index.html">HOMe</a>
+							<span><i class="fa fa-caret-right"></i></span>
+							<span>Sign in</span>
+						</div>
+						<!-- BSTORE-BREADCRUMB END -->
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<h2 class="page-title">Sign in</h2>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<!-- REGISTERED-ACCOUNT START -->
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <div class="primari-box registered-account">
+                                <form class="new-account-box" action="{{ route('handle.login') }}" id="accountLogin" method="POST">
+                                    @csrf
+                                    <h4 class="box-subheading">Đăng nhập</h4>
+                                    <div class="form-content">
+                                        <div class="form-group primary-form-group">
+                                            <label for="loginemail">Email</label>
+                                            <input type="text" value="" name="email" id="loginemail" class="form-control input-feild">
+                                        </div>
+                                        <div class="form-group primary-form-group">
+                                            <label for="password">Mật khẩu</label>
+                                            <input type="password" value="" name="password" id="password" class="form-control input-feild">
+                                        </div>
+                                        <div class="forget-password">
+                                            <p><a href="#">Quên mật khẩu?</a></p>
+                                        </div>
+                                        <div class="submit-button">
+                                            <button class="btn btn-danger" type="submit"><i class="fa fa-lock submit-icon"></i> Đăng nhập</button>
+                                        </div>
+                                    </div>
+                                </form>							
+                            </div>
+                            <!-- REGISTERED-ACCOUNT END -->
+                        </div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- MAIN-CONTENT-SECTION END -->
+@endsection

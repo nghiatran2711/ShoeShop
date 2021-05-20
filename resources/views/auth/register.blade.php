@@ -1,4 +1,4 @@
-<x-guest-layout>
+{{-- <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
@@ -56,4 +56,65 @@
             </div>
         </form>
     </x-auth-card>
-</x-guest-layout>
+</x-guest-layout> --}}
+@extends('layouts.master')
+@section('content')
+    <!-- MAIN-CONTENT-SECTION START -->
+		<section class="main-content-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<!-- BSTORE-BREADCRUMB START -->
+						<div class="bstore-breadcrumb">
+							<a href="index.html">HOMe</a>
+							<span><i class="fa fa-caret-right"></i></span>
+							<span>Đăng ký tài khoản</span>
+						</div>
+						<!-- BSTORE-BREADCRUMB END -->
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<h2 class="page-title">Đăng ký tài khoản</h2>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<!-- REGISTERED-ACCOUNT START -->
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <div class="primari-box registered-account">
+                                <form class="new-account-box" id="accountLogin" method="POST" action="{{ route('register') }}">
+                                    @csrf
+                                    <h4 class="box-subheading">Đăng ký tài khoản</h4>
+                                    <div class="form-content">
+                                        <div class="form-group primary-form-group">
+                                            <label for="loginemail">Họ và tên</label>
+                                            <input type="text" value="" name="name" id="loginemail" class="form-control input-feild">
+                                        </div>
+                                        <div class="form-group primary-form-group">
+                                            <label for="loginemail">Email</label>
+                                            <input type="text" value="" name="email" id="loginemail" class="form-control input-feild">
+                                        </div>
+                                        <div class="form-group primary-form-group">
+                                            <label for="password">Mật khẩu</label>
+                                            <input type="password" value="" name="password" id="password" class="form-control input-feild">
+                                        </div>
+                                        <div class="form-group primary-form-group">
+                                            <label for="password">Nhập lại mật khẩu</label>
+                                            <input type="password" value="" name="password_confirmation" id="password" class="form-control input-feild">
+                                        </div>
+                                        <div class="forget-password">
+                                            <p><a href="{{ route('login') }}">Đã có tài khoản?</a></p>
+                                        </div>
+                                        <div class="submit-button">
+                                            <button class="btn btn-danger" type="submit"><i class="fa fa-lock submit-icon"></i> Đăng Ký</button>
+                                        </div>
+                                    </div>
+                                </form>							
+                            </div>
+                            <!-- REGISTERED-ACCOUNT END -->
+                        </div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- MAIN-CONTENT-SECTION END -->
+@endsection
