@@ -56,7 +56,7 @@
 										<th class="cart-unit text-right">Giá</th>
 										<th class="cart_quantity text-center">Số lượng</th>
 										<th class="cart-delete">&nbsp;</th>
-										<th class="cart-total text-right">Total</th>
+										<th class="cart-total text-right">Thành tiền</th>
 									</tr>
 								</thead>
 								<!-- TABLE HEADER END -->
@@ -122,7 +122,7 @@
 									<tr>
 										<td class="cart_voucher" colspan="3" rowspan="4"></td>
 										<td class="total-price-container text-right" colspan="3">
-											<span>Total</span>
+											<span>Tổng tiền</span>
 										</td>
 										<td id="total-price-container" class="price" colspan="1">
 											<span id="total-price">{{ Cart::pricetotal(0).' '. "VNĐ" }}</span>
@@ -138,8 +138,13 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<!-- RETURNE-CONTINUE-SHOP START -->
 						<div class="returne-continue-shop">
-							<a href="{{ route('index') }}" class="continueshoping"><i class="fa fa-chevron-left"></i>Continue shopping</a>
-							<a href="checkout-signin.html" class="procedtocheckout">Proceed to checkout<i class="fa fa-chevron-right"></i></a>
+							<a href="{{ route('index') }}" class="continueshoping"><i class="fa fa-chevron-left"></i>Tiếp tục mua hàng</a>
+							@auth
+								<a href="checkout-signin.html" class="procedtocheckout">Tiến hành thanh toán<i class="fa fa-chevron-right"></i></a>
+							@else
+								<a href="{{ route('login') }}" class="procedtocheckout">Tiến hành thanh toán<i class="fa fa-chevron-right"></i></a>
+							@endauth
+							
 						</div>	
 						<!-- RETURNE-CONTINUE-SHOP END -->						
 					</div>

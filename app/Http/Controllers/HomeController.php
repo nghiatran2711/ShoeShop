@@ -23,8 +23,6 @@ class HomeController extends Controller
         // foreach($product->prices as $key => $value){
         //     echo $value->end_date;
         // }
-        
-
         return view('home',$data);
     }
     public function product_by_category($category_name){

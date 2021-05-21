@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Size;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,5 +16,10 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         // \App\Models\Admin::factory(10)->create();
+        // $this->call(CategorySeeder::class);
+        // $this->call(BrandSeeder::class);
+        // $this->call(ProductSeeder::class);
+        // $this->call(SizeSeeder::class);
+        // $this->call(ProductSizeSeeder::class);
     }
 }
