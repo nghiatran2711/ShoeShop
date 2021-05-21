@@ -5,41 +5,32 @@
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pull-right shopingcartarea">
                 <div class="shopping-cart-out pull-right">
                     <div class="shopping-cart">
-                        <a class="shop-link" href="cart.html" title="View my shopping cart">
+                        <a class="shop-link" href="{{ route('view_cart') }}" title="View my shopping cart">
                             <i class="fa fa-shopping-cart cart-icon"></i>
                             <b>My Cart</b>
-                            <span class="ajax-cart-quantity">2</span>
+                            <span class="ajax-cart-quantity">{{ Cart::content()->count() }}</span>
                         </a>
                         <div class="shipping-cart-overly">
-                            <div class="shipping-item">
-                                <span class="cross-icon"><i class="fa fa-times-circle"></i></span>
-                                <div class="shipping-item-image">
-                                    <a href="#"><img src="{{ asset('frontend/img/shopping-image.jpg') }}" alt="shopping image" /></a>
+                            @foreach (Cart::content() as $row)
+                                <div class="shipping-item">
+                                    <span class="cross-icon"><a href="{{ route('remove_item_cart',['id'=>$row->rowId]) }}"><i class="fa fa-times-circle"></i></a></span>
+                                    <div class="shipping-item-image">
+                                        <a href="#"><img src="{{ asset($row->options->has('thumbnail') ? $row->options->thumbnail : '') }}" width="80" height="80" alt="shopping image" /></a>
+                                    </div>
+                                    <div class="shipping-item-text">
+                                        <span>{{ $row->qty }} <span class="pro-quan-x">x</span> <a href="#" class="pro-cat">{{ $row->name }}</a></span>
+                                        <span class="pro-quality"><a href="#">Size: {{ $row->options->has('size') ? $row->options->size : '' }}</a></span>
+                                        <p>{{ $row->price }}</p>
+                                    </div>
                                 </div>
-                                <div class="shipping-item-text">
-                                    <span>2 <span class="pro-quan-x">x</span> <a href="#" class="pro-cat">Watch</a></span>
-                                    <span class="pro-quality"><a href="#">S,Black</a></span>
-                                    <p>$22.95</p>
-                                </div>
-                            </div>
-                            <div class="shipping-item">
-                                <span class="cross-icon"><i class="fa fa-times-circle"></i></span>
-                                <div class="shipping-item-image">
-                                    <a href="#"><img src="{{ asset('frontend/img/shopping-image2.jpg') }}" alt="shopping image" /></a>
-                                </div>
-                                <div class="shipping-item-text">
-                                    <span>2 <span class="pro-quan-x">x</span> <a href="#" class="pro-cat">Women Bag</a></span>
-                                    <span class="pro-quality"><a href="#">S,Gary</a></span>
-                                    <p>$19.95</p>
-                                </div>
-                            </div>
+                            @endforeach
                             <div class="shipping-total-bill">
-                                <div class="cart-prices">
+                                {{-- <div class="cart-prices">
                                     <span class="shipping-cost">$2.00</span>
                                     <span>Shipping</span>
-                                </div>
+                                </div> --}}
                                 <div class="total-shipping-prices">
-                                    <span class="shipping-total">$24.95</span>
+                                    <span class="shipping-total">{{ Cart::pricetotal(0).' '. "VNĐ" }}</span>
                                     <span>Total</span>
                                 </div>										
                             </div>
@@ -56,15 +47,7 @@
                 <div class="mainmenu">
                     <nav>
                         <ul class="list-inline mega-menu">
-                            <li class="active"><a href="{{ route('index') }}">Trang chủ</a>
-                                <!-- DROPDOWN MENU START -->
-                                <div class="home-var-menu">
-                                    <ul class="home-menu">
-                                        <li><a href="index-2.html">Home variation 2</a></li>
-                                    </ul>												
-                                </div>
-                                <!-- DROPDOWN MENU END -->
-                            </li>
+                            <li class="active"><a href="{{ route('index') }}">Trang chủ</a></li>
                             @foreach ($categories as $category)
                                 <li>
                                     <a href="{{route('product_by_category',['id'=>$category->name])}}">{{ $category->name}}</a>

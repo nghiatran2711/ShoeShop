@@ -92,66 +92,70 @@
 								</div>
 							</div>
 							<div class="col-lg-7 col-md-7 col-sm-8 col-xs-12">
-								<div class="single-product-descirption">
-									<h2>{{ $product->name }}</h2>
-									{{-- <div class="single-product-review-box">
-										<div class="rating-box">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star-half-empty"></i>
+								<form action="{{ route('add_cart') }}" method="GET">
+									@csrf
+									<div class="single-product-descirption">
+										<h2>{{ $product->name }}</h2>
+										{{-- <div class="single-product-review-box">
+											<div class="rating-box">
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star-half-empty"></i>
+											</div>
+											<div class="read-reviews">
+												<a href="#">Read reviews (1)</a>
+											</div>
+											<div class="write-review">
+												<a href="#">Write a review</a>
+											</div>		
+										</div> --}}
+										<div class="single-product-condition">
+											{{-- <p>Reference: <span>demo_1</span></p> --}}
+											<p>Condition: <span>New product</span></p>
 										</div>
-										<div class="read-reviews">
-											<a href="#">Read reviews (1)</a>
+										<div class="single-product-price">
+											@if (!empty($product->latestPrice()->price))
+												<h2>{{ number_format($product->latestPrice()->price)." "."VNĐ" }}</h2>
+											@endif
+											
 										</div>
-										<div class="write-review">
-											<a href="#">Write a review</a>
-										</div>		
-									</div> --}}
-									<div class="single-product-condition">
-										{{-- <p>Reference: <span>demo_1</span></p> --}}
-										<p>Condition: <span>New product</span></p>
-									</div>
-									<div class="single-product-price">
-                                        @if (!empty($product->latestPrice()->price))
-                                            <h2>{{ number_format($product->latestPrice()->price)." "."VNĐ" }}</h2>
-                                        @endif
-										
-									</div>
-									<div class="single-product-desc">
-										<p>{{ $product->description }}</p>
-										
-									</div>
-									<div class="single-product-quantity">
-										<p class="small-title">Quantity</p> 
-										<div class="cart-quantity">
-											<div class="cart-plus-minus-button single-qty-btn">
-												<input class="cart-plus-minus sing-pro-qty" type="number" name="qtybutton" value="0">
+										<div class="single-product-desc">
+											<p>{{ $product->description }}</p>
+											
+										</div>
+										<div class="single-product-quantity">
+											<p class="small-title">Quantity</p> 
+											<div class="cart-quantity">
+												<div class="cart-plus-minus-button single-qty-btn">
+													<input class="cart-plus-minus sing-pro-qty" type="number" name="qty" value="0">
+												</div>
 											</div>
 										</div>
-									</div>
-									<div class="single-product-size">
-                                        <div class="product-in-stock">
-											<p>300 products invertory</p>
+										<div class="single-product-size">
+											<div class="product-in-stock">
+												<p>300 products invertory</p>
+											</div>
+											<p class="small-title">Size </p> 
+											<select name="product_size" id="product-size">
+												@foreach ($product->sizes as $size )
+													<option value="{{ $size->id }}">{{ $size->name }}</option>
+												@endforeach
+												
+											</select>
 										</div>
-										<p class="small-title">Size </p> 
-										<select name="product-size" id="product-size">
-                                            @foreach ($product->sizes as $size )
-                                                <option value="{{ $size->id }}">{{ $size->name }}</option>
-                                            @endforeach
-											
-										</select>
+										{{-- <div class="single-product-color">
+											<p class="small-title">Color </p> 
+											<a href="#"><span></span></a>
+											<a class="color-blue" href="#"><span></span></a>
+										</div> --}}
+										<div class="single-product-add-cart">
+											<input type="hidden" name="product_id" value="{{ $product->id }}">
+											<button type="submit" class="btn btn-danger"><i class="fa fa-shopping-cart cart-icon"></i> ADD TO CART</button>
+										</div>
 									</div>
-									{{-- <div class="single-product-color">
-										<p class="small-title">Color </p> 
-										<a href="#"><span></span></a>
-										<a class="color-blue" href="#"><span></span></a>
-									</div> --}}
-									<div class="single-product-add-cart">
-										<a class="add-cart-text" title="Add to cart" href="#">Add to cart</a>
-									</div>
-								</div>
+								</form>
 							</div>
 						</div>
 						<!-- SINGLE-PRODUCT-DESCRIPTION END -->

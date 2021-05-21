@@ -408,7 +408,7 @@
                                 <li class="gategory-product-list col-lg-3 col-md-4 col-sm-6 col-xs-12">
                                     <div class="single-product-item">
                                         <div class="product-image">
-                                            <a href="single-product.html"><img src="{{  asset($product->thumbnail) }}" alt="product-image" /></a>
+                                            <a href="single-product.html"><img src="{{  asset($product->thumbnail) }}" width="189.375" height="189.375" alt="product-image" /></a>
                                             <a href="single-product.html" class="new-mark-box">new</a>
                                             <div class="overlay-content">
                                                 <ul>

@@ -74,9 +74,9 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					{{-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<h2 class="page-title">Đăng ký tài khoản</h2>
-					</div>
+					</div> --}}
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<!-- REGISTERED-ACCOUNT START -->
                         <div class="col-lg-4 col-lg-offset-4">
