@@ -3837,6 +3837,29 @@ ul.address li span{
 	color: #777777;
 	margin-right: 11px;
 }
+.returne-continue-shop button.procedtocheckout{
+	background: #ff4f4f none repeat scroll 0 0;
+	border: none;
+	border-radius: 4px;
+	color: #fff;
+	display: block;
+	float: right;
+	font-size: 20px;
+	line-height: 50px;
+	padding: 0 16px;
+	transition: all 500ms ease 0s;
+}
+.returne-continue-shop button.procedtocheckout:hover{
+	border: none;
+	background: #3a3d42 none repeat scroll 0 0;
+	border-color: #3a3d42;	
+}
+.returne-continue-shop button.procedtocheckout i{
+	font-size: 25px;
+	line-height: 50px;
+	margin-left: 9px;
+	vertical-align: -2px;
+}
 .returne-continue-shop a.procedtocheckout{
 	background: #ff4f4f none repeat scroll 0 0;
 	border-radius: 4px;
@@ -3849,6 +3872,7 @@ ul.address li span{
 	transition: all 500ms ease 0s;
 }
 .returne-continue-shop a.procedtocheckout:hover{
+	border: none;
 	background: #3a3d42 none repeat scroll 0 0;
 	border-color: #3a3d42;	
 }

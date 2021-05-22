@@ -91,7 +91,9 @@
                                             <input type="password" value="" name="password" id="password" class="form-control input-feild">
                                         </div>
                                         <div class="forget-password">
-                                            <p><a href="#">Quên mật khẩu?</a></p>
+                                            @if (Route::has('password.request'))
+                                                <p><a href="{{ route('password.request') }}">Quên mật khẩu?</a></p>
+                                            @endif
                                         </div>
                                         <div class="submit-button">
                                             <button class="btn btn-danger" type="submit"><i class="fa fa-lock submit-icon"></i> Đăng nhập</button>

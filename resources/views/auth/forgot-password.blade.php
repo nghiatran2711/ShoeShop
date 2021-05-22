@@ -58,10 +58,16 @@
 						<!-- REGISTERED-ACCOUNT START -->
                         <div class="col-lg-4 col-lg-offset-4">
                             <div class="primari-box registered-account">
-                                <form class="new-account-box" action="{{ route('password.email') }}" id="accountLogin" method="POST">
-                                    @csrf
                                     <h4 class="box-subheading">Quên mật khẩu</h4>
                                     <p>Bạn đã quên mật khẩu? Không vấn đề gì. Chỉ cần cho chúng tôi biết địa chỉ email của bạn chúng tôi sẽ gửi cho bạn một liên kết đặt lại mật khẩu qua email cho phép bạn chọn một mật khẩu mới</p>
+                                        @if(Session::has('status'))
+                                            <p class="text-success">{{ Session::get('status') }}</p>
+                                        @endif
+                                        @if(Session::has('errors'))
+                                            <p class="text-danger">{{ Session::get('errors') }}</p>
+                                        @endif
+                                <form class="new-account-box" action="{{ route('password.email') }}" id="accountLogin" method="POST">
+                                   @csrf 
                                     <div class="form-content">
                                         <div class="form-group primary-form-group">
                                             <label for="loginemail">Email</label>

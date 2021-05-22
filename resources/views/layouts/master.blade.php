@@ -165,6 +165,8 @@
 		</script>
 		<!-- main js -->
         <script src="{{ asset('frontend/js/main.js') }}"></script>
+		<script src="{{ asset('frontend/js/jquery.min.js') }}"></script>
+		@stack('js')
     </body>
 
 <!-- Nulled by http://www.baobinh.net by tieulonglanh -->

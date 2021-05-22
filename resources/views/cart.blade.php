@@ -139,17 +139,25 @@
 						<!-- RETURNE-CONTINUE-SHOP START -->
 						<div class="returne-continue-shop">
 							<a href="{{ route('index') }}" class="continueshoping"><i class="fa fa-chevron-left"></i>Tiếp tục mua hàng</a>
-							@auth
-								<a href="checkout-signin.html" class="procedtocheckout">Tiến hành thanh toán<i class="fa fa-chevron-right"></i></a>
-							@else
-								<a href="{{ route('login') }}" class="procedtocheckout">Tiến hành thanh toán<i class="fa fa-chevron-right"></i></a>
-							@endauth
-							
+							<button type="button" class="procedtocheckout" data-toggle="modal" data-target="#modal-send-code">Tiến hành thanh toán<i class="fa fa-chevron-right"></i></button>
+
 						</div>	
 						<!-- RETURNE-CONTINUE-SHOP END -->						
 					</div>
 				</div>
 			</div>
 		</section>
+		@include('carts.parts.modal_send_code')
+
+		{{-- @push('css')
+			<link rel="stylesheet" href="{{ asset('css/carts/cart-info.css') }}">
+		@endpush --}}
+
+		@push('js')
+			{{-- <script>
+				const URL_CHECKOUT = "{{ route('cart.checkout') }}";
+			</script> --}}
+			<script src="{{ asset('frontend/js/carts/cart-info.js') }}"></script>
+		@endpush
 		<!-- MAIN-CONTENT-SECTION END -->
 @endsection

@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendVerifyCode;
 use App\Models\Category;
+use App\Models\OrderVerify;
 use App\Models\Product;
 use App\Models\Size;
+use App\Utils\CommonUtil;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
@@ -50,6 +57,55 @@ class CartController extends Controller
     public function removeItemCart($id){
         Cart::remove($id);
         return redirect()->route('view_cart');
+
+    }
+
+    // Send code xác thực check out
+    public function sendVerifyCode(Request $request)
+    {
+        // send code to verify Order
+        // check exist send code ?
+        $userId = Auth::id();
+        $email = Auth::user()->email;
+        $currentDate = date('Y-m-d H:i:s');
+        $dateSubtract15Minutes = date('Y-m-d H:i:s', (time() - 60 * 15)); // current - 15 minutes
+        Log::info('dateSubtract15Minutes');
+        Log::info($dateSubtract15Minutes);
+        $orderVerify = OrderVerify::where('user_id', $userId)
+            ->whereBetween('expire_date', [$dateSubtract15Minutes, $currentDate])
+            ->where('status', OrderVerify::STATUS[0])
+            ->first();
+
+        if (!empty($orderVerify)) { // already sent code and this code is available
+            return response()->json(['message' => 'We sent code to your email about 15 minutes ago. Please check email to get code.']);
+        } else { // not send code
+            $dataSave = [
+                'user_id' => $userId,
+                'status'  => OrderVerify::STATUS[0], // default 0
+                'code'  => CommonUtil::generateUUID(),
+                'expire_date'  => $currentDate,
+            ];
+            DB::beginTransaction();
+
+            try {
+                OrderVerify::create($dataSave);
+
+                // commit insert data into table
+                DB::commit();
+
+                // send code to email
+                Mail::to($email)->send(new SendVerifyCode($dataSave));
+
+                return response()->json(['message' => 'We sent code to email. Please check email to get code.']);
+            } catch (\Exception $exception) {
+                // rollback data and dont insert into table
+                DB::rollBack();
+
+                return response()->json(['message' => $exception->getMessage()]);
+            }
+        }
+    }
+    public function confirmVerifyCode(Request $request){
 
     }
 }
