@@ -1,4 +1,13 @@
 @extends('admin.layouts.master')
+@push('css')
+	<style type="text/css">
+		.my-active span{
+			background-color: #0283fc !important;
+			color: white !important;
+			border-color: #0283fc !important;
+		}
+	</style>
+@endpush
 @section('content')
     <div class="header"> 
         <h1 class="page-header">
@@ -16,7 +25,21 @@
              <div class="panel panel-default">
                  <div class="panel-heading">
                      <div class="card-title">
-                         <div class="title">List category</div>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="title">List categories</div>
+                            </div>
+                            <div class="col-md-3">
+                                <form class="navbar-form" role="search" action="{{ route('admin.category.search') }}" method="GET">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Enter category name" name="keyword">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                      </div>
                  </div>
                  <div class="panel-body">
@@ -51,9 +74,11 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $categories->links() }}
                         
                     </div>
+                </div>
+                <div class="text-center">
+                    {{ $categories->appends(request()->input())->links('vendor.pagination.custom') }}
                 </div>
              </div>
          </div>

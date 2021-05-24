@@ -23,7 +23,8 @@ Website: http://www.webthemez.com/
     <link href="{{ asset('backend/css/custom-styles.css') }}" rel="stylesheet" />
     <!-- Google Fonts-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-    <link rel="stylesheet" href="{{ asset('backend/js/Lightweight-Chart/cssCharts.css') }}"> 
+    <link rel="stylesheet" href="{{ asset('backend/js/Lightweight-Chart/cssCharts.css') }}">
+    @stack('css')
 </head>
 
 <body>

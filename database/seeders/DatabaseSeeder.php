@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Promotion;
 use App\Models\Size;
 use Illuminate\Database\Seeder;
 
@@ -21,5 +22,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(ProductSeeder::class);
         // $this->call(SizeSeeder::class);
         // $this->call(ProductSizeSeeder::class);
+        // $this->call(PriceSeeder::class);
+        // $this->call(PromotionSeeder::class);
     }
 }

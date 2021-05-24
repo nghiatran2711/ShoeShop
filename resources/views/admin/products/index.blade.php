@@ -1,4 +1,13 @@
 @extends('admin.layouts.master')
+@push('css')
+    <style type="text/css">
+        .my-active span{
+            background-color: #0283fc !important;
+            color: white !important;
+            border-color: #0283fc !important;
+        }
+    </style>
+@endpush
 @section('content')
     <div class="header"> 
         <h1 class="page-header">
@@ -16,7 +25,33 @@
              <div class="panel panel-default">
                  <div class="panel-heading">
                      <div class="card-title">
-                         <div class="title">List product</div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="title">List products</div>
+                            </div>
+                            <div class="col-md-6">
+                                  <form class="navbar-form" role="search" action="{{ route('admin.product.search') }}" method="GET">
+                                    <label for="">Category: </label>
+                                    <select class="selectpicker" name="category_id">  
+                                        <option value=""></option>
+                                        @if (!empty($categories))   
+                                        @foreach ($categories as $category )
+                                            <option value="" disabled style="font-weight:bold;">{{ $category->name }}</option>
+                                            @foreach ($category->childs as $child )
+                                                <option value="{{ $child->id }}">--{{ $child->name }}</option>
+                                            @endforeach
+                                        @endforeach
+                                    @endif
+                                      </select> 
+                                    <div class="input-group" >
+                                        <input type="text" class="form-control" placeholder="Enter product name" name="keyword">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                      </div>
                  </div>
                  <div class="panel-body">
@@ -65,6 +100,9 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <div class="text-center">
+                    {{ $products->appends(request()->input())->links('vendor.pagination.custom') }}
                 </div>
              </div>
          </div>

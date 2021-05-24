@@ -159,12 +159,12 @@ class CategoryController extends Controller
         $data = [];
         
         // get list data of table posts
-        $categories = Category::where('name', 'LIKE', '%' . $request->input('category_name') . '%')
-            ->get();
+        $categories = Category::where('name', 'LIKE', '%' . $request->input('keyword') . '%');
+        $categories=$categories->paginate(4);
         // get list data of table categories
         $data['categories'] = $categories;
-        // dd($posts);
-        return view('admin.category.index', $data);
+        
+        return view('admin.categories.index', $data);
     }
     // public function search_ajax(Request $request){
     //     $data = [];

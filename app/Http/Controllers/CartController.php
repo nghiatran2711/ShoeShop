@@ -42,9 +42,9 @@ class CartController extends Controller
         $data['weight']=0;
         $data['options']['size']=$size;
         $data['options']['thumbnail']=$product->thumbnail;
-        // Cart::add($data);
+        Cart::add($data);
         // Cart::destroy();
-        dd(Cart::content());
+        // dd(Cart::content());
         return redirect()->route('view_cart');
     }
 
@@ -106,6 +106,37 @@ class CartController extends Controller
         }
     }
     public function confirmVerifyCode(Request $request){
+        $code = $request->code;
+        $userId = Auth::id();
 
+        $orderVerify = OrderVerify::where('code', $code)
+            ->where('user_id', $userId)
+            ->where('status', OrderVerify::STATUS[0])
+            ->first();
+        //  validate code
+
+        DB::beginTransaction();
+
+        try {
+            $orderVerify->status = OrderVerify::STATUS[1];
+            $orderVerify->save();
+
+            DB::commit();
+
+            // add step by step to SESSION
+            // session(['step_by_step' => 2]);
+
+            return response()->json(['message' => 'Confirmed code is OK.']);
+        } catch (\Exception $exception) {
+            DB::rollBack();
+
+            return response()->json(['message' => $exception->getMessage()]);
+        }
+    }
+    public function checkout(){ 
+        $data=[];
+        $categories_menu = Category::where('parent_id', '=', 0)->get();
+        $data['categories']=$categories_menu;
+        return view('carts.checkout',$data);
     }
 }

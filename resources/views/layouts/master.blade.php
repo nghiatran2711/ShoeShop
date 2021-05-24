@@ -87,6 +87,7 @@
 		<!-- MODERNIZR JS 
 		============================================ -->
         <script src="{{ asset('frontend/js/vendor/modernizr-2.6.2.min.js') }}"></script>
+		@stack('css')
     </head>
     <body class="index-2">
         <!--[if lt IE 8]>

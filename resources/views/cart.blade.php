@@ -154,9 +154,9 @@
 		@endpush --}}
 
 		@push('js')
-			{{-- <script>
-				const URL_CHECKOUT = "{{ route('cart.checkout') }}";
-			</script> --}}
+			<script>
+				const URL_CHECKOUT = "{{ route('checkout') }}";
+			</script>
 			<script src="{{ asset('frontend/js/carts/cart-info.js') }}"></script>
 		@endpush
 		<!-- MAIN-CONTENT-SECTION END -->

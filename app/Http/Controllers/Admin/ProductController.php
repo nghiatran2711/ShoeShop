@@ -25,8 +25,10 @@ class ProductController extends Controller
     {
         //
         $data=[];
-        $products=Product::get();
+        $categories = Category::where('parent_id', '=', 0)->get();
+        $products=Product::paginate(10);
         $data['products']=$products;
+        $data['categories']=$categories;
         return view('admin.products.index',$data);
 
     }
@@ -309,5 +311,31 @@ class ProductController extends Controller
             return redirect()->back()->with('error',$ex->getMessage());
         }
         
+    }
+    public function search(Request $request){
+        $data=[];
+         // get list data of table products
+         $products = Product::with('category');
+
+         // search category_id
+        if(!empty($request->category_id)){
+            $products=Product::where('category_id', $request->category_id);
+        }
+        // search product name
+        if(!empty($request->keyword)){
+            $products=Product::where('name', 'LIKE', '%' . $request->input('keyword') . '%');
+        }
+
+        // order ID desc
+        $products = $products->orderBy('id', 'desc');
+        
+        // pagination
+        $products = $products->paginate(10);
+
+        $categories = Category::where('parent_id', '=', 0)->get();
+
+        $data['categories'] = $categories;
+        $data['products'] = $products;
+        return view('admin.products.index', $data);
     }
 }

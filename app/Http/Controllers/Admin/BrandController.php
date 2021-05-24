@@ -17,7 +17,7 @@ class BrandController extends Controller
     public function index()
     {
         //method: get
-        $brands = Brand::paginate(20);
+        $brands = Brand::paginate(4);
         // dd($categories);
         return view('admin.brands.index', ['brands' => $brands]);
 
@@ -150,13 +150,11 @@ class BrandController extends Controller
     public function search(Request $request){
         $data = [];
         
-        // get list data of table posts
-        $categories = Category::where('name', 'LIKE', '%' . $request->input('category_name') . '%')
-            ->get();
-        // get list data of table categories
-        $data['categories'] = $categories;
-        // dd($posts);
-        return view('admin.category.index', $data);
+        $brands = Brand::where('name', 'LIKE', '%' . $request->input('keyword') . '%');
+        $brands=$brands->paginate(4);
+        $data['brands'] = $brands;
+
+        return view('admin.brands.index', $data);
     }
     // public function search_ajax(Request $request){
     //     $data = [];

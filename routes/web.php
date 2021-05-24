@@ -36,5 +36,6 @@ Route::get('/add-cart',[CartController::class,'addCart'])->name('add_cart');
 Route::get('/remove-item-cart/{id}',[CartController::class,'removeItemCart'])->name('remove_item_cart');
 Route::get('/update-cart',[CartController::class,'updateCart'])->name('update_cart');
 
-Route::post('send-verify-code', [CartController::class, 'sendVerifyCode'])->middleware(['auth'])->name('send-verify-code');
-Route::post('confirm-verify-code', [CartController::class, 'confirmVerifyCode'])->middleware(['auth'])->name('confirm-verify-code');
+Route::post('/send-verify-code', [CartController::class, 'sendVerifyCode'])->middleware(['auth'])->name('send-verify-code');
+Route::post('/confirm-verify-code', [CartController::class, 'confirmVerifyCode'])->middleware(['auth'])->name('confirm-verify-code');
+Route::get('/checkout',[CartController::class,'checkout'])->name('checkout');
