@@ -59,4 +59,7 @@ class Product extends Model
     public function promotions(){
         return $this->hasMany(Promotion::class);
     }
+    public function orderDetails(){
+        return $this->hasMany(OrderDetail::class);
+    }
 }

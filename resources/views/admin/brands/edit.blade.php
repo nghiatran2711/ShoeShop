@@ -19,6 +19,7 @@
                          <div class="title">Edit brand</div>
                      </div>
                  </div>
+                 @include('admin.errors.error')
                  <div class="panel-body">
                     <form action="{{route('admin.brand.update',['id'=>$brand->id])}}" method="POST">
                       @csrf
@@ -26,7 +27,11 @@
                       <div class="sub-title">Brand Name</div>
                       <div>
                           <input type="text" name="name" class="form-control" value="{{ $brand->name }}">
-                      </div><br>
+                      </div>
+                      @error('name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                      <br>
                       <div>
                           <button type="submit" class="btn btn-primary">Update</button>
                       </div>

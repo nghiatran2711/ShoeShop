@@ -20,6 +20,7 @@
                      </div>
                  </div>
                  <div class="panel-body">
+                    @include('admin.errors.error')
                     <div class="table-responsive">
                         <table class="table">
                             <thead>

@@ -55,9 +55,7 @@
                      </div>
                  </div>
                  <div class="panel-body">
-                    @if(Session::has('success'))
-                        <p class="text-success">{{ Session::get('success') }}</p>
-                    @endif
+                    @include('admin.errors.error')
                     <div class="table-responsive">
                         <table class="table">
                             <thead>

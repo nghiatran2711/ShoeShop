@@ -73,7 +73,7 @@
                            <h2>Phương thức thanh toán</h2>
                            <hr>
                             <div class="border p-2">
-                                <form action="{{-- route('cart.checkout-complete') --}}" method="POST" id="frm-checkout">
+                                <form action="{{route('checkout_complete') }}" method="POST" id="frm-checkout">
                                     @csrf
                                     <div class="form-group">
                                         <input type="radio" value="1" name="payment_type" id="payment-type-1" checked class="payment-type">

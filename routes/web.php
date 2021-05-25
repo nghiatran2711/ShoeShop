@@ -39,3 +39,5 @@ Route::get('/update-cart',[CartController::class,'updateCart'])->name('update_ca
 Route::post('/send-verify-code', [CartController::class, 'sendVerifyCode'])->middleware(['auth'])->name('send-verify-code');
 Route::post('/confirm-verify-code', [CartController::class, 'confirmVerifyCode'])->middleware(['auth'])->name('confirm-verify-code');
 Route::get('/checkout',[CartController::class,'checkout'])->name('checkout');
+Route::post('/checkout-complete',[CartController::class,'checkoutComplete'])->name('checkout_complete');
+Route::get('/view-order',[CartController::class,'test_view_order'])->name('view_order');

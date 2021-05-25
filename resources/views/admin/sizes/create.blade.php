@@ -19,13 +19,18 @@
                          <div class="title">Create size</div>
                      </div>
                  </div>
+                 @include('admin.errors.error')
                  <div class="panel-body">
                     <form action="{{ route('admin.size.store') }}" method="POST">
                       @csrf
                       <div class="sub-title">Size Name</div>
                       <div>
                           <input type="number" name="name" class="form-control" placeholder="Size name">
-                      </div><br>
+                      </div>
+                        @error('name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                      <br>
                       <div>
                           <button type="submit" class="btn btn-default">Store</button>
                       </div>

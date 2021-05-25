@@ -19,6 +19,7 @@
                          <div class="title">Create category</div>
                      </div>
                  </div>
+                 @include('admin.errors.error')
                  <div class="panel-body">
                     <form action="{{ route('admin.category.store') }}" method="POST">
                       @csrf
@@ -26,6 +27,9 @@
                       <div>
                           <input type="text" name="name" class="form-control" placeholder="Category name">
                       </div>
+                        @error('name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                       <div class="sub-title">Parent ID</div>
                         <div>
                             <select class="custom-select" name="parent_id">

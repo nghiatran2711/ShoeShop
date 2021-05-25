@@ -19,13 +19,18 @@
                          <div class="title">Create brand</div>
                      </div>
                  </div>
+                 @include('admin.errors.error')
                  <div class="panel-body">
                     <form action="{{ route('admin.brand.store') }}" method="POST">
                       @csrf
                       <div class="sub-title">Brand Name</div>
                       <div>
                           <input type="text" name="name" class="form-control" placeholder="Brand name">
-                      </div><br>
+                      </div>
+                        @error('name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                      <br>
                       <div>
                           <button type="submit" class="btn btn-default">Store</button>
                       </div>

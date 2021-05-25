@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Mail\SendVerifyCode;
 use App\Models\Category;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\OrderVerify;
+use App\Models\Price;
 use App\Models\Product;
 use App\Models\Size;
 use App\Utils\CommonUtil;
@@ -138,5 +141,91 @@ class CartController extends Controller
         $categories_menu = Category::where('parent_id', '=', 0)->get();
         $data['categories']=$categories_menu;
         return view('carts.checkout',$data);
+    }
+    public function checkoutComplete(Request $request){
+
+        $data=[];
+        $categories_menu = Category::where('parent_id', '=', 0)->get();
+        $data['categories']=$categories_menu;
+
+        $carts=Cart::content();
+        // dd($carts);
+        $type_payment=$request->payment_type;
+        $data_order=[];
+        $data_order_detail=[];
+
+        if($type_payment==1){
+            $data_order=[
+                'user_id' => Auth()->id(),
+                'status' => Order::STATUS[0],
+            ];
+            try{
+                DB::beginTransaction();
+                $order=Order::create($data_order);
+                $orderID=$order->id;
+                if(!empty($carts)){
+                    foreach($carts as $cart){
+                        $product=Product::where('id',$cart->id)->first();
+                        $price_id=$product->latestPrice()->id;
+                        $size_id=$product->sizes->where('name',$cart->options->size)->first()->id;
+                        $quantity=$cart->qty;
+                        $data_order_detail=[
+                            'order_id'=>$orderID,
+                            'product_id'=>$product->id,
+                            'price_id'=>$price_id,
+                            'size_id'=>$size_id,
+                            'quantity'=>$quantity,
+                        ];
+                        // print_r($data_order_detail);
+                        OrderDetail::create($data_order_detail);    
+                    }
+                }
+                DB::commit();
+                $data_view_order=[];
+                $order_details=OrderDetail::where('order_id',$orderID)->get();
+                // dd($order_details);
+                $data['order_id']=$orderID;
+                foreach($order_details as $order_detail){
+                    $product=Product::where('id',$order_detail->product_id)->first();
+                    $price=Price::where('id',$order_detail->price_id)->first();
+                    $size=Size::where('id',$order_detail->size_id)->first();
+                    $quantity=$order_detail->quantity;
+                    $data_order_detail=[
+                        'thumbnail'=>$product->thumbnail,
+                        'size'=>$size->name,
+                        'price'=>$price->price,
+                        'quantity'=>$quantity
+                    ];
+                    $data_view_order[]=$data_order_detail;
+                }
+                return view('info_order',$data,['data_view_order'=>$data_view_order])->with('success','Cảm ơn bạn đã đặt hàng!!!');
+            }catch(\Exception $ex){
+                return redirect()->back()->with('error',$ex->getMessage());
+            }
+        }
+    }
+    public function test_view_order(){
+        $data=[];
+        $categories_menu = Category::where('parent_id', '=', 0)->get();
+        $data['categories']=$categories_menu;
+
+        $data_view_order=[];
+        $order_details=OrderDetail::where('order_id',6)->get();
+        // dd($order_details);
+           $data['order_id']=6;
+                foreach($order_details as $order_detail){
+                    $product=Product::where('id',$order_detail->product_id)->first();
+                    $price=Price::where('id',$order_detail->price_id)->first();
+                    $size=Size::where('id',$order_detail->size_id)->first();
+                    $quantity=$order_detail->quantity;
+                    $data_order_detail=[
+                        'thumbnail'=>$product->thumbnail,
+                        'size'=>$size->name,
+                        'price'=>$price->price,
+                        'quantity'=>$quantity
+                    ];
+                    $data_view_order[]=$data_order_detail;
+                }
+                return view('info_order',$data,['data_view_order'=>$data_view_order]);
     }
 }

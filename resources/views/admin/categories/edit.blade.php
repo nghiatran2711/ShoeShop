@@ -19,6 +19,7 @@
                          <div class="title">Edit category</div>
                      </div>
                  </div>
+                 @include('admin.errors.error')
                  <div class="panel-body">
                     <form action="{{route('admin.category.update',['id'=>$category->id])}}" method="POST">
                       @csrf
@@ -27,6 +28,9 @@
                       <div>
                           <input type="text" name="name" class="form-control" value="{{ $category->name }}">
                       </div>
+                        @error('name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                         @enderror
                       <div class="sub-title">Parent ID</div>
                       <div>
                           <input type="number" name="parent_id" class="form-control" value="{{ $category->parent_id }}">

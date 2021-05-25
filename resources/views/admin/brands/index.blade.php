@@ -24,26 +24,26 @@
             <div class="col-xs-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                            <div class="card-title">
-                                <div class="row">
-                                    <div class="col-md-9">
-                                        <div class="title">List brands</div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <form class="navbar-form" role="search" action="{{ route('admin.brand.search') }}" method="GET">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" placeholder="Enter brands" name="keyword">
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                                                </div>
+                        <div class="card-title">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="title">List brands</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <form class="navbar-form" role="search" action="{{ route('admin.brand.search') }}" method="GET">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Enter brands" name="keyword">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                                             </div>
-                                        </form>
-                                    </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                        
-                    </div>
+                        </div>
+                    </div> 
                     <div class="panel-body">
+                        @include('admin.errors.error')
                         <div class="col-md-12">
                             <div class="table-responsive">
                                 <table class="table">

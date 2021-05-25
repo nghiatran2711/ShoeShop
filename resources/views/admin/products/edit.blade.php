@@ -20,20 +20,7 @@
                      </div>
                  </div>
                  <div class="panel-body">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                
-                    {{-- show error message --}}
-                    @if(Session::has('error'))
-                        <p class="text-danger">{{ Session::get('error') }}</p>
-                    @endif
+                    @include('admin.errors.error')
                     <form action="{{ route('admin.product.update',['id'=>$product->id]) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -41,10 +28,16 @@
                         <div>
                             <input type="text" name="name" class="form-control" value="{{ $product->name }}">
                         </div>
+                        @error('name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                         <div class="sub-title">Description</div>
                         <div>
                             <textarea class="form-control" rows="3" name="description">{{ $product->description }}</textarea>
                         </div>
+                        @error('description')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror   
                         <div class="sub-title">Content</div>
                         <div>
                             <textarea class="form-control" rows="3" name="content" >{{ $product->product_detail->content }}</textarea>
@@ -54,6 +47,9 @@
                             <input type="file" name="thumbnail" id="exampleInputFile">
                             <img src="{{ asset($product->thumbnail) }}" alt="" width="100">
                         </div>
+                        @error('thumbnail')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                         <div class="sub-title">Image</div>
                         <div>
                             <input type="file" name="url[]" id="exampleInputFile" multiple>
@@ -78,6 +74,9 @@
                             </div>
                             
                         </div>
+                        @error('status')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                         <div class="sub-title">Feature</div>
                         <div>
                             <div class="radio3 radio-check radio-inline">
@@ -93,6 +92,9 @@
                                 </label>
                             </div>
                         </div>
+                        @error('is_feature')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                         <div class="sub-title">Category</div>
                         <div>
                             <select class="custom-select" name="category_id">
@@ -104,6 +106,9 @@
                                 @endif
                             </select>
                         </div>
+                        @error('category_id')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                         <div class="sub-title">Brand</div>
                         <div>
                             <select class="custom-select" name="brand_id">
@@ -115,6 +120,9 @@
                                 @endif
                               </select>
                         </div>
+                        @error('brand_id')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                         <br>
                         <button type="submit" class="btn btn-default">Store</button>
                     </form>
