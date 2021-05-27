@@ -100,14 +100,14 @@
 									<select name="catsearch" class="cat-search">
 										<option value="">All Categories</option>
 										@foreach ($categories as $category )
-											<option value="{{ $category->id }}" style="font-weight: bold">{{ $category->name }}</option>
+											<option value="{{ $category->id }}" disabled style="font-weight: bold">{{ $category->name }}</option>
 											@foreach ($category->childs as $child )
-												<option value="{{ $child->id }}">--{{ $child->name }}</option>	
+												<option value="{{ $child->id }}" {{ !empty($category_id) && $category_id==$child->id ? "selected" : '' }}>--{{ $child->name }}</option>	
 											@endforeach
 										@endforeach
 																		
 									</select>
-									<input type="text" class="form-control search-form" name="keyword" placeholder="Enter your search key ... " />
+									<input type="text" class="form-control search-form" name="keyword" placeholder="Enter your search key ... "/>
 									<button class="search-button" type="submit">
 										<i class="fa fa-search"></i>
 									</button>									 

@@ -330,16 +330,15 @@
                             <div class="shoort-by">
                                 <label for="productShort">Sort by</label>
                                 <div class="short-select-option">
-                                    <select name="sortby" id="productShort">
-                                        <option value="">--</option>
-                                        <option value="">Price: Lowest first</option>
-                                        <option value="">Price: Highest first</option>
-                                        <option value="">Product Name: A to Z</option>
-                                        <option value="">Product Name: Z to A</option>
-                                        <option value="">In stock</option>
-                                        <option value="">Reference: Lowest first</option>
-                                        <option value="">Reference: Highest first</option>
-                                    </select>												
+                                    <form action="{{ route('sort_list_product_brand',['name'=>$brand->name]) }}" method="get">
+                                        <select name="sortby" id="productShort" onchange="this.form.submit()">
+                                            <option value="">--</option>
+                                            <option value="lowest" {{ !empty($sort_by)&&$sort_by=="lowest" ? "selected" : '' }}>Price: Lowest first</option>
+                                            <option value="highest" {{ !empty($sort_by)&&$sort_by=="highest" ? "selected" : '' }}>Price: Highest first</option>
+                                            <option value="ascending" {{ !empty($sort_by)&&$sort_by=="ascending" ? "selected" : '' }}>Product Name: A to Z</option>
+                                            <option value="descending" {{ !empty($sort_by)&&$sort_by=="descending" ? "selected" : '' }}>Product Name: Z to A</option>
+                                        </select>		
+                                    </form>										
                                 </div>
                             </div>
                             <!-- SHOORT-BY END -->

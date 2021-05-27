@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -76,19 +77,23 @@ class HomeController extends Controller
         
         // search post name
         if (!empty($request->catsearch)) {
-            $products = Product::where('category_id', 'like', '%' . $request->catsearch . '%');
+            $products = Product::where('category_id', $request->catsearch);
         }
         if (!empty($request->keyword)) {
             $products = Product::where('name', 'like', '%' . $request->keyword . '%');
         }
+        if(!empty($request->catsearch) && !empty($request->keyword)){
+            $products = Product::where('category_id',$request->catsearch)->where('name', 'like', '%' . $request->keyword . '%');
+        }
+        
         // order ID desc
         $products = $products->orderBy('id', 'desc')->get();
 
         $data['categories']=$categories_menu;
         $data['products']=$products;
+        $data['category_id']=$request->catsearch;
+        $data['keyword']=$request->keyword;
         // pagination
-       
-        
         return view('search',$data);
     }
     public function product_details($id){
@@ -103,5 +108,101 @@ class HomeController extends Controller
         $data['product']=$product;
         $data['product_relateds']=$product_relateds;
         return view('product_details',$data);
+    }
+
+
+    public function sort_list_product_category(Request $request,$name){
+        // Lấy chi tiết loại sản phẩm
+        $categories_menu = Category::where('parent_id', '=', 0)->get();
+        $cate=Category::where('name',$name)->first();
+        // dd($cate);
+        if ($cate) {
+            //lấy danh sách category
+            $categories = Category::get();
+            $ids = [];
+            // step 1:  Check danh mục cha -> lấy toàn bộ danh mục con để where In
+            foreach($categories as $category) {
+                if($category->id == $cate->id) {
+                    $ids[] = $cate->id;
+                    // Lấy ra các category id mà có parent id bằng với $cate->id;
+                    foreach ($categories as $child) {
+                        if ($child->parent_id == $cate->id) {
+                            $ids[] = $child->id; // thêm phần tử vào mảng
+                        }
+                    }
+                }
+            }
+            // step 2 : lấy list sản phẩm theo thể loại
+
+            $current_date=date('Y-m-d');
+            if($request->sortby==''){
+                $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->whereIn('category_id' , $ids)
+                ->where('end_date', '>=', $current_date)
+                ->get();
+            }elseif($request->sortby=='lowest'){
+                $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->whereIn('category_id' , $ids)
+                ->where('end_date', '>=', $current_date)
+                ->orderBy('price', 'asc')
+                ->get();
+            }elseif($request->sortby=='highest'){
+                $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->whereIn('category_id' , $ids)
+                ->where('end_date', '>=', $current_date)
+                ->orderBy('price', 'desc')
+                ->get();
+            }elseif($request->sortby=='ascending'){
+                $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->whereIn('category_id' , $ids)
+                ->where('end_date', '>=', $current_date)
+                ->orderBy('name', 'asc')
+                ->get();
+            }elseif($request->sortby=='descending'){
+                $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->whereIn('category_id' , $ids)
+                ->where('end_date', '>=', $current_date)
+                ->orderBy('name', 'desc')
+                ->get();
+            }
+        }
+            $data['products']=$products;
+            $data['categories']=$categories_menu;
+            $data['cate']=$cate;
+            $data['sort_by']=$request->sortby;
+
+        return view('categories.sort_product_category',$data);
+    }
+    public function sort_list_product_brand(Request $request,$name){
+        $data=[];
+        $categories_menu = Category::where('parent_id', '=', 0)->get();
+        $brand=Brand::where('name',$name)->first();
+        $current_date=date('Y-m-d');
+        if($request->sortby==''){
+            $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->where('brand_id',$brand->id)
+            ->where('end_date', '>=', $current_date)
+            ->get();
+        }elseif($request->sortby=='lowest'){
+            $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->where('brand_id',$brand->id)
+            ->where('end_date', '>=', $current_date)
+            ->orderBy('price', 'asc')
+            ->get();
+        }elseif($request->sortby=='highest'){
+            $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->where('brand_id',$brand->id)
+            ->where('end_date', '>=', $current_date)
+            ->orderBy('price', 'desc')
+            ->get();
+        }elseif($request->sortby=='ascending'){
+            $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->where('brand_id',$brand->id)
+            ->where('end_date', '>=', $current_date)
+            ->orderBy('name', 'asc')
+            ->get();
+        }elseif($request->sortby=='descending'){
+            $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->where('brand_id',$brand->id)
+            ->where('end_date', '>=', $current_date)
+            ->orderBy('name', 'desc')
+            ->get();
+        }
+        $data['categories']=$categories_menu;
+        $data['products']=$products;
+        $data['brand']=$brand;
+        $data['sort_by']=$request->sortby;
+        return view('brands.sort_product_brand',$data);
+
     }
 }

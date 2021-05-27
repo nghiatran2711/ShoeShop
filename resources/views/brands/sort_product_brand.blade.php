@@ -9,7 +9,7 @@
                 <div class="bstore-breadcrumb">
                     <a href="index.html">HOME</a>
                     <span><i class="fa fa-caret-right"></i></span>
-                    <span>{{$cate->name}}</span>
+                    <span>{{$brand->name}}</span>
                 </div>
                 <!-- BSTORE-BREADCRUMB END -->
             </div>
@@ -315,8 +315,12 @@
                     <div class="product-category-title">
                         <!-- PRODUCT-CATEGORY-TITLE START -->
                         <h1>
-                            <span class="cat-name">{{$cate->name}}</span>
-                            <span class="count-product">There are {{ count($products) }} products.</span>
+                            <span class="cat-name">{{$brand->name}}</span>
+                            @if ($products->count()>0)
+                                <span class="count-product">There are {{ $products->count() }} products.</span>
+                            @else
+                            <span class="count-product">There are 0 products.</span>
+                            @endif
                         </h1>
                         <!-- PRODUCT-CATEGORY-TITLE END -->
                     </div>
@@ -326,15 +330,15 @@
                             <div class="shoort-by">
                                 <label for="productShort">Sort by</label>
                                 <div class="short-select-option">
-                                    <form action="{{ route('sort_list_product_category',['name'=>$cate->name]) }}" method="GET">
+                                    <form action="{{ route('sort_list_product_brand',['name'=>$brand->name]) }}" method="get">
                                         <select name="sortby" id="productShort" onchange="this.form.submit()">
                                             <option value="">--</option>
-                                            <option value="lowest">Price: Lowest first</option>
-                                            <option value="highest">Price: Highest first</option>
-                                            <option value="ascending">Product Name: A to Z</option>
-                                            <option value="descending">Product Name: Z to A</option>
-                                        </select>	
-                                    </form>											
+                                            <option value="lowest" {{ !empty($sort_by)&&$sort_by=="lowest" ? "selected" : '' }}>Price: Lowest first</option>
+                                            <option value="highest" {{ !empty($sort_by)&&$sort_by=="highest" ? "selected" : '' }}>Price: Highest first</option>
+                                            <option value="ascending" {{ !empty($sort_by)&&$sort_by=="ascending" ? "selected" : '' }}>Product Name: A to Z</option>
+                                            <option value="descending" {{ !empty($sort_by)&&$sort_by=="descending" ? "selected" : '' }}>Product Name: Z to A</option>
+                                        </select>		
+                                    </form>										
                                 </div>
                             </div>
                             <!-- SHOORT-BY END -->
@@ -397,49 +401,51 @@
                 <!-- ALL GATEGORY-PRODUCT START -->
                 <div class="all-gategory-product">
                     <div class="row">
-                        <ul class="gategory-product">
-                            <!-- SINGLE ITEM START -->
-                            @foreach ($products as $key => $product )
-                            <li class="gategory-product-list col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="single-product-item">
-                                    <div class="product-image">
-                                        <a href="single-product.html"><img src="{{  asset($product->thumbnail) }}" width="189.375" height="189.375" alt="product-image" /></a>
-                                        <a href="single-product.html" class="new-mark-box">new</a>
-                                        <div class="overlay-content">
-                                            <ul>
-                                                <li><a href="#" title="Quick view"><i class="fa fa-search"></i></a></li>
-                                                <li><a href="#" title="Quick view"><i class="fa fa-shopping-cart"></i></a></li>
-                                                <li><a href="#" title="Quick view"><i class="fa fa-retweet"></i></a></li>
-                                                <li><a href="#" title="Quick view"><i class="fa fa-heart-o"></i></a></li>
-                                            </ul>
+                        <ul class="gategory-product"> 
+                                <!-- SINGLE ITEM START -->
+                                @foreach ($products as $key => $product )
+                                <li class="gategory-product-list col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="single-product-item">
+                                        <div class="product-image">
+                                            <a href="single-product.html"><img src="{{  asset($product->thumbnail) }}" width="189.375" height="189.375" alt="product-image" /></a>
+                                            <a href="single-product.html" class="new-mark-box">new</a>
+                                            <div class="overlay-content">
+                                                <ul>
+                                                    <li><a href="#" title="Quick view"><i class="fa fa-search"></i></a></li>
+                                                    <li><a href="#" title="Quick view"><i class="fa fa-shopping-cart"></i></a></li>
+                                                    <li><a href="#" title="Quick view"><i class="fa fa-retweet"></i></a></li>
+                                                    <li><a href="#" title="Quick view"><i class="fa fa-heart-o"></i></a></li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="product-info">
-                                        {{-- <div class="customar-comments-box">
-                                            <div class="rating-box">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-empty"></i>
+                                        <div class="product-info">
+                                            {{-- <div class="customar-comments-box">
+                                                <div class="rating-box">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-half-empty"></i>
+                                                </div>
+                                                <div class="review-box">
+                                                    <span>1 Review(s)</span>
+                                                </div>
+                                            </div> --}}
+                                            <a href="single-product.html">{{ $product->name }}</a>
+                                            <div class="price-box">
+                                                
+                                                    <span class="price">{{ number_format($product->price) }} VNĐ</span>
+                                                
                                             </div>
-                                            <div class="review-box">
-                                                <span>1 Review(s)</span>
-                                            </div>
-                                        </div> --}}
-                                        <a href="single-product.html">{{ $product->name }}</a>
-                                                                <div class="price-box">
-                                                                    @if (!empty($product->latestPrice()->price))
-                                                                        <span class="price">{{ number_format($product->latestPrice()->price) }} VNĐ</span>
-                                                                    @endif
-                                                                    
-                                                                </div>
-                                    </div>
-                                </div>									
-                            </li>
-                            @endforeach
-                            <!-- SINGLE ITEM END -->					
+                                        </div>
+                                    </div>									
+                                </li>
+                                @endforeach
+                            
+                            <!-- SINGLE ITEM END -->
+                            					
                         </ul>
+                        
                     </div>
                 </div>
                 <!-- ALL GATEGORY-PRODUCT END -->

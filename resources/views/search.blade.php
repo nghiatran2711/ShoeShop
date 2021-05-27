@@ -43,9 +43,9 @@
                         <!-- PRODUCT-CATEGORY-TITLE END -->
                     </div>
                     <div class="product-shooting-area">
-                        <div class="product-shooting-bar">
+                        {{-- <div class="product-shooting-bar"> --}}
                             <!-- SHOORT-BY START -->
-                            <div class="shoort-by">
+                            {{-- <div class="shoort-by">
                                 <label for="productShort">Sort by</label>
                                 <div class="short-select-option">
                                     <select name="sortby" id="productShort">
@@ -59,7 +59,7 @@
                                         <option value="">Reference: Highest first</option>
                                     </select>												
                                 </div>
-                            </div>
+                            </div> --}}
                             <!-- SHOORT-BY END -->
                             <!-- SHOW-PAGE START -->
                             {{-- <div class="show-page">
@@ -82,7 +82,7 @@
                                 </ul>
                             </div> --}}
                             <!-- VIEW-SYSTEAM END -->
-                        </div>
+                        {{-- </div> --}}
                         <!-- PRODUCT-SHOOTING-RESULT START -->
                         {{-- <div class="product-shooting-result">
                             <form action="#">

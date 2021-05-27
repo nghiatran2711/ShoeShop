@@ -42,3 +42,6 @@ Route::post('/confirm-verify-code', [CartController::class, 'confirmVerifyCode']
 Route::get('/checkout',[CartController::class,'checkout'])->name('checkout');
 Route::post('/checkout-complete',[CartController::class,'checkoutComplete'])->name('checkout_complete');
 Route::get('/view-order',[CartController::class,'test_view_order'])->name('view_order');
+
+Route::get('/product-by-category/{name}/sort',[HomeController::class,'sort_list_product_category'])->name('sort_list_product_category');
+Route::get('/product-by-brand/{name}/sort',[HomeController::class,'sort_list_product_brand'])->name('sort_list_product_brand');

@@ -316,7 +316,7 @@
                         <!-- PRODUCT-CATEGORY-TITLE START -->
                         <h1>
                             <span class="cat-name">{{$cate->name}}</span>
-                            <span class="count-product">There are {{ count($products) }} products.</span>
+                            <span class="count-product">There are 13 products.</span>
                         </h1>
                         <!-- PRODUCT-CATEGORY-TITLE END -->
                     </div>
@@ -329,10 +329,10 @@
                                     <form action="{{ route('sort_list_product_category',['name'=>$cate->name]) }}" method="GET">
                                         <select name="sortby" id="productShort" onchange="this.form.submit()">
                                             <option value="">--</option>
-                                            <option value="lowest">Price: Lowest first</option>
-                                            <option value="highest">Price: Highest first</option>
-                                            <option value="ascending">Product Name: A to Z</option>
-                                            <option value="descending">Product Name: Z to A</option>
+                                            <option value="lowest" {{ !empty($sort_by)&&$sort_by=="lowest" ? "selected" : '' }}>Price: Lowest first</option>
+                                            <option value="highest" {{ !empty($sort_by)&&$sort_by=="highest" ? "selected" : '' }}>Price: Highest first</option>
+                                            <option value="ascending" {{ !empty($sort_by)&&$sort_by=="ascending" ? "selected" : '' }}>Product Name: A to Z</option>
+                                            <option value="descending" {{ !empty($sort_by)&&$sort_by=="descending" ? "selected" : '' }}>Product Name: Z to A</option>
                                         </select>	
                                     </form>											
                                 </div>
@@ -429,9 +429,9 @@
                                         </div> --}}
                                         <a href="single-product.html">{{ $product->name }}</a>
                                                                 <div class="price-box">
-                                                                    @if (!empty($product->latestPrice()->price))
-                                                                        <span class="price">{{ number_format($product->latestPrice()->price) }} VNĐ</span>
-                                                                    @endif
+                                                                   
+                                                                        <span class="price">{{ number_format($product->price) }} VNĐ</span>
+                                                                    
                                                                     
                                                                 </div>
                                     </div>
