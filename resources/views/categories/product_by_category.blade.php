@@ -332,9 +332,6 @@
                                         <option value="">Price: Highest first</option>
                                         <option value="">Product Name: A to Z</option>
                                         <option value="">Product Name: Z to A</option>
-                                        <option value="">In stock</option>
-                                        <option value="">Reference: Lowest first</option>
-                                        <option value="">Reference: Highest first</option>
                                     </select>												
                                 </div>
                             </div>

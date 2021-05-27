@@ -54,9 +54,17 @@ class CartController extends Controller
     public function updateCart(Request $request){
         $rowId=$request->rowId;
         $quantity=$request->quantity;
-        Cart::update($rowId, $quantity);
-        return redirect()->route('view_cart');
+        try{
+
+            Cart::update($rowId, $quantity);
+            return response()->json('message','update cart success');
+        }catch(\Exception $ex){
+            return response()->json(['message' => $ex->getMessage()]);
+        }
+        
+        // return redirect()->route('view_cart');
     }
+
     public function removeItemCart($id){
         Cart::remove($id);
         return redirect()->route('view_cart');

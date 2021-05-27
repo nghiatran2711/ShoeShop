@@ -30,64 +30,24 @@
 												<a class="fancybox" href="{{ asset($product->thumbnail) }}" data-fancybox-group="gallery"><span class="btn large-btn">View larger <i class="fa fa-search-plus"></i></span></a>
 											</div>	
 										</div>
-										<div class="tab-pane" id="thumbnail_2">
-											<div class="single-product-image">
-												<img src="{{ asset('frontend/img/product/sale/3.jpg') }}" alt="single-product-image" />
-												<a class="new-mark-box" href="#">new</a>
-												<a class="fancybox" href="{{ asset('frontend/img/product/sale/3.jpg') }}" data-fancybox-group="gallery"><span class="btn large-btn">View larger <i class="fa fa-search-plus"></i></span></a>
-											</div>	
-										</div>
-										<div class="tab-pane" id="thumbnail_3">
-											<div class="single-product-image">
-												<img src="{{ asset('frontend/img/product/sale/9.jpg') }}" alt="single-product-image" />
-												<a class="new-mark-box" href="#">new</a>
-												<a class="fancybox" href="{{ asset('frontend/img/product/sale/9.jpg') }}" data-fancybox-group="gallery"><span class="btn large-btn">View larger <i class="fa fa-search-plus"></i></span></a>
-											</div>	
-										</div>
-										<div class="tab-pane" id="thumbnail_4">
-											<div class="single-product-image">
-												<img src="{{ asset('frontend/img/product/sale/13.jpg') }}" alt="single-product-image" />
-												<a class="new-mark-box" href="#">new</a>
-												<a class="fancybox" href="{{ asset('frontend/img/product/sale/13.jpg') }}" data-fancybox-group="gallery"><span class="btn large-btn">View larger <i class="fa fa-search-plus"></i></span></a>
-											</div>	
-										</div>
-										<div class="tab-pane" id="thumbnail_5">
-											<div class="single-product-image">
-												<img src="{{ asset('frontend/img/product/sale/7.jpg') }}" alt="single-product-image" />
-												<a class="new-mark-box" href="#">new</a>
-												<a class="fancybox" href="{{ asset('frontend/img/product/sale/7.jpg') }}" data-fancybox-group="gallery"><span class="btn large-btn">View larger <i class="fa fa-search-plus"></i></span></a>
-											</div>	
-										</div>
-										<div class="tab-pane" id="thumbnail_6">
+										{{-- <div class="tab-pane" id="thumbnail_6">
 											<div class="single-product-image">
 												<img src="{{ asset('frontend/img/product/sale/12.jpg') }}" alt="single-product-image" />
 												<a class="new-mark-box" href="#">new</a>
 												<a class="fancybox" href="{{ asset('frontend/img/product/sale/12.jpg') }}" data-fancybox-group="gallery"><span class="btn large-btn">View larger <i class="fa fa-search-plus"></i></span></a>
 											</div>	
-										</div>
+										</div> --}}
 									</div>										
 								</div>
 								<div class="select-product">
 									<!-- Nav tabs -->
 									<ul class="nav nav-tabs select-product-tab bxslider">
+										@foreach ($product->product_images as $product_image)
 										<li class="active">
-											<a href="#thumbnail_1" data-toggle="tab"><img src="{{ asset('frontend/img/product/sale/1.jpg') }}" alt="pro-thumbnail" /></a>
+											<a href="#thumbnail_1" data-toggle="tab"><img src="{{ asset($product_image->url) }}" alt="pro-thumbnail" /></a>
 										</li>
-										<li>
-											<a href="#thumbnail_2" data-toggle="tab"><img src="{{ asset('frontend/img/product/sidebar_product/2.jpg') }}" alt="pro-thumbnail" /></a>
-										</li>
-										<li>
-											<a href="#thumbnail_3" data-toggle="tab"><img src="{{ asset('frontend/img/product/sidebar_product/3.jpg') }}" alt="pro-thumbnail" /></a>
-										</li>
-										<li>
-											<a href="#thumbnail_4" data-toggle="tab"><img src="{{ asset('frontend/img/product/sidebar_product/4.jpg') }}" alt="pro-thumbnail" /></a>
-										</li>
-										<li>
-											<a href="#thumbnail_5" data-toggle="tab"><img src="{{ asset('frontend/img/product/sidebar_product/5.jpg') }}" alt="pro-thumbnail" /></a>
-										</li>
-										<li>
-											<a href="#thumbnail_6" data-toggle="tab"><img src="{{ asset('frontend/img/product/sidebar_product/6.jpg') }}" alt="pro-thumbnail" /></a>
-										</li>
+										@endforeach
+										
 									</ul>										
 								</div>
 							</div>

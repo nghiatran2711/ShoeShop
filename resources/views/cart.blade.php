@@ -81,14 +81,10 @@
 													</ul>
 												</td>
 												<td class="cart_quantity text-center">
-													<form action="{{ route('update_cart') }}" method="GET">
-														@csrf
-														<input type="hidden" name="rowId" value="{{ $row->rowId }}">
-														<div class="cart-plus-minus-button">														
-															<input class="cart-plus-minus" type="text" name="quantity" value="{{ $row->qty }}">	
-														</div>
-														<button type="submit" class="btn btn-danger">Câp nhật</button>
-													</form>
+														{{-- <input type="hidden" name="rowId" value="{{ $row->rowId }}"> --}}														
+															<input class="cart-plus-minus" type="number" id="quantity" data-id="{{ $row->rowId }}" onchange="updateCart()" name="quantity" value="{{ $row->qty }}">	
+															{{-- <input class="cart-plus-minus" type="number" id="quantity" data-id="{{ $row->rowId }}" onchange="updateCart()"  name="quantity" value="{{ $row->qty }}">	 --}}
+														{{-- <button type="submit" class="btn btn-danger">Câp nhật</button> --}}
 												</td>
 												<td class="cart-delete text-center">
 													<span>
@@ -158,6 +154,33 @@
 				const URL_CHECKOUT = "{{ route('checkout') }}";
 			</script>
 			<script src="{{ asset('frontend/js/carts/cart-info.js') }}"></script>
+			<script type="text/javascript">
+				function updateCart(){
+						$(document).ready(function () {
+							$("input[name='quantity']").each(function() {
+								rowId=$(this).data('id');
+								quantity=$(this).val();
+								console.log( rowId + quantity );
+								$.ajax({
+									type: "GET",
+									url: '{{ url('update-cart') }}',
+									dataType: 'json',
+									data: {rowId:rowId,quantity:quantity},
+									success: function (response) {
+										window.location.reload();
+										console.log('response', response);
+										// alert(response.message);
+										// console.log(response);
+									},
+									error: function (err) {
+										console.log(err)
+									},
+								});
+							});
+							window.location.reload();
+						});
+					}       
+			</script>
 		@endpush
 		<!-- MAIN-CONTENT-SECTION END -->
 @endsection

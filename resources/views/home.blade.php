@@ -338,11 +338,11 @@
                                     <!-- SINGLE-PRODUCT-ITEM START -->
                                     <div class="single-product-item">
                                         <div class="product-image">
-                                            <a href="#"><img src="{{ asset($product->thumbnail) }}" width="204" height="204" alt="product-image" /></a>
+                                            <a href="{{ route('product_details',['id'=>$product->id]) }}"><img src="{{ asset($product->thumbnail) }}" width="204" height="204" alt="product-image" /></a>
                                             <a href="#" class="new-mark-box">new</a>
                                             <div class="overlay-content">
                                                 <ul>
-                                                    <li><a href="#" title="Quick view"><i class="fa fa-search"></i></a></li>
+                                                    <li><a href="{{ route('product_details',['id'=>$product->id]) }}" title="Quick view"><i class="fa fa-search"></i></a></li>
                                                     <li><a href="#" title="Quick view"><i class="fa fa-shopping-cart"></i></a></li>
                                                     <li><a href="#" title="Quick view"><i class="fa fa-retweet"></i></a></li>
                                                     <li><a href="#" title="Quick view"><i class="fa fa-heart-o"></i></a></li>

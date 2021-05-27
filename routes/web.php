@@ -35,6 +35,7 @@ Route::get('/view-cart',[CartController::class,'viewCart'])->name('view_cart');
 Route::get('/add-cart',[CartController::class,'addCart'])->name('add_cart');
 Route::get('/remove-item-cart/{id}',[CartController::class,'removeItemCart'])->name('remove_item_cart');
 Route::get('/update-cart',[CartController::class,'updateCart'])->name('update_cart');
+Route::post('/update-cart-ajax',[CartController::class,'updateCartAjax'])->name('update_cart_ajax');
 
 Route::post('/send-verify-code', [CartController::class, 'sendVerifyCode'])->middleware(['auth'])->name('send-verify-code');
 Route::post('/confirm-verify-code', [CartController::class, 'confirmVerifyCode'])->middleware(['auth'])->name('confirm-verify-code');
