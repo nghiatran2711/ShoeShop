@@ -6,9 +6,12 @@
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 						<div class="header-left-menu">
 							<div class="welcome-info">
-								Welcome <span>BootExperts</span>
+								@auth
+									Welcome <span>{{ Auth::user()->name }}</span>
+								@endauth
+								
 							</div>
-							<div class="currenty-converter">
+							{{-- <div class="currenty-converter">
 								<form method="post" action="#" id="currency-set">
 									<div class="current-currency">
 										<span class="cur-label">Currency : </span><strong>USD</strong>
@@ -22,8 +25,8 @@
 										</li>
 									</ul>
 								</form>									
-							</div>
-							<div class="selected-language">
+							</div> --}}
+							{{-- <div class="selected-language">
 								<div class="current-lang">
 									<span class="current-lang-label">Language : </span><strong>English</strong>
 								</div>
@@ -39,7 +42,7 @@
 										</a>
 									</li>
 								</ul>										
-							</div>
+							</div> --}}
 						</div>
 					</div>
 					<!-- HEADER-LEFT-MENU END -->
@@ -48,8 +51,12 @@
 						<div class="header-right-menu">
 							<nav>
 								<ul class="list-inline">
-									<li><a href="checkout.html">Check Out</a></li>
-									<li><a href="wishlist.html">Wishlist</a></li>
+									{{-- <li><a href="checkout.html">Check Out</a></li> --}}
+									{{-- <li><a href="wishlist.html">Wishlist</a></li> --}}
+									@auth
+										<li><a href="{{ route('view_order_history') }}">Order History</a></li>
+									@endauth
+									
 									<li><a href="my-account.html">My Account</a></li>
 									<li><a href="cart.html">My Cart</a></li>
                                     @auth

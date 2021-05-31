@@ -26,7 +26,8 @@
 										<div class="tab-pane active" id="thumbnail_1">
 											<div class="single-product-image">
 												<img src="{{ asset($product->thumbnail) }}" alt="single-product-image" />
-												<a class="new-mark-box" href="#">new</a>
+												<a class="new-mark-box" href="#">
+												</a>
 												<a class="fancybox" href="{{ asset($product->thumbnail) }}" data-fancybox-group="gallery"><span class="btn large-btn">View larger <i class="fa fa-search-plus"></i></span></a>
 											</div>	
 										</div>
@@ -75,10 +76,51 @@
 											{{-- <p>Reference: <span>demo_1</span></p> --}}
 											<p>Condition: <span>New product</span></p>
 										</div>
-										<div class="single-product-price">
-											@if (!empty($product->latestPrice()->price))
-												<h2>{{ number_format($product->latestPrice()->price)." "."VNĐ" }}</h2>
+											@php
+											$currentDate = date('Y-m-d');
+												$discount=[];
+											@endphp
+											@foreach ($product->promotions as $promotion)
+												@if($promotion->begin_date<=$currentDate && $promotion->end_date>=$currentDate)
+														@php
+															$discount=$promotion->discount;
+														@endphp
+												@endif  
+											@endforeach
+											@if (!empty($discount))
+												<div class="single-product-condition">
+													{{-- <p>Reference: <span>demo_1</span></p> --}}
+													<p>Discount: <span>{{ 'Sale ' .$discount . '%' }}</span></p>
+												</div>
+											@else
+												<p>Discount: <span>Không</span></p>
 											@endif
+										
+										<div class="single-product-price">
+											@php
+											$currentDate = date('Y-m-d');
+											$discount=[];
+										@endphp
+										@foreach ($product->promotions as $promotion)
+											@if($promotion->begin_date<=$currentDate && $promotion->end_date>=$currentDate)
+													@php
+														$discount=$promotion->discount;
+														$promotion_id=$promotion->id;
+													@endphp
+											@endif  
+										@endforeach
+										@if (!empty($discount))
+											@if (!empty($product->latestPrice()->price))
+												@php
+													$price_discount=$product->latestPrice()->price *$discount/100;
+													$price_new=$product->latestPrice()->price - $price_discount;
+												@endphp
+												<h2>price discount :</h2><h2 class="price"> {{ number_format($price_new)." "."VNĐ" }}</h2>  
+												<h3>Original price :</h3><h3 class="old-price"> {{ number_format($product->latestPrice()->price)." "."VNĐ" }}</h3>
+											@endif 
+										@else
+										<h2>Price :</h2><h2 class="price">  {{ number_format($product->latestPrice()->price) }} VNĐ</h2>               
+										 @endif
 											
 										</div>
 										<div class="single-product-desc">
@@ -89,14 +131,15 @@
 											<p class="small-title">Quantity</p> 
 											<div class="cart-quantity">
 												<div class="cart-plus-minus-button single-qty-btn">
-													<input class="cart-plus-minus sing-pro-qty" type="number" name="qty" value="0">
+													<input class="cart-plus-minus sing-pro-qty" type="number" name="qty" value="1">
 												</div>
 											</div>
 										</div>
 										<div class="single-product-size">
-											<div class="product-in-stock">
+											{{-- <div class="product-in-stock">
 												<p>300 products invertory</p>
 											</div>
+											<br> --}}
 											<p class="small-title">Size </p> 
 											<select name="product_size" id="product-size">
 												@foreach ($product->sizes as $size )
@@ -112,7 +155,19 @@
 										</div> --}}
 										<div class="single-product-add-cart">
 											<input type="hidden" name="product_id" value="{{ $product->id }}">
+											@if (!empty($discount))
+												<input type="hidden" name="discount" value="{{ $discount }}">
+												<input type="hidden" name="promotion_id" value="{{ $promotion_id }}">
+											@else
+												<input type="hidden" name="discount" value="0">
+											@endif
+											
 											<button type="submit" class="btn btn-danger"><i class="fa fa-shopping-cart cart-icon"></i> ADD TO CART</button>
+											<br>
+											{{-- show message --}}
+											@if(Session::has('message'))
+											<p class="text-danger" style="color: red;">{{ Session::get('message') }}</p>
+											@endif
 										</div>
 									</div>
 								</form>

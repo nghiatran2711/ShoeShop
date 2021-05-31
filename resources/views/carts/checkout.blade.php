@@ -18,6 +18,10 @@
 					</div>
 				</div>
 				<div class="row">
+                    {{-- show error message --}}
+                    @if(Session::has('error'))
+                    <p class="text-danger">{{ Session::get('error') }}</p>
+                    @endif
 					{{-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<!-- SHOPPING-CART SUMMARY START -->
 						<h2 class="page-title">Shopping-cart summary <span class="shop-pro-item">Your shopping cart contains: {{ Cart::content()->count() }} products</span></h2>
@@ -26,6 +30,9 @@
 					
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            @php
+                                $total=0;
+                            @endphp
                             @if (!empty(Cart::content()))
                                 <h2>Thông tin đơn hàng</h2>
                                 <hr>
@@ -38,15 +45,40 @@
                                                 <p class="product-name"><a href="#">{{ $row->name }}</a></p>
                                                 <p class="product-name"><a href="#">Size: {{ $row->options->has('size') ? $row->options->size : '' }}</a></p>
                                                 <p>Số lượng:{{ $row->qty }} </p>
-                                                <p>{{ number_format($row->price).' '.'VNĐ' }}</p>
+                                                    {{-- {{ number_format($row->price).' '.'VNĐ' }} --}}
+                                                    @if ($row->options->discount==0)
+															<p class="price">Price: {{ number_format($row->price).' '.'VNĐ' }}</p>
+														@else
+															@php
+																$price_discount=$row->options->discount * $row->price/100;
+																$price_new=$row->price-$price_discount;
+															@endphp
+															<p class="price" style="color: red">Price discount: {{ number_format($price_new).' '.'VNĐ' }}</p>
+															<p class="old-price">Original Price:{{ number_format($row->price).' '.'VNĐ' }}</p>
+														@endif
                                             </div>
+                                                @if ($row->options->discount==0)
+                                                    @php
+                                                         $subtotal=$row->price* $row->qty;
+                                                    @endphp
+                                                            {{-- <span class="price">{{ number_format($subtotal).' '.'VNĐ' }}</span> --}}
+                                                @else
+                                                    @php
+                                                        $subtotal=$price_new * $row->qty;
+                                                    @endphp
+                                                            {{-- <span class="price">{{ number_format($subtotal).' '.'VNĐ' }}</span> --}}
+                                                @endif
+
+                                                @php
+                                                    $total+=$subtotal;
+                                                @endphp
                                         @endforeach
                                     
                                     
                                 </div>
                                 <h3>Thông tin thanh toán</h3>
                                 <p> Tổng số lượng: {{ Cart::count() }}</p>
-                                <p>Tổng tiền: {{ Cart::pricetotal(0).' '. "VNĐ" }}</p>
+                                <p>Tổng tiền: {{ number_format($total) . " VNĐ" }}</p>
                             @endif
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">

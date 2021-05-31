@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Size;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,8 +16,16 @@ class HomeController extends Controller
         $data=[];
         $product_new=Product::limit(10)->get();
         $product_feature=Product::where('is_feature',1)->get();
+        $currentDate = date('Y-m-d');
+        // $product_promotions = DB::table('products')
+        //     ->join('product_promotion', 'products.id', '=', 'product_promotion.product_id')
+        //     ->join('promotions', 'product_promotion.promotion_id', '=', 'promotions.id')
+        //     ->join('prices','products.id','=','prices.product_id')
+        //     ->where('promotions.begin_date','<=',$currentDate )->where('promotions.end_date','>=',$currentDate)->orderBy('products.id')
+        //     ->get();
         $categories = Category::where('parent_id', '=', 0)->get();
         $brands=Brand::get();
+        // $data['product_promotions']=$product_promotions;
         $data['product_new']=$product_new;
         $data['product_feature']=$product_feature;
         $data['categories']=$categories;
@@ -31,6 +40,7 @@ class HomeController extends Controller
         // Lấy chi tiết loại sản phẩm
         $categories_menu = Category::where('parent_id', '=', 0)->get();
         $cate=Category::where('name',$category_name)->first();
+        $sizes=Size::pluck('name','id');
         if ($cate) {
             //lấy danh sách category
             $categories = Category::get();
@@ -53,6 +63,7 @@ class HomeController extends Controller
             ->orderBy('id', 'desc')
             ->get();
         }
+            $data['sizes']=$sizes;
             $data['products']=$products;
             $data['categories']=$categories_menu;
             $data['cate']=$cate;
@@ -115,6 +126,7 @@ class HomeController extends Controller
         // Lấy chi tiết loại sản phẩm
         $categories_menu = Category::where('parent_id', '=', 0)->get();
         $cate=Category::where('name',$name)->first();
+        $size=Size::pluck('name','id');
         // dd($cate);
         if ($cate) {
             //lấy danh sách category
@@ -204,5 +216,71 @@ class HomeController extends Controller
         $data['sort_by']=$request->sortby;
         return view('brands.sort_product_brand',$data);
 
+    }
+
+    public function filter_product_category(Request $request,$name){
+        // Lấy chi tiết loại sản phẩm
+        $categories_menu = Category::where('parent_id', '=', 0)->get();
+        $cate=Category::where('name',$name)->first();
+        $sizes=Size::pluck('name','id');
+
+        $price=$request->input('price');
+        // $price = explode("-", $request->price);
+        if ($cate) {
+            //lấy danh sách category
+            $categories = Category::get();
+            $ids = [];
+            // step 1:  Check danh mục cha -> lấy toàn bộ danh mục con để where In
+            foreach($categories as $category) {
+                if($category->id == $cate->id) {
+                    $ids[] = $cate->id;
+                    // Lấy ra các category id mà có parent id bằng với $cate->id;
+                    foreach ($categories as $child) {
+                        if ($child->parent_id == $cate->id) {
+                            $ids[] = $child->id; // thêm phần tử vào mảng
+                        }
+                    }
+                }
+            }
+            // step 2 : lấy list sản phẩm theo thể loại
+
+            $current_date=date('Y-m-d');
+            if($price==''){
+                $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')
+                ->whereIn('category_id' , $ids)
+                ->where('end_date', '>=', $current_date)
+                ->get();
+            }elseif($price=="3000000"){
+                $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')
+                ->whereIn('category_id' , $ids)
+                ->where('price','<',$price)
+                ->where('end_date', '>=', $current_date)
+                ->get();
+                // dd($products);
+            }elseif($price=="9000000"){
+                $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')
+                ->whereIn('category_id' , $ids)
+                ->where('price','>',$price)
+                ->where('end_date', '>=', $current_date)
+                ->get();
+                // dd($products);
+            }else{
+                $price=explode("-",$price);
+                $priceStart=$price[0];
+                $priceEnd=$price[1];
+                $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')
+                ->whereIn('category_id' , $ids)
+                ->whereBetween('price',[$priceStart, $priceEnd])
+                ->where('end_date', '>=', $current_date)
+                ->get();
+            }
+        }
+            $data['price']=$request->price;
+            $data['sizes']=$sizes;
+            $data['products']=$products;
+            $data['categories']=$categories_menu;
+            $data['cate']=$cate;
+
+        return view('categories.filter_product_category_by_price',$data);
     }
 }

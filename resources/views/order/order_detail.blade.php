@@ -9,17 +9,17 @@
                 <div class="bstore-breadcrumb">
                     <a href="index.html">HOMe</a>
                     <span><i class="fa fa-caret-right	"></i></span>
-                    <span>Đơn hàng</span>
+                    <span>Chi tiết đơn hàng {{ $order_id }}</span>
                 </div>
                 <!-- BSTORE-BREADCRUMB END -->
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            {{-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <!-- SHOPPING-CART SUMMARY START -->
                 <h2 class="page-title">Đơn hàng vừa đặt <span class="shop-pro-item">Mã đơn hàng là {{ $order_id }}</span></h2>
                 <!-- SHOPPING-CART SUMMARY END -->
-            </div>	
+            </div>	 --}}
             
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <!-- CART TABLE_BLOCK START -->

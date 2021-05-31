@@ -16,7 +16,7 @@ class PromotionSeeder extends Seeder
     public function run()
     {
         //
-        $products = Product::pluck('id')->toArray();
+        // $products = Product::pluck('id')->toArray();
 
         // discount: 5%, 10%, 20%, ...
         $discounts = [
@@ -30,33 +30,26 @@ class PromotionSeeder extends Seeder
 
         $beginDates = [
             '2021-04-25 00:00:00',
-            '2021-04-26 00:00:00',
-            '2021-04-27 00:00:00',
-            '2021-04-28 00:00:00',
-            '2021-04-29 00:00:00',
-            '2021-04-30 00:00:00',
-            '2021-05-01 00:00:00',
+            '2021-05-31 00:00:00',
+            '2021-06-15 00:00:00',
         ];
 
         $endDates = [
-            '2021-05-02 23:59:59',
-            '2021-05-03 23:59:59',
-            '2021-05-04 23:59:59',
-            '2021-05-05 23:59:59',
-            '2021-05-06 23:59:59',
-            '2021-05-07 23:59:59',
-            '2021-05-08 23:59:59',
+            '2021-07-02 23:59:59',
+            '2021-06-18 23:59:59',
+            '2021-06-20 23:59:59',
         ];
 
-        foreach ($products as $productId) {
+        // foreach ($products as $productId) {
+        for ($j = 0; $j < 4; $j++) {
             $promotion = [
                 'discount' => $discounts[array_rand($discounts)],
-                'product_id' => $productId,
                 'begin_date' => $beginDates[array_rand($beginDates)],
                 'end_date' => $endDates[array_rand($endDates)],
                 'status' => 1,
             ];
             Promotion::create($promotion);
         }
+        // }
     }
 }

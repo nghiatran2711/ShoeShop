@@ -98,6 +98,7 @@ class ProductSeeder extends Seeder
             'product_images/J04BNB03TBCC0735-00.jpg',
             'product_images/J04CVA00022C9006-00.jpg'
         ];
+        $is_feature=[0,1];
         for ($i = 0; $i < 35; $i++) {
             $product = [
                 'name' => $listProductNames[array_rand($listProductNames)],
@@ -105,7 +106,7 @@ class ProductSeeder extends Seeder
                 'thumbnail' => $listThumbnails[array_rand($listThumbnails)],
                 'category_id' => $categories[array_rand($categories)],
                 'brand_id'=>$brands[array_rand($brands)],
-                'is_feature' => 0,
+                'is_feature' => $is_feature[array_rand($is_feature)],
                 'status' => 1,
             ];
             $saveProduct = Product::create($product);

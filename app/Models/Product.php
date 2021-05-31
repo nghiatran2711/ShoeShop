@@ -56,10 +56,10 @@ class Product extends Model
             ->first();
     }
 
-    public function promotions(){
-        return $this->hasMany(Promotion::class);
-    }
     public function orderDetails(){
         return $this->hasMany(OrderDetail::class);
+    }
+    public function promotions() {
+        return $this->belongsToMany(Promotion::class, 'product_promotion', 'product_id', 'promotion_id')->withTimestamps();
     }
 }

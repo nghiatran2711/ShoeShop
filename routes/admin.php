@@ -4,12 +4,15 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DetailPromotionController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductSizeController;
 use App\Http\Controllers\Admin\PromotionController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Models\Brand;
+use App\Models\OrderDetail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -102,13 +105,25 @@ Route::middleware('auth:admin')->group(function(){
             Route::delete('/delete/{price_id}', [PriceController::class, 'destroy'])->name('destroy');
         });
         //promotion
-        Route::group(['prefix' => 'promotion', 'as' => 'promotion.'], function () {  
-            Route::get('/list', [PromotionController::class, 'index'])->name('index');
-            Route::get('/create', [PromotionController::class, 'create'])->name('create');
-            Route::post('/store', [PromotionController::class, 'store'])->name('store');
-            Route::get('/edit/{promotion_id}', [PromotionController::class, 'edit'])->name('edit');
-            Route::put('/update/{promotion_id}', [PromotionController::class, 'update'])->name('update');
-            Route::delete('/delete/{promotion_id}', [PromotionController::class, 'destroy'])->name('destroy');
-        });       
+            
     });
+    Route::group(['prefix' => 'promotion', 'as' => 'promotion.'], function () {  
+        Route::get('/list', [PromotionController::class, 'index'])->name('index');
+        Route::get('/create', [PromotionController::class, 'create'])->name('create');
+        Route::post('/store', [PromotionController::class, 'store'])->name('store');
+        Route::get('/edit/{promotion_id}', [PromotionController::class, 'edit'])->name('edit');
+        Route::put('/update/{promotion_id}', [PromotionController::class, 'update'])->name('update');
+        Route::delete('/delete/{promotion_id}', [PromotionController::class, 'destroy'])->name('destroy');
+    });   
+    Route::group(['prefix' => 'promotion-detail', 'as' => 'promotion_detail.'], function () {  
+        Route::get('/list', [DetailPromotionController::class, 'index'])->name('index');
+        Route::get('/create', [DetailPromotionController::class, 'create'])->name('create');
+    });  
+
+    Route::group(['prefix' => 'order','as'=>'order.'],function () {
+        Route::get('/list-order',[OrderController::class,'list_order'])->name('list_order');
+        Route::get('/order-detail/{id}',[OrderController::class,'order_detail'])->name('order_detail');
+        Route::get('/confirm-order/{id}',[OrderController::class,'confirm_order'])->name('confirm_order');
+    });
+
 });

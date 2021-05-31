@@ -16,11 +16,9 @@ class CreatePromotionsTable extends Migration
         Schema::create('promotions', function (Blueprint $table) {
             $table->id();
             $table->double('discount');
-            $table->unsignedBigInteger('product_id');
             $table->date('begin_date');
             $table->date('end_date');
             $table->boolean('status')->default(1);
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -15,13 +15,11 @@ class PromotionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($product_id)
+    public function index()
     {
         $data=[];
-        $promotions=Promotion::where('product_id',$product_id)->get();
-        $product=Product::select('id','name')->where('id',$product_id)->first();
+        $promotions=Promotion::get();
         $data['promotions']=$promotions;
-        $data['product']=$product;
         return view('admin.promotions.index',$data);
     }
 
@@ -30,12 +28,10 @@ class PromotionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($product_id)
+    public function create()
     {
         //method:get
-        $data=[];
-        $data['product_id']=$product_id;
-        return view('admin.promotions.create',$data);
+        return view('admin.promotions.create');
     }
 
     /**
@@ -44,12 +40,11 @@ class PromotionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,$product_id)
+    public function store(Request $request)
     {
        
         $dataInsert=[
             'discount'=>$request->discount,
-            'product_id'=>$product_id,
             'begin_date'=>$request->begin_date,
             'end_date'=>$request->end_date,
             'status'=>$request->status
@@ -59,7 +54,7 @@ class PromotionController extends Controller
         try{
             Promotion::create($dataInsert);
             DB::commit();
-            return redirect()->route('admin.product.promotion.index',['product_id'=>$product_id])->with('success','Insert promotion success');
+            return redirect()->route('admin.promotion.index')->with('success','Insert promotion success');
         }catch(\Exception $ex){
             DB::rollback();
             return redirect()->back()->with('error',$ex->getMessage());
@@ -84,12 +79,11 @@ class PromotionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($product_id,$promotion_id)
+    public function edit($promotion_id)
     {   
         $data=[];
         $promotion=Promotion::findOrFail($promotion_id);
         $data['promotion']=$promotion;
-        $data['product_id']=$product_id;
         return view('admin.promotions.edit',$data);
     }
 
@@ -100,11 +94,10 @@ class PromotionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $product_id,$promotion_id)
+    public function update(Request $request,$promotion_id)
     {
         $promotion= Promotion::find($promotion_id);
         $promotion->discount=$request->discount;
-        $promotion->product_id=$product_id;
         $promotion->begin_date=$request->begin_date;
         $promotion->end_date=$request->end_date;
         $promotion->status=$request->status;
@@ -113,7 +106,7 @@ class PromotionController extends Controller
         try{
             $promotion->save();
             DB::commit();
-            return redirect()->route('admin.product.promotion.index',['product_id'=>$product_id])->with('success','Update promotion success');
+            return redirect()->route('admin.promotion.index')->with('success','Update promotion success');
         }catch(\Exception $ex){
             DB::rollback();
             return redirect()->back()->with('error',$ex->getMessage());
@@ -126,13 +119,13 @@ class PromotionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($product_id,$promotion_id)
+    public function destroy($promotion_id)
     {
         DB::beginTransaction();
         try{
             Promotion::findOrFail($promotion_id)->delete();
             DB::commit();
-            return redirect()->route('admin.product.promotion.index',['product_id'=>$product_id])->with('success','Delete promotion success');
+            return redirect()->route('admin.promotion.index')->with('success','Delete promotion success');
         }catch(\Exception $ex){
             DB::rollback();
             return redirect()->back()->with('error',$ex->getMessage());

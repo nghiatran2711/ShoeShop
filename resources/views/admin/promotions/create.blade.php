@@ -19,25 +19,16 @@
                          <div class="title">Create promotion</div>
                      </div>
                      <div class="card-title">
-                        <a href="{{ route('admin.product.promotion.index',['product_id'=>$product_id]) }}" class="btn btn-primary">List Promotion</a>
+                        <a href="{{ route('admin.promotion.index') }}" class="btn btn-primary">List Promotion</a>
                     </div>
                  </div>
                  <div class="panel-body">
-                    <form action="{{ route('admin.product.promotion.store',['product_id'=>$product_id]) }}" method="POST">
+                    <form action="{{ route('admin.promotion.store',) }}" method="POST">
                       @csrf
                       <div class="sub-title">Discount</div>
                       <div>
                           <input type="number" name="discount" class="form-control" placeholder="Discount" max="100">
                       </div>
-                      {{-- <div class="sub-title">Product</div>
-                        <div>
-                            <select class="custom-select" name="product_id">
-                                <option></option>  
-                                @foreach ($products as $productID => $productName )
-                                <option value="{{ $productID }}">{{ $productName }}</option>
-                                @endforeach    
-                              </select>
-                        </div> --}}
                       <div class="sub-title">Date begin</div>
                       <div>
                           <input type="date" name="begin_date" class="form-control" placeholder="Begin date">

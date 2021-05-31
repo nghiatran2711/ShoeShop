@@ -53,6 +53,7 @@
 										<th class="cart-product">Hình ảnh</th>
 										<th class="cart-description">Tên sản phẩm</th>
 										<th class="cart-avail text-center">Kích cỡ</th>
+										{{-- <th class="cart-avail text-center">Giảm giá</th> --}}
 										<th class="cart-unit text-right">Giá</th>
 										<th class="cart_quantity text-center">Số lượng</th>
 										<th class="cart-delete">&nbsp;</th>
@@ -63,6 +64,9 @@
 								<!-- TABLE BODY START -->
 								<tbody>	
 									<!-- SINGLE CART_ITEM START -->
+									@php
+										$total=0;
+									@endphp
 									@if (Cart::content())
 										@foreach (Cart::content() as $row )
 											<tr>
@@ -75,9 +79,24 @@
 												<td class="cart-description">
 													<p class="product-name"><a href="#">Size: {{ $row->options->has('size') ? $row->options->size : '' }}</a></p>
 												</td>
+												{{-- <td class="cart-unit">
+													<ul class="price text-right">
+														<li class="price">{{ $row->options->has('discount') ? $row->options->discount . ' %' : '' }}</li>
+													</ul>
+												</td> --}}
 												<td class="cart-unit">
 													<ul class="price text-right">
-														<li class="price">{{ number_format($row->price).' '.'VNĐ' }}</li>
+														@if ($row->options->discount==0)
+															<li class="price">{{ number_format($row->price).' '.'VNĐ' }}</li>
+														@else
+															@php
+																$price_discount=$row->options->discount * $row->price/100;
+																$price_new=$row->price-$price_discount;
+															@endphp
+															<li class="price" style="color: red">{{ number_format($price_new).' '.'VNĐ' }}</li>
+															<li class="old-price">{{ number_format($row->price).' '.'VNĐ' }}</li>
+														@endif
+														
 													</ul>
 												</td>
 												<td class="cart_quantity text-center">
@@ -92,9 +111,23 @@
 													</span>
 												</td>
 												<td class="cart-total">
-													<span class="price">{{ number_format($row->price * $row->qty).' '.'VNĐ' }}</span>
+													@if ($row->options->discount==0)
+														@php
+															$subtotal=$row->price* $row->qty;
+														@endphp
+														<span class="price">{{ number_format($subtotal).' '.'VNĐ' }}</span>
+													@else
+														@php
+															$subtotal=$price_new * $row->qty;
+														@endphp
+														<span class="price">{{ number_format($subtotal).' '.'VNĐ' }}</span>
+													@endif
+													
 												</td>
 											</tr>
+											@php
+												$total+=$subtotal;
+											@endphp
 										@endforeach
 									@endif
 									<!-- SINGLE CART_ITEM END -->
@@ -121,7 +154,9 @@
 											<span>Tổng tiền</span>
 										</td>
 										<td id="total-price-container" class="price" colspan="1">
-											<span id="total-price">{{ Cart::pricetotal(0).' '. "VNĐ" }}</span>
+											{{-- <span id="total-price">{{ Cart::pricetotal(0).' '. "VNĐ" }}</span> --}}
+											
+											<span id="total-price">{{ number_format($total) . " VNĐ" }}</span>
 										</td>
 									</tr>
 								</tfoot>		

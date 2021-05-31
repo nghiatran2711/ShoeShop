@@ -10,7 +10,7 @@
                             <b>My Cart</b>
                             <span class="ajax-cart-quantity">{{ Cart::content()->count() }}</span>
                         </a>
-                        <div class="shipping-cart-overly">
+                        {{-- <div class="shipping-cart-overly">
                             @foreach (Cart::content() as $row)
                                 <div class="shipping-item">
                                     <span class="cross-icon"><a href="{{ route('remove_item_cart',['id'=>$row->rowId]) }}"><i class="fa fa-times-circle"></i></a></span>
@@ -25,10 +25,10 @@
                                 </div>
                             @endforeach
                             <div class="shipping-total-bill">
-                                {{-- <div class="cart-prices">
+                                <div class="cart-prices">
                                     <span class="shipping-cost">$2.00</span>
                                     <span>Shipping</span>
-                                </div> --}}
+                                </div>
                                 <div class="total-shipping-prices">
                                     <span class="shipping-total">{{ Cart::pricetotal(0).' '. "VNĐ" }}</span>
                                     <span>Total</span>
@@ -37,7 +37,7 @@
                             <div class="shipping-checkout-btn">
                                 <a href="checkout.html">Check out <i class="fa fa-chevron-right"></i></a>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>	

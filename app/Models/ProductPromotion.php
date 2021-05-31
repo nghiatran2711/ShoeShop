@@ -6,25 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class OrderDetail extends Model
+class ProductPromotion extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    
-    public $table = "order_detail";
+    protected $table=['product_promotion'];
 
-    protected $fillable=[
-        'order_id',
+    protected $fillable =[
         'product_id',
-        'price_id',
-        'size_id',
         'promotion_id',
-        'quantity',
     ];
-    public function order(){
-        return $this->belongsTo(OrderDetail::class);
-    }
     public function product(){
         return $this->belongsTo(Product::class);
+    }
+    public function promotion(){
+        return $this->belongsTo(Promotion::class);
     }
 }

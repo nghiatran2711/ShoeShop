@@ -20,22 +20,13 @@
                      </div>
                  </div>
                  <div class="panel-body">
-                    <form action="{{ route('admin.product.promotion.update',['product_id'=>$product_id,'promotion_id'=>$promotion->id]) }}" method="POST">
+                    <form action="{{ route('admin.promotion.update',['promotion_id'=>$promotion->id]) }}" method="POST">
                       @csrf
                       @method('PUT')
                       <div class="sub-title">Discount</div>
                       <div>
                           <input type="number" name="discount" class="form-control" value="{{ $promotion->discount }}" max="100">
                       </div>
-                      {{-- <div class="sub-title">Product</div>
-                        <div>
-                            <select class="custom-select" name="product_id">
-                                <option></option>  
-                                @foreach ($products as $productID => $productName )
-                                <option value="{{ $productID }}" {{ $productID==$promotion->product_id ? 'selected' : '' }}>{{ $productName }}</option>
-                                @endforeach    
-                              </select>
-                        </div> --}}
                       <div class="sub-title">Date begin</div>
                       <div>
                           <input type="date" name="begin_date" class="form-control" value="{{ $promotion->begin_date }}">

@@ -25,18 +25,36 @@
                                                         <div class="single-product-item">
                                                             <div class="product-image">
                                                                 <a href="{{ route('product_details',['id'=>$value->id]) }}"><img src="{{  asset($value->thumbnail) }}" width="263" height="263" alt="product-image" /></a>
-                                                                <a href="#" class="new-mark-box">new</a>
+                                                                <a href="#" class="new-mark-box">
+                                                                    @php
+                                                                        $currentDate = date('Y-m-d');
+                                                                        $discount=[];
+                                                                    @endphp
+                                                                    @foreach ($value->promotions as $promotion)
+                                                                        @if($promotion->begin_date<=$currentDate && $promotion->end_date>=$currentDate)
+                                                                               @php
+                                                                                   $discount=$promotion->discount;
+                                                                               @endphp
+                                                                        @endif  
+                                                                    @endforeach
+                                                                    @if (!empty($discount))
+                                                                        {{ 'Sale ' .$discount . '%' }}  
+                                                                    @else
+                                                                        {{ "New" }}
+                                                                    @endif
+                                                                    </a>
+                                    
                                                                 <div class="overlay-content">
                                                                     <ul>
                                                                         <li><a href="{{ route('product_details',['id'=>$value->id]) }}" title="Quick view"><i class="fa fa-search"></i></a></li>
-                                                                        <li><a href="{{ route('add_cart',['id'=>$value->id]) }}" title="Quick view"><i class="fa fa-shopping-cart"></i></a></li>
+                                                                        {{-- <li><a href="{{ route('add_cart',['id'=>$value->id]) }}" title="Quick view"><i class="fa fa-shopping-cart"></i></a></li>
                                                                         <li><a href="#" title="Quick view"><i class="fa fa-retweet"></i></a></li>
-                                                                        <li><a href="#" title="Quick view"><i class="fa fa-heart-o"></i></a></li>
+                                                                        <li><a href="#" title="Quick view"><i class="fa fa-heart-o"></i></a></li> --}}
                                                                     </ul>
                                                                 </div>
                                                             </div>
                                                             <div class="product-info">
-                                                                {{-- <div class="customar-comments-box">
+                                                                <div class="customar-comments-box">
                                                                     <div class="rating-box">
                                                                         <i class="fa fa-star"></i>
                                                                         <i class="fa fa-star"></i>
@@ -47,12 +65,68 @@
                                                                     <div class="review-box">
                                                                         <span>3 Review(s)</span>
                                                                     </div>
-                                                                </div> --}}
-                                                                <a href="single-product.html">{{ $value->name }}</a>
+                                                                </div>
+                                                                <a href="{{ route('product_details',['id'=>$value->id]) }}">{{ $value->name }}</a>
                                                                 <div class="price-box">
-                                                                    @if (!empty($value->latestPrice()->price))
-                                                                        <span class="price">{{ number_format($value->latestPrice()->price) }} VNĐ</span>
+                                                                    {{-- @if (!empty($discount))
+                                                                        @if (!empty($value->latestPrice()->price))
+                                                                            @php
+                                                                                $price_discount=$value->latestPrice()->price *$discount/100;
+                                                                                $price_new=$value->latestPrice()->price - $price_discount;
+                                                                            @endphp
+                                                                            <span class="price">{{ number_format($price_new) }} VNĐ</span>  
+                                                                            <span class="old-price">{{ number_format($value->latestPrice()->price) }} VNĐ</span>
+                                                                        @endif 
+                                                                    @else
+                                                                    <span class="price">{{ number_format($value->latestPrice()->price) }} VNĐ</span>               
+                                                                    @endif --}}
+                                                                    {{-- @php
+                                                                        $currentDate = date('Y-m-d');
+                                                                    @endphp
+                                                                    @foreach ($value->promotions as $promotion)
+                                                                        @if($promotion->begin_date<=$currentDate && $promotion->end_date>=$currentDate)
+                                                                               @php
+                                                                                   $discount=$promotion->discount;
+                                                                               @endphp
+                                                                               @if (!empty($discount))
+                                                                                    @if (!empty($value->latestPrice()->price))
+                                                                                        @php
+                                                                                            $price_discount=$value->latestPrice()->price *$discount/100;
+                                                                                            $price_new=$value->latestPrice()->price - $price_discount;
+                                                                                        @endphp
+                                                                                        <span class="price">{{ number_format($price_new) }} VNĐ</span>  
+                                                                                        <span class="old-price">{{ number_format($value->latestPrice()->price) }} VNĐ</span>
+                                                                                    @endif 
+                                                                                @else
+                                                                                <span class="price">{{ number_format($value->latestPrice()->price) }} VNĐ</span>               
+                                                                                @endif
+                                                                              
+                                                                        @endif  
+                                                                    @endforeach --}}
+                                                                    @php
+                                                                        $currentDate = date('Y-m-d');
+                                                                        $discount=[];
+                                                                    @endphp
+                                                                    @foreach ($value->promotions as $promotion)
+                                                                        @if($promotion->begin_date<=$currentDate && $promotion->end_date>=$currentDate)
+                                                                               @php
+                                                                                   $discount=$promotion->discount;
+                                                                               @endphp
+                                                                        @endif  
+                                                                    @endforeach
+                                                                    @if (!empty($discount))
+                                                                        @if (!empty($value->latestPrice()->price))
+                                                                        @php
+                                                                            $price_discount=$value->latestPrice()->price *$discount/100;
+                                                                            $price_new=$value->latestPrice()->price - $price_discount;
+                                                                        @endphp
+                                                                        <span class="price">{{ number_format($price_new) }} VNĐ</span>  
+                                                                        <span class="old-price">{{ number_format($value->latestPrice()->price) }} VNĐ</span>
+                                                                    @endif 
+                                                                    @else
+                                                                    <span class="price">{{ number_format($value->latestPrice()->price) }} VNĐ</span>               
                                                                     @endif
+                                                                    
                                                                     
                                                                 </div>
                                                             </div>
@@ -68,7 +142,7 @@
                                 </div>
                             </div>										
                         </div>
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                        {{-- <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
                             <!-- TOW-COLUMN-ADD START -->
                             <div class="tow-column-add zoom-img">
                                 <a href="#"><img src="{{ asset('frontend/img/product/shope-add12.jpg') }}" alt="shope-add" /></a>
@@ -81,8 +155,8 @@
                                 <a href="#"><img src="{{ asset('frontend/img/product/shope-add22.jpg') }}" alt="shope-add" /></a>
                             </div>	
                             <!-- TOW-COLUMN-ADD END -->
-                        </div>	
-                        <div class="col-xs-12">
+                        </div>	 --}}
+                        {{-- <div class="col-xs-12">
                             <!-- SALE-PODUCT-AREA START -->
                             <div class="sale-poduct-area new-product-area">
                                 <div class="left-title-area">
@@ -96,8 +170,10 @@
                                             <div class="new-product">
                                                 <div class="single-product-item">
                                                     <div class="product-image">
-                                                        <a href="#"><img src="{{ asset('frontend/img/product/sale/12.jpg') }}" alt="product-image" /></a>
-                                                        <a href="#" class="new-mark-box">new</a>
+                                                        <a href="#"><img src="" alt="product-image" /></a>
+                                                        <a href="#" class="new-mark-box">
+                                                       new
+                                                        </a>
                                                         <div class="overlay-content">
                                                             <ul>
                                                                 <li><a href="#" title="Quick view"><i class="fa fa-search"></i></a></li>
@@ -120,166 +196,11 @@
                                                                 <span>1 Review(s)</span>
                                                             </div>
                                                         </div>
-                                                        <a href="single-product.html">Printed Summer Dress</a>
+                                                        <a href="single-product.html">sssssssssssssssssss</a>
                                                         <div class="price-box">
-                                                            <span class="price">$28.98</span>
-                                                            <span class="old-price">$30.51</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- NEW-PRODUCT SINGLE ITEM END -->
-                                        <!-- NEW-PRODUCT SINGLE ITEM START -->
-                                        <div class="item">
-                                            <div class="new-product">
-                                                <div class="single-product-item">
-                                                    <div class="product-image">
-                                                        <a href="#"><img src="{{ asset('frontend/img/product/sale/9.jpg') }}" alt="product-image" /></a>
-                                                        <a href="#" class="new-mark-box">sale!</a>
-                                                        <div class="overlay-content">
-                                                            <ul>
-                                                                <li><a href="#" title="Quick view"><i class="fa fa-search"></i></a></li>
-                                                                <li><a href="#" title="Quick view"><i class="fa fa-shopping-cart"></i></a></li>
-                                                                <li><a href="#" title="Quick view"><i class="fa fa-retweet"></i></a></li>
-                                                                <li><a href="#" title="Quick view"><i class="fa fa-heart-o"></i></a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-info">
-                                                        <div class="customar-comments-box">
-                                                            <div class="rating-box">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star-half-empty"></i>
-                                                                <i class="fa fa-star-half-empty"></i>
-                                                            </div>
-                                                            <div class="review-box">
-                                                                <span>1 Review(s)</span>
-                                                            </div>
-                                                        </div>
-                                                        <a href="single-product.html">Printed Dress</a>
-                                                        <div class="price-box">
-                                                            <span class="price">$23.40</span>
-                                                            <span class="old-price">$26.00</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- NEW-PRODUCT SINGLE ITEM END -->
-                                        <!-- NEW-PRODUCT SINGLE ITEM START -->
-                                        <div class="item">
-                                            <div class="new-product">
-                                                <div class="single-product-item">
-                                                    <div class="product-image">
-                                                        <a href="#"><img src="{{ asset('frontend/img/product/sale/1.jpg') }}" alt="product-image" /></a>
-                                                        <a href="#" class="new-mark-box">sale!</a>
-                                                        <div class="overlay-content">
-                                                            <ul>
-                                                                <li><a href="#" title="Quick view"><i class="fa fa-search"></i></a></li>
-                                                                <li><a href="#" title="Quick view"><i class="fa fa-shopping-cart"></i></a></li>
-                                                                <li><a href="#" title="Quick view"><i class="fa fa-retweet"></i></a></li>
-                                                                <li><a href="#" title="Quick view"><i class="fa fa-heart-o"></i></a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-info">
-                                                        <div class="customar-comments-box">
-                                                            <div class="rating-box">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                            </div>
-                                                            <div class="review-box">
-                                                                <span>1 Review(s)</span>
-                                                            </div>
-                                                        </div>
-                                                        <a href="single-product.html">Blouse</a>
-                                                        <div class="price-box">
-                                                            <span class="price">$22.95</span>
-                                                            <span class="old-price">$27.00</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- NEW-PRODUCT SINGLE ITEM END -->
-                                        <!-- NEW-PRODUCT SINGLE ITEM START -->
-                                        <div class="item">
-                                            <div class="new-product">
-                                                <div class="single-product-item">
-                                                    <div class="product-image">
-                                                        <a href="#"><img src="{{ asset('frontend/img/product/sale/6.jpg') }}" alt="product-image" /></a>
-                                                        <a href="#" class="new-mark-box">new</a>
-                                                        <div class="overlay-content">
-                                                            <ul>
-                                                                <li><a href="#" title="Quick view"><i class="fa fa-search"></i></a></li>
-                                                                <li><a href="#" title="Quick view"><i class="fa fa-shopping-cart"></i></a></li>
-                                                                <li><a href="#" title="Quick view"><i class="fa fa-retweet"></i></a></li>
-                                                                <li><a href="#" title="Quick view"><i class="fa fa-heart-o"></i></a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-info">
-                                                        <div class="customar-comments-box">
-                                                            <div class="rating-box">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                            </div>
-                                                            <div class="review-box">
-                                                                <span>4 Review(s)</span>
-                                                            </div>
-                                                        </div>
-                                                        <a href="single-product.html">Printed Chiffon Dress</a>
-                                                        <div class="price-box">
-                                                            <span class="price">$16.40</span>
-                                                            <span class="old-price">$20.50</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- NEW-PRODUCT SINGLE ITEM END -->
-                                        <!-- NEW-PRODUCT SINGLE ITEM START -->
-                                        <div class="item">
-                                            <div class="new-product">
-                                                <div class="single-product-item">
-                                                    <div class="product-image">
-                                                        <a href="#"><img src="{{ asset('frontend/img/product/sale/7.jpg') }}" alt="product-image" /></a>
-                                                        <a href="#" class="new-mark-box">new</a>
-                                                        <div class="overlay-content">
-                                                            <ul>
-                                                                <li><a href="#" title="Quick view"><i class="fa fa-search"></i></a></li>
-                                                                <li><a href="#" title="Quick view"><i class="fa fa-shopping-cart"></i></a></li>
-                                                                <li><a href="#" title="Quick view"><i class="fa fa-retweet"></i></a></li>
-                                                                <li><a href="#" title="Quick view"><i class="fa fa-heart-o"></i></a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-info">
-                                                        <div class="customar-comments-box">
-                                                            <div class="rating-box">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star-half-empty"></i>
-                                                                <i class="fa fa-star-half-empty"></i>
-                                                            </div>
-                                                            <div class="review-box">
-                                                                <span>1 Review(s)</span>
-                                                            </div>
-                                                        </div>
-                                                        <a href="single-product.html">Printed Chiffon Dress</a>
-                                                        <div class="price-box">
-                                                            <span class="price">$16.40</span>
-                                                            <span class="old-price">$20.50</span>
+                                                            <span class="price">
+                                                              VNĐ</span>
+                                                            <span class="old-price"> VNĐ</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -291,7 +212,7 @@
                                 </div>
                             </div>
                             <!-- SALE-PODUCT-AREA end -->
-                        </div>
+                        </div> --}}
                     </div>	
                 </div>	
             </div>
@@ -339,13 +260,30 @@
                                     <div class="single-product-item">
                                         <div class="product-image">
                                             <a href="{{ route('product_details',['id'=>$product->id]) }}"><img src="{{ asset($product->thumbnail) }}" width="204" height="204" alt="product-image" /></a>
-                                            <a href="#" class="new-mark-box">new</a>
+                                            <a href="#" class="new-mark-box">
+                                                @php
+                                                    $currentDate = date('Y-m-d');
+                                                    $discount=[];
+                                                @endphp
+                                                @foreach ($product->promotions as $promotion)
+                                                    @if($promotion->begin_date<=$currentDate && $promotion->end_date>=$currentDate)
+                                                            @php
+                                                                $discount=$promotion->discount;
+                                                            @endphp
+                                                    @endif  
+                                                @endforeach
+                                                @if (!empty($discount))
+                                                    {{ 'Sale ' .$discount . '%' }}  
+                                                @else
+                                                    {{ "Feature" }}
+                                                @endif
+                                            </a>
                                             <div class="overlay-content">
                                                 <ul>
                                                     <li><a href="{{ route('product_details',['id'=>$product->id]) }}" title="Quick view"><i class="fa fa-search"></i></a></li>
-                                                    <li><a href="#" title="Quick view"><i class="fa fa-shopping-cart"></i></a></li>
+                                                    {{-- <li><a href="#" title="Quick view"><i class="fa fa-shopping-cart"></i></a></li>
                                                     <li><a href="#" title="Quick view"><i class="fa fa-retweet"></i></a></li>
-                                                    <li><a href="#" title="Quick view"><i class="fa fa-heart-o"></i></a></li>
+                                                    <li><a href="#" title="Quick view"><i class="fa fa-heart-o"></i></a></li> --}}
                                                 </ul>
                                             </div>
                                         </div>
@@ -364,9 +302,55 @@
                                             </div>
                                             <a href="single-product.html">{{ $product->name }}</a>
                                             <div class="price-box">
-                                                @if (!empty($product->latestPrice()->price))
-                                                <span class="price">{{ number_format($product->latestPrice()->price) }} VNĐ</span>
-                                            @endif
+                                                {{-- @if (!empty($product->latestPrice()->price))
+                                                    <span class="price">{{ number_format($product->latestPrice()->price) }} VNĐ</span>
+                                                @endif --}}
+                                                {{-- @php
+                                                    $currentDate = date('Y-m-d');
+                                                @endphp
+                                                @foreach ($product->promotions as $promotion_feature)
+                                                    @if($promotion_feature->begin_date<=$currentDate && $promotion_feature->end_date>=$currentDate)
+                                                            @php
+                                                                $discount_feature=$promotion_feature->discount;
+                                                            @endphp   
+                                                            @if (!empty($discount_feature) && $promotion_feature->pivot->product_id==$product->id)
+                                                                @if (!empty($product->latestPrice()->price))
+                                                                    @php
+                                                                        $price_discount=$product->latestPrice()->price * $discount_feature/100;
+                                                                        $price_new=$product->latestPrice()->price-$price_discount;
+                                                                    @endphp
+                                                                        <span class="price">{{ number_format($price_new) }} VNĐ</span>
+                                                                        <span class="old-price">{{ number_format($product->latestPrice()->price) }} VNĐ</span>
+                                                                @endif
+                                                            @else
+                                                                <span class="price">{{ number_format($product->latestPrice()->price) }} VNĐ</span>
+                                                            @endif            
+                                                    @endif 
+                                               @endforeach --}}
+                                               @php
+                                                    $currentDate = date('Y-m-d');
+                                                    $discount=[];
+                                                @endphp
+                                                @foreach ($product->promotions as $promotion)
+                                                    @if($promotion->begin_date<=$currentDate && $promotion->end_date>=$currentDate)
+                                                            @php
+                                                                $discount=$promotion->discount;
+                                                            @endphp
+                                                    @endif  
+                                                @endforeach
+                                                @if (!empty($discount))
+                                                    @if (!empty($product->latestPrice()->price))
+                                                        @php
+                                                            $price_discount=$product->latestPrice()->price *$discount/100;
+                                                            $price_new=$product->latestPrice()->price - $price_discount;
+                                                        @endphp
+                                                        <span class="price">{{ number_format($price_new) }} VNĐ</span>  
+                                                        <span class="old-price">{{ number_format($product->latestPrice()->price) }} VNĐ</span>
+                                                    @endif 
+                                                @else
+                                                    <span class="price">{{ number_format($product->latestPrice()->price) }} VNĐ</span>               
+                                                 @endif
+                                                 
                                             </div>
                                         </div>
                                     </div>

@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use phpDocumentor\Reflection\Types\Null_;
 
 class CartController extends Controller
 {
@@ -26,6 +27,7 @@ class CartController extends Controller
         $data=[];
         $categories_menu = Category::where('parent_id', '=', 0)->get();
         $data['categories']=$categories_menu;
+        session(['step_by_step' => 1]);
         return view('cart',$data);
     }
     public function addCart(Request $request){
@@ -33,33 +35,54 @@ class CartController extends Controller
         $product_id=$request->product_id;
         $quantity=$request->qty;
         $id_size=$request->product_size;
+        $discount=$request->discount;
+        $promotion_id=$request->promotion_id;
 
-        $data=[];
-        $product=Product::find($product_id);
-        $size=$product->sizes->find($id_size)->name;
+        $quantity_product_size=DB::table('product_size')->select('quantity')->where('product_id',$product_id)->where('size_id',$id_size)->first();
+        if($quantity <= $quantity_product_size->quantity){
+            $data=[];
+            $product=Product::find($product_id);
+            $size=$product->sizes->find($id_size)->name;
 
-        $data['id']=$product->id;
-        $data['name']=$product->name;
-        $data['qty']=$quantity;
-        $data['price']=$product->latestPrice()->price ? $product->latestPrice()->price : 0;
-        $data['weight']=0;
-        $data['options']['size']=$size;
-        $data['options']['thumbnail']=$product->thumbnail;
-        Cart::add($data);
-        // Cart::destroy();
-        // dd(Cart::content());
-        return redirect()->route('view_cart');
+            $data['id']=$product->id;
+            $data['name']=$product->name;
+            $data['qty']=$quantity;
+            $data['price']=$product->latestPrice()->price ? $product->latestPrice()->price : 0;
+            $data['weight']=0;
+            $data['options']['size']=$size;
+            $data['options']['thumbnail']=$product->thumbnail;
+            $data['options']['discount']=$discount;
+            $data['options']['promotion_id']=$promotion_id;
+            // dd($data);
+            Cart::add($data);
+            // Cart::destroy();
+            // dd(Cart::content());
+            return redirect()->route('view_cart');
+        }else{
+            
+            $message='Only '. $quantity_product_size->quantity . ' products in stock';
+            return redirect()->back()->with('message',$message);
+        }
     }
 
     public function updateCart(Request $request){
+        
         $rowId=$request->rowId;
         $quantity=$request->quantity;
-        try{
+        $cart=Cart::get($rowId);
+        $size_id=Size::select('id')->where('name',$cart->options->size)->first();
+        $quantity_product_size=DB::table('product_size')->select('quantity')->where('product_id',$cart->id)->where('size_id',$size_id->id)->first();
+        if($quantity <=$quantity_product_size->quantity){
+            try{
 
-            Cart::update($rowId, $quantity);
-            return response()->json('message','update cart success');
-        }catch(\Exception $ex){
-            return response()->json(['message' => $ex->getMessage()]);
+                Cart::update($rowId, $quantity);
+                return response()->json('message','update cart success');
+            }catch(\Exception $ex){
+                return response()->json(['message' => $ex->getMessage()]);
+            }
+        }else{
+            $message='Only '. $quantity_product_size->quantity . ' products in stock';
+            return response()->json('message',$message);
         }
         
         // return redirect()->route('view_cart');
@@ -67,7 +90,7 @@ class CartController extends Controller
 
     public function removeItemCart($id){
         Cart::remove($id);
-        return redirect()->route('view_cart');
+        return redirect()->back();
 
     }
 
@@ -135,7 +158,7 @@ class CartController extends Controller
             DB::commit();
 
             // add step by step to SESSION
-            // session(['step_by_step' => 2]);
+            session(['step_by_step' => 2]);
 
             return response()->json(['message' => 'Confirmed code is OK.']);
         } catch (\Exception $exception) {
@@ -148,6 +171,7 @@ class CartController extends Controller
         $data=[];
         $categories_menu = Category::where('parent_id', '=', 0)->get();
         $data['categories']=$categories_menu;
+        session(['step_by_step' => 2]);
         return view('carts.checkout',$data);
     }
     public function checkoutComplete(Request $request){
@@ -167,6 +191,7 @@ class CartController extends Controller
                 'user_id' => Auth()->id(),
                 'status' => Order::STATUS[0],
             ];
+            // dd($data_order);
             try{
                 DB::beginTransaction();
                 $order=Order::create($data_order);
@@ -177,63 +202,74 @@ class CartController extends Controller
                         $price_id=$product->latestPrice()->id;
                         $size_id=$product->sizes->where('name',$cart->options->size)->first()->id;
                         $quantity=$cart->qty;
+                        if($cart->options->promotion_id != null){
+                            $promotion_id=$cart->options->promotion_id;
+                        }else{
+                            $promotion_id=Null;
+                        }
                         $data_order_detail=[
                             'order_id'=>$orderID,
                             'product_id'=>$product->id,
                             'price_id'=>$price_id,
                             'size_id'=>$size_id,
+                            'promotion_id'=>$promotion_id,
                             'quantity'=>$quantity,
                         ];
                         // print_r($data_order_detail);
+                        // dd($data_order_detail);
                         OrderDetail::create($data_order_detail);    
                     }
                 }
-                DB::commit();
-                $data_view_order=[];
-                $order_details=OrderDetail::where('order_id',$orderID)->get();
+                DB::commit();  
                 // dd($order_details);
-                $data['order_id']=$orderID;
-                foreach($order_details as $order_detail){
-                    $product=Product::where('id',$order_detail->product_id)->first();
-                    $price=Price::where('id',$order_detail->price_id)->first();
-                    $size=Size::where('id',$order_detail->size_id)->first();
-                    $quantity=$order_detail->quantity;
-                    $data_order_detail=[
-                        'thumbnail'=>$product->thumbnail,
-                        'size'=>$size->name,
-                        'price'=>$price->price,
-                        'quantity'=>$quantity
-                    ];
-                    $data_view_order[]=$data_order_detail;
-                }
-                return view('info_order',$data,['data_view_order'=>$data_view_order])->with('success','Cảm ơn bạn đã đặt hàng!!!');
+                // $data['order_id']=$orderID;
+                Cart::destroy();
+                $request->session()->forget(['step_by_step']);
+
+                    // $order_details = DB::table('order_detail')
+                    // ->join('products', 'order_detail.product_id', '=', 'products.id')
+                    // ->join('orders', 'order_detail.order_id', '=', 'orders.id')
+                    // ->join('sizes', 'order_detail.size_id', '=', 'sizes.id')
+                    // ->join('prices', 'order_detail.price_id', '=', 'prices.id')
+                    // ->leftjoin('promotions','order_detail.promotion_id','=','promotions.id')
+                    // ->where('order_id',$orderID)->select('products.thumbnail','products.name as product_name', 'sizes.name as size_name', 'prices.price','order_detail.quantity','promotions.discount')
+                    // ->get();
+                    // $data['order_details']=$order_details;
+                   
+                return redirect()->route('view_order_complete')->with('success','Cảm ơn bạn đã đặt hàng!!!');
             }catch(\Exception $ex){
                 return redirect()->back()->with('error',$ex->getMessage());
             }
         }
     }
-    public function test_view_order(){
+
+    // public function test_view_order(){
+    //     $data=[];
+    //     $categories_menu = Category::where('parent_id', '=', 0)->get();
+    //     $data['categories']=$categories_menu;
+
+    //     $data_view_order=[];
+    //     $order_details = DB::table('order_detail')
+    //         ->join('products', 'order_detail.product_id', '=', 'products.id')
+    //         ->join('orders', 'order_detail.order_id', '=', 'orders.id')
+    //         ->join('sizes', 'order_detail.size_id', '=', 'sizes.id')
+    //         ->join('prices', 'order_detail.price_id', '=', 'prices.id')
+    //         ->leftjoin('promotions','order_detail.promotion_id','=','promotions.id')
+    //         ->where('order_id',3)->select('products.thumbnail','products.name as product_name', 'sizes.name as size_name', 'prices.price','order_detail.quantity','promotions.discount')
+    //         ->get();
+    //         // dd($order_details);
+
+    //     // dd($order_details);
+    //        $data['order_id']=3;
+    //        $data['order_details']=$order_details;
+    //     //    dd($data);
+
+    //         return view('info_order',$data);
+    // }
+    public function order_complete(){
         $data=[];
         $categories_menu = Category::where('parent_id', '=', 0)->get();
         $data['categories']=$categories_menu;
-
-        $data_view_order=[];
-        $order_details=OrderDetail::where('order_id',6)->get();
-        // dd($order_details);
-           $data['order_id']=6;
-                foreach($order_details as $order_detail){
-                    $product=Product::where('id',$order_detail->product_id)->first();
-                    $price=Price::where('id',$order_detail->price_id)->first();
-                    $size=Size::where('id',$order_detail->size_id)->first();
-                    $quantity=$order_detail->quantity;
-                    $data_order_detail=[
-                        'thumbnail'=>$product->thumbnail,
-                        'size'=>$size->name,
-                        'price'=>$price->price,
-                        'quantity'=>$quantity
-                    ];
-                    $data_view_order[]=$data_order_detail;
-                }
-                return view('info_order',$data,['data_view_order'=>$data_view_order]);
+        return view('carts.checkout_complete',$data);
     }
 }
