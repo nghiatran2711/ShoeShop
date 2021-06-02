@@ -58,3 +58,4 @@ Route::get('/product-by-category/{name}/filter',[HomeController::class,'filter_p
 Route::get('/history-order',[OrderController::class,'view_order_history'])->middleware(['auth'])->name('view_order_history');
 Route::get('/order-detail/{id}',[OrderController::class,'order_detail'])->middleware(['auth'])->name('order_detail');
 Route::get('/destroy-order/{id}',[OrderController::class,'destroy_order'])->middleware(['auth'])->name('destroy_order');
+

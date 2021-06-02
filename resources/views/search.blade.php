@@ -126,8 +126,25 @@
                             <li class="gategory-product-list col-lg-3 col-md-4 col-sm-6 col-xs-12">
                                 <div class="single-product-item">
                                     <div class="product-image">
-                                        <a href="single-product.html"><img src="{{ asset($product->thumbnail) }}" alt="product-image" /></a>
-                                        <a href="single-product.html" class="new-mark-box">new</a>
+                                        <a href="{{ route('product_details',['id'=>$product->id]) }}"><img src="{{ asset($product->thumbnail) }}" width="263" height="263"  alt="product-image" /></a>
+                                        <a href="single-product.html" class="new-mark-box">
+                                            @php
+                                                $currentDate = date('Y-m-d');
+                                                $discount=[];
+                                            @endphp
+                                            @foreach ($product->promotions as $promotion)
+                                                @if($promotion->begin_date<=$currentDate && $promotion->end_date>=$currentDate)
+                                                        @php
+                                                            $discount=$promotion->discount;
+                                                        @endphp
+                                                @endif  
+                                            @endforeach
+                                            @if (!empty($discount))
+                                                {{ 'Sale ' .$discount . '%' }}  
+                                            @else
+                                                {{ "New" }}
+                                            @endif
+                                        </a>
                                         <div class="overlay-content">
                                             <ul>
                                                 <li><a href="#" title="Quick view"><i class="fa fa-search"></i></a></li>
@@ -151,12 +168,35 @@
                                             </div>
                                         </div> --}}
                                         <a href="single-product.html">{{ $product->name }}</a>
-                                                                <div class="price-box">
-                                                                    @if (!empty($product->latestPrice()->price))
-                                                                        <span class="price">{{ number_format($product->latestPrice()->price) }} VNĐ</span>
-                                                                    @endif
-                                                                    
-                                                                </div>
+                                        <div class="price-box">
+                                            {{-- @if (!empty($product->latestPrice()->price))
+                                                <span class="price">{{ number_format($product->latestPrice()->price) }} VNĐ</span>
+                                            @endif --}}
+                                            @php
+                                                $currentDate = date('Y-m-d');
+                                                $discount=[];
+                                            @endphp
+                                            @foreach ($product->promotions as $promotion)
+                                                @if($promotion->begin_date<=$currentDate && $promotion->end_date>=$currentDate)
+                                                    @php
+                                                        $discount=$promotion->discount;
+                                                    @endphp
+                                                @endif  
+                                            @endforeach
+                                            @if (!empty($discount))
+                                                @if (!empty($product->latestPrice()->price))
+                                                @php
+                                                    $price_discount=$product->latestPrice()->price *$discount/100;
+                                                    $price_new=$product->latestPrice()->price - $price_discount;
+                                                @endphp
+                                                <span class="price">{{ number_format($price_new) }} VNĐ</span>  
+                                                <span class="old-price">{{ number_format($product->latestPrice()->price) }} VNĐ</span>
+                                            @endif 
+                                            @else
+                                            <span class="price">{{ number_format($product->latestPrice()->price) }} VNĐ</span>               
+                                            @endif
+                                            
+                                        </div>
                                     </div>
                                 </div>									
                             </li>

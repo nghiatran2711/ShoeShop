@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DetailPromotionController;
 use App\Http\Controllers\Admin\OrderController;
@@ -11,7 +12,9 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductSizeController;
 use App\Http\Controllers\Admin\PromotionController;
 use App\Http\Controllers\Admin\SizeController;
+use App\Http\Controllers\Admin\UserController;
 use App\Models\Brand;
+use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Support\Facades\Route;
 
@@ -124,6 +127,22 @@ Route::middleware('auth:admin')->group(function(){
         Route::get('/list-order',[OrderController::class,'list_order'])->name('list_order');
         Route::get('/order-detail/{id}',[OrderController::class,'order_detail'])->name('order_detail');
         Route::get('/confirm-order/{id}',[OrderController::class,'confirm_order'])->name('confirm_order');
+        Route::get('/search',[OrderController::class,'search'])->name('search');
     });
+
+    Route::group(['prefix' => 'user','as'=>'user.'],function () {
+        Route::get('/list',[UserController::class,'index'])->name('list_user');
+        Route::get('/create',[UserController::class,'create'])->name('create');
+        Route::post('/store',[UserController::class,'store'])->name('store');
+        Route::get('/acvive/{id}',[UserController::class,'active'])->name('active_user');
+        Route::get('/de-active/{id}',[UserController::class,'de_active'])->name('de_active_user');
+        Route::get('reset-password/{id}',[UserController::class,'reset_password'])->name('reset_password');
+        Route::post('update-password/{id}',[UserController::class,'update_password'])->name('update_password');
+    });
+    Route::group(['prefix' => 'customer','as'=>'customer.'],function () {
+        Route::get('/list',[CustomerController::class,'index'])->name('list_customer');
+        Route::get('/search',[CustomerController::class,'index'])->name('search');
+    });
+
 
 });

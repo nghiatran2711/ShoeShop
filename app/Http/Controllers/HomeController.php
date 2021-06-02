@@ -98,7 +98,7 @@ class HomeController extends Controller
         }
         
         // order ID desc
-        $products = $products->orderBy('id', 'desc')->get();
+        $products = $products->orderBy('id', 'desc')->paginate(20);
 
         $data['categories']=$categories_menu;
         $data['products']=$products;

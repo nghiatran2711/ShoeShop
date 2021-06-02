@@ -12,10 +12,8 @@ class OrderController extends Controller
     //
     public function list_order(){
         $data=[];
-        $orders=Order::get();
+        $orders=Order::orderBy('created_at','desc')->paginate(5);
         $data['orders']=$orders;
-
-
         return view('admin.orders.index',$data);
     }
     public function order_detail($id){
@@ -44,5 +42,32 @@ class OrderController extends Controller
         }catch(\Exception $ex){
             return redirect()->back()->with('error',$ex->getMessage());
         }
+    }
+    public function search(Request $request){
+        $date=$request->date;
+        $status=$request->status;
+        $data=[];
+        $orders=Order::with('user');
+        if(!empty($date)){
+           $orders=Order::whereDate('created_at','=',$date);
+        }
+
+        if($status==2){
+            $orders=Order::where('status','=',$status);
+        }elseif($status==3){
+            $orders=Order::where('status','=',$status);
+        }elseif($status==4){
+            $orders=Order::where('status','=',$status);
+        }elseif($status=="0-1"){
+            $status=explode("-",$status);
+            $status_first=$status[0];
+            $status_second=$status[1];
+            $orders=Order::where('status','=',$status_first)->orWhere('status','=',$status_second);
+        }
+        $orders=$orders->orderBy('created_at', 'desc')->paginate(5);
+        $data['date']=$date;
+        $data['status']=$request->status;
+        $data['orders']=$orders;
+        return view('admin.orders.index',$data);
     }
 }

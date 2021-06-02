@@ -1,4 +1,4 @@
-<nav class="navbar-default navbar-side" role="navigation">
+<nav style="max-height: 550px;overflow-y: scroll; " class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
 
@@ -81,15 +81,22 @@
                         </ul>
                     </li>	
                     <li>
-                        <a href="tab-panel.html"><i class="fa fa-qrcode"></i> Tabs & Panels</a>
+                        <a href="#" class=""><i class="fa fa-sitemap"></i>Users<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{ route('admin.user.list_user') }}">List users</a>
+                            </li>
+                        </ul>
                     </li>
-                    
-                   
-                    
+                    <li>
+                        <a href="#" class=""><i class="fa fa-sitemap"></i>Customers<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{ route('admin.customer.list_customer') }}">List customers</a>
+                            </li>
+                        </ul>
+                    </li>
 
-
-                   
-                    
                 </ul>
 
             </div>

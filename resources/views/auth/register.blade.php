@@ -73,6 +73,7 @@
 						<!-- BSTORE-BREADCRUMB END -->
 					</div>
 				</div>
+                @include('admin.errors.error')
 				<div class="row">
 					{{-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<h2 class="page-title">Đăng ký tài khoản</h2>
@@ -89,18 +90,44 @@
                                             <label for="loginemail">Họ và tên</label>
                                             <input type="text" value="" name="name" id="loginemail" class="form-control input-feild">
                                         </div>
+                                        @error('name')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                         @enderror
                                         <div class="form-group primary-form-group">
                                             <label for="loginemail">Email</label>
-                                            <input type="text" value="" name="email" id="loginemail" class="form-control input-feild">
+                                            <input type="email" value="" name="email" id="loginemail" class="form-control input-feild">
                                         </div>
+                                        @error('email')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                        <div class="form-group primary-form-group">
+                                            <label for="loginemail">Address</label>
+                                            <input type="text" value="" name="address" id="loginemail" class="form-control input-feild">
+                                        </div>
+                                        @error('address')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                        <div class="form-group primary-form-group">
+                                            <label for="loginemail">phone</label>
+                                            <input type="text" value="" name="phone" id="loginemail" class="form-control input-feild">
+                                        </div>
+                                        @error('phone')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                         <div class="form-group primary-form-group">
                                             <label for="password">Mật khẩu</label>
                                             <input type="password" value="" name="password" id="password" class="form-control input-feild">
                                         </div>
+                                        @error('password')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                         <div class="form-group primary-form-group">
                                             <label for="password">Nhập lại mật khẩu</label>
                                             <input type="password" value="" name="password_confirmation" id="password" class="form-control input-feild">
                                         </div>
+                                        @error('password_confirmation')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                         <div class="forget-password">
                                             <p><a href="{{ route('login') }}">Đã có tài khoản?</a></p>
                                         </div>

@@ -1,4 +1,13 @@
 @extends('admin.layouts.master')
+@push('css')
+	<style type="text/css">
+		.my-active span{
+			background-color: #0283fc !important;
+			color: white !important;
+			border-color: #0283fc !important;
+		}
+	</style>
+@endpush
 @section('content')
     <div class="header"> 
         <h1 class="page-header">
@@ -16,7 +25,43 @@
              <div class="panel panel-default">
                  <div class="panel-heading">
                      <div class="card-title">
-                         <div class="title">List order</div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="title">List Orders</div>
+                            </div>
+                            <div class="col-md-9">
+                                <form class="navbar-form" role="search" action="{{ route('admin.order.search') }}" method="GET">
+                                    <div class="row">
+                                        <div class="col-md-5"> 
+                                             <p>Date</p>
+                                        </div> 
+                                        <div class="col-md-4">
+                                             <p>Pendding</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                          
+                                       </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <input type="date" class="form-control" name="date" value="{{ !empty($date) ? $date : '' }}">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select class="form-control" name="status">
+                                                <option value=""></option>
+                                                <option value="0-1" {{ !empty($status) && $status=='0-1' ? 'selected' : '' }}>Đang chờ duyệt</option>
+                                                <option value="2" {{ !empty($status) && $status=="2" ? 'selected' : '' }}>Đang giao</option>
+                                                <option value="3" {{ !empty($status) && $status=="3" ? 'selected' : '' }}>Bị huỷ bỏ</option>
+                                                <option value="4" {{ !empty($status) && $status=="4" ? 'selected' : '' }}>Đã giao</option>
+                                              </select>
+                                        </div>
+                                        <div class="col-md-3">    
+                                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"> Search</i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                      </div>
                  </div>
                  {{-- show message --}}
@@ -63,6 +108,9 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <div class="text-center">
+                    {{ $orders->appends(request()->input())->links('vendor.pagination.custom') }}
                 </div>
              </div>
          </div>
