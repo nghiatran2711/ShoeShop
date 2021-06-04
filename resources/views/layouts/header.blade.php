@@ -55,10 +55,9 @@
 									{{-- <li><a href="wishlist.html">Wishlist</a></li> --}}
 									@auth
 										<li><a href="{{ route('view_order_history') }}">Order History</a></li>
+										<li><a href="{{ route('view_profile') }}">My Account</a></li>
 									@endauth
-									
-									<li><a href="my-account.html">My Account</a></li>
-									<li><a href="cart.html">My Cart</a></li>
+									<li><a href="{{ route('view_cart') }}">My Cart</a></li>
                                     @auth
                                         <li>
 											<form action="{{ route('logout') }}" method="POST">
@@ -102,7 +101,6 @@
 						<!-- CATEGORYS-PRODUCT-SEARCH START -->
 						<div class="categorys-product-search">
 							<form action="{{ route('search_product') }}" method="get" class="search-form-cat">
-								@csrf
 								<div class="search-product form-group">
 									<select name="catsearch" class="cat-search">
 										<option value="">All Categories</option>

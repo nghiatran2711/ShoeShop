@@ -15,9 +15,9 @@
          <div class="col-xs-12">
              <div class="panel panel-default">
                  <div class="panel-heading">
-                     <div class="card-title">
+                     {{-- <div class="card-title">
                          <div class="title">List promotion</div>
-                     </div>
+                     </div> --}}
                      <div class="card-title">
                         <a href="{{ route('admin.promotion.create') }}" class="btn btn-primary">Create promotion</a>
                     </div>
@@ -29,7 +29,9 @@
                                 <tr>
                                     <th>#</th>
                                     {{-- <th>Promotion ID</th> --}}
+                                    <th>Name</th>
                                     <th>Discount</th>
+                                    <th>Quantity</th>
                                     <th>Begin date</th>
                                     <th>End date</th>
                                     <th>Status</th>
@@ -42,14 +44,16 @@
                                         <tr>
                                             <td>{{ $key+1 }}</td>
                                             {{-- <td>{{ $promotion->id }}</td> --}}
+                                            <td>{{ $promotion->name }}</td>
                                             <td>{{ $promotion->discount }}</td>
+                                            <td>{{ $promotion->quantity }}</td>
                                             <td>{{ $promotion->begin_date }}</td>
                                             <td>{{ $promotion->end_date }}</td>
                                             <td>{{ $promotion->status }}</td>
-                                            <td class="center"><a href="" class="btn btn-primary"><i class="fa fa-info" aria-hidden="true"></i></a></td>
-                                            <td class="center"><a href="{{ route('admin.promotion.edit',['promotion_id'=>$promotion->id]) }}" class="btn btn-primary"><i class="fa fa-pencil-square" aria-hidden="true"></i></a></td>
+                                            <td class="center"><a href="{{ route('admin.promotion.show',['id'=>$promotion->id]) }}" class="btn btn-primary"><i class="fa fa-info" aria-hidden="true"></i></a></td>
+                                            <td class="center"><a href="{{ route('admin.promotion.edit',['id'=>$promotion->id]) }}" class="btn btn-primary"><i class="fa fa-pencil-square" aria-hidden="true"></i></a></td>
                                             <td class="center">
-                                                <form action="{{ route('admin.promotion.destroy',['promotion_id'=>$promotion->id]) }}" method="POST">
+                                                <form action="{{ route('admin.promotion.destroy',['id'=>$promotion->id]) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to delete this promotion?');"><i class="fa fa-trash-o" aria-hidden="true"></i></button>

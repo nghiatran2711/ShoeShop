@@ -1,4 +1,13 @@
 @extends('layouts.master')
+@push('css')
+	<style type="text/css">
+		.my-active span{
+			background-color: #0283fc !important;
+			color: white !important;
+			border-color: #0283fc !important;
+		}
+	</style>
+@endpush
 @section('content')
 <!-- MAIN-CONTENT-SECTION START -->
 <section class="main-content-section">
@@ -16,270 +25,41 @@
         </div>
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                <!-- PRODUCT-LEFT-SIDEBAR START -->
-                <div class="product-left-sidebar">
-                    <h2 class="left-title pro-g-page-title">Catalog</h2>
-                    <!-- SINGLE SIDEBAR ENABLED FILTERS START -->
-                    {{-- <div class="product-single-sidebar">
-                        <span class="sidebar-title">ENABLED FILTERS:</span>
-                        <ul class="filtering-menu">
-                            <li>
-                                Categories: Dresses 
-                                <a href="#"><i class="fa fa-remove"></i></a>
-                            </li>
-                            <li>
-                                Avaiale: In stock 
-                                <a href="#"><i class="fa fa-remove"></i></a>
-                            </li>
-                            <li>
-                                Categories: Dresses 
-                                <a href="#"><i class="fa fa-remove"></i></a>
-                            </li>
-                        </ul>
-                    </div> --}}
-                    <!-- SINGLE SIDEBAR ENABLED FILTERS END -->
-                    <!-- SINGLE SIDEBAR CATEGORIES START -->
-                    {{-- <div class="product-single-sidebar">
-                        <span class="sidebar-title">Categories</span>
-                        <ul>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="categories"/>
-                                    <span></span>
-                                </label>
-                                <a href="#">Tops<span> (12)</span></a>
-                            </li>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="categories"/>
-                                    <span></span>
-                                </label>
-                                <a href="#">Dresses<span> (13)</span></a>
-                            </li>
-                        </ul>
-                    </div> --}}
-                    <!-- SINGLE SIDEBAR CATEGORIES END -->
-                    <!-- SINGLE SIDEBAR AVAILABILITY START -->
-                    {{-- <div class="product-single-sidebar">
-                        <span class="sidebar-title">Availability</span>
-                        <ul>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="availability"/>
-                                    <span></span>
-                                </label>
-                                <a href="#">In stock<span> (13)</span></a>
-                            </li>
-                        </ul>
-                    </div> --}}
-                    <!-- SINGLE SIDEBAR AVAILABILITY END -->
-                    <!-- SINGLE SIDEBAR CONDITION START -->
-                    {{-- <div class="product-single-sidebar">
-                        <span class="sidebar-title">Condition</span>
-                        <ul>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="condition"/>
-                                    <span></span>
-                                </label>
-                                <a href="#">new<span> (13)</span></a>
-                            </li>
-                        </ul>
-                    </div> --}}
-                    <!-- SINGLE SIDEBAR CONDITION END -->
-                    <!-- SINGLE SIDEBAR MANUFACTURER START -->
-                    {{-- <div class="product-single-sidebar">
-                        <span class="sidebar-title">Manufacturer</span>
-                        <ul>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="manufacturer"/>
-                                    <span></span>
-                                </label>
-                                <a href="#">Fashion Manufacturer<span> (13)</span></a>
-                            </li>
-                        </ul>
-                    </div> --}}
-                    <!-- SINGLE SIDEBAR MANUFACTURER END -->
-                    <!-- SINGLE SIDEBAR PRICE START -->
-                    <div class="product-single-sidebar">
-                        <span class="sidebar-title">Price</span>
-                        <ul>
-                            <li> 
-                                <label><strong>Range:</strong><input type="text" id="slidevalue" /></label>
-                            </li>
-                            <li>
-                                <div id="price-range"></div>	
-                            </li>
-                        </ul>
+                 <!-- PRODUCT-LEFT-SIDEBAR START -->
+                 <form action="{{ route('filter_product_brand',['name'=>$brand->name]) }}" method="GET">
+                    <div class="product-left-sidebar">
+                        <h2 class="left-title pro-g-page-title">Catalog</h2>
+                        <div class="product-single-sidebar">
+                            <span class="sidebar-title">Price</span>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="price" value="3000000" id="flexRadioDefault1">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Dưới 3tr
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="price" value="3000000-6000000" id="flexRadioDefault2">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Từ 3tr - 6tr
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="price" value="6000000-9000000" id="flexRadioDefault2">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Từ 6tr - 9tr
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="price" value="9000000" id="flexRadioDefault2">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Trên 9tr
+                                    </label>
+                                </div>
+                        </div>
+                        <button class="btn btn-success">Tìm</button>
+                        <!-- SINGLE SIDEBAR SIZE END -->
                     </div>
-                    <!-- SINGLE SIDEBAR PRICE END -->
-                    <!-- SINGLE SIDEBAR SIZE START -->
-                    <div class="product-single-sidebar">
-                        <span class="sidebar-title">Size</span>
-                        <ul>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="Size"/>
-                                    <span></span>
-                                </label>
-                                <a href="#">S<span> (10)</span></a>
-                            </li>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="Size"/>
-                                    <span></span>
-                                </label>
-                                <a href="#">m<span> (10)</span></a>
-                            </li>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="Size"/>
-                                    <span></span>
-                                </label>
-                                <a href="#">l<span> (10)</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- SINGLE SIDEBAR SIZE END -->
-                    <!-- SINGLE SIDEBAR COLOR START -->
-                    {{-- <div class="product-single-sidebar">
-                        <span class="sidebar-title">Color</span>
-                        <ul class="product-color-var">
-                            <li>
-                                <i class="fa fa-square color-beige"></i>
-                                <a href="#">Beige<span> (1)</span></a>
-                            </li>
-                            <li>
-                                <i class="fa fa-square color-white"></i>
-                                <a href="#">white<span> (2)</span></a>
-                            </li>	
-                            <li>
-                                <i class="fa fa-square color-black"></i>
-                                <a href="#">black<span> (2)</span></a>
-                            </li>									
-                            <li>
-                                <i class="fa fa-square color-orange"></i>
-                                <a href="#">orange<span> (5)</span></a>
-                            </li>
-                            <li>
-                                <i class="fa fa-square color-blue"></i>
-                                <a href="#">blue<span> (8)</span></a>
-                            </li>
-                            <li>
-                                <i class="fa fa-square color-green"></i>
-                                <a href="#">green<span> (3)</span></a>
-                            </li>
-                            <li>
-                                <i class="fa fa-square color-yellow"></i>
-                                <a href="#">yellow<span> (4)</span></a>
-                            </li>
-                            <li>
-                                <i class="fa fa-square color-pink"></i>
-                                <a href="#">pink<span> (6)</span></a>
-                            </li>
-                        </ul>
-                    </div> --}}
-                    <!-- SINGLE SIDEBAR COLOR END -->
-                    <!-- SINGLE SIDEBAR COMPOSITIONS START -->
-                    {{-- <div class="product-single-sidebar">
-                        <span class="sidebar-title">Compositions</span>
-                        <ul>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="compositions"/>
-                                    <span></span>
-                                </label>
-                                <a href="#">Cotton<span>(8)</span></a>
-                            </li>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="compositions"/>
-                                    <span></span>
-                                </label>
-                                <a href="#"> Polyester<span>(3)</span></a>
-                            </li>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="compositions"/>
-                                    <span></span>
-                                </label>
-                                <a href="#"> Viscose<span>(2)</span></a>
-                            </li>
-                        </ul>
-                    </div> --}}
-                    <!-- SINGLE SIDEBAR COMPOSITIONS END -->
-                    <!-- SINGLE SIDEBAR STYLES START -->
-                    {{-- <div class="product-single-sidebar">
-                        <span class="sidebar-title">Styles</span>
-                        <ul>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="styles"/>
-                                    <span></span>
-                                </label>
-                                <a href="#">Casual<span>(5)</span></a>
-                            </li>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="styles"/>
-                                    <span></span>
-                                </label>
-                                <a href="#">Dressy<span>(1)</span></a>
-                            </li>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="styles"/>
-                                    <span></span>
-                                </label>
-                                <a href="#">Girly<span>(7)</span></a>
-                            </li>
-                        </ul>
-                    </div>	 --}}
-                    <!-- SINGLE SIDEBAR STYLES END -->
-                    <!-- SINGLE SIDEBAR PROPERTIES START -->
-                    {{-- <div class="product-single-sidebar">
-                        <span class="sidebar-title">Properties</span>
-                        <ul>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="properties"/>
-                                    <span></span>
-                                </label>
-                                <a href="#">Colorful Dress<span>(4)</span></a>
-                            </li>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="properties"/>
-                                    <span></span>
-                                </label>
-                                <a href="#">Maxi Dress <span>(1)</span></a>
-                            </li>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="properties"/>
-                                    <span></span>
-                                </label>
-                                <a href="#">Midi Dress<span>(2)</span></a>
-                            </li>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="properties"/>
-                                    <span></span>
-                                </label>
-                                <a href="#">Short Dress<span>(2)</span></a>
-                            </li>
-                            <li>
-                                <label class="cheker">
-                                    <input type="checkbox" name="properties"/>
-                                    <span></span>
-                                </label>
-                                <a href="#"> Short Sleeve<span>(4)</span></a>
-                            </li>
-                        </ul>
-                    </div>	 --}}
-                    <!-- SINGLE SIDEBAR PROPERTIES END -->
-                </div>
+                </form>
                 <!-- PRODUCT-LEFT-SIDEBAR END -->
                 <!-- SINGLE SIDEBAR TAG START -->
                 <div class="product-left-sidebar">
@@ -300,27 +80,11 @@
             </div>
             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                 <div class="right-all-product">
-                    <!-- PRODUCT-CATEGORY-HEADER START -->
-                    {{-- <div class="product-category-header">
-                        <div class="category-header-image">
-                            <img src="{{ asset('frontend/img/category-header.jpg') }}" alt="category-header" />
-                            <div class="category-header-text">
-                                <h2>Women </h2>
-                                <strong>You will find here all woman fashion collections.</strong>
-                                <p>This category includes all the basics of your wardrobe and much more:<br /> shoes, accessories, printed t-shirts, feminine dresses, women's jeans!</p>
-                            </div>									
-                        </div>
-                    </div> --}}
-                    <!-- PRODUCT-CATEGORY-HEADER END -->
                     <div class="product-category-title">
                         <!-- PRODUCT-CATEGORY-TITLE START -->
                         <h1>
                             <span class="cat-name">{{$brand->name}}</span>
-                            @if ($products->count()>0)
-                                <span class="count-product">There are {{ $products->count() }} products.</span>
-                            @else
-                            <span class="count-product">There are 0 products.</span>
-                            @endif
+                            <span class="count-product">There are {{ $products->count() }} products.</span>
                         </h1>
                         <!-- PRODUCT-CATEGORY-TITLE END -->
                     </div>
@@ -341,61 +105,7 @@
                                     </form>										
                                 </div>
                             </div>
-                            <!-- SHOORT-BY END -->
-                            <!-- SHOW-PAGE START -->
-                            {{-- <div class="show-page">
-                                <label for="perPage">Show</label>
-                                <div class="s-page-select-option">
-                                    <select name="show" id="perPage">
-                                        <option value="">11</option>
-                                        <option value="">12</option>
-                                    </select>													
-                                </div>
-                                <span>per page</span>										
-                            </div> --}}
-                            <!-- SHOW-PAGE END -->
-                            <!-- VIEW-SYSTEAM START -->
-                            {{-- <div class="view-systeam">
-                                <label for="perPage">View:</label>
-                                <ul>
-                                    <li class="active"><a href="shop-gird.html"><i class="fa fa-th-large"></i></a><br />Grid</li>
-                                    <li><a href="shop-list.html"><i class="fa fa-th-list"></i></a><br />List</li>
-                                </ul>
-                            </div> --}}
-                            <!-- VIEW-SYSTEAM END -->
                         </div>
-                        <!-- PRODUCT-SHOOTING-RESULT START -->
-                        {{-- <div class="product-shooting-result">
-                            <form action="#">
-                                <button class="btn compare-button">
-                                    Compare (<span class="compare-value">1</span>)
-                                    <i class="fa fa-chevron-right"></i>
-                                </button>
-                            </form>
-                            <div class="showing-item">
-                                <span>Showing 1 - 12 of 13 items</span>
-                            </div>
-                            <div class="showing-next-prev">
-                                <ul class="pagination-bar">
-                                    <li class="disabled">
-                                        <a href="#" ><i class="fa fa-chevron-left"></i>Previous</a>
-                                    </li>
-                                    <li class="active">
-                                        <span><a class="pagi-num" href="#">1</a></span>
-                                    </li>
-                                    <li>
-                                        <span><a class="pagi-num" href="#">2</a></span>
-                                    </li>
-                                    <li>
-                                        <a href="#" >Next<i class="fa fa-chevron-right"></i></a>
-                                    </li>
-                                </ul>
-                                <form action="#">
-                                    <button class="btn showall-button">Show all</button>
-                                </form>
-                            </div>
-                        </div> --}}
-                        <!-- PRODUCT-SHOOTING-RESULT END -->
                     </div>
                 </div>
                 <!-- ALL GATEGORY-PRODUCT START -->
@@ -408,18 +118,35 @@
                                     <div class="single-product-item">
                                         <div class="product-image">
                                             <a href="{{ route('product_details',['id'=>$product->id]) }}"><img src="{{  asset($product->thumbnail) }}" width="189.375" height="189.375" alt="product-image" /></a>
-                                            <a href="single-product.html" class="new-mark-box">new</a>
+                                            <a href="single-product.html" class="new-mark-box">
+                                                @php
+                                                    $currentDate = date('Y-m-d');
+                                                    $discount=[];
+                                                @endphp
+                                                @foreach ($product->promotions as $promotion)
+                                                    @if($promotion->begin_date<=$currentDate && $promotion->end_date>=$currentDate)
+                                                            @php
+                                                                $discount=$promotion->discount;
+                                                            @endphp
+                                                    @endif  
+                                                @endforeach
+                                                @if (!empty($discount))
+                                                    {{ 'Sale ' .$discount . '%' }}  
+                                                @else
+                                                    {{ '' }}
+                                                @endif
+                                            </a>
                                             <div class="overlay-content">
                                                 <ul>
                                                     <li><a href="#" title="Quick view"><i class="fa fa-search"></i></a></li>
-                                                    <li><a href="#" title="Quick view"><i class="fa fa-shopping-cart"></i></a></li>
+                                                    {{-- <li><a href="#" title="Quick view"><i class="fa fa-shopping-cart"></i></a></li>
                                                     <li><a href="#" title="Quick view"><i class="fa fa-retweet"></i></a></li>
-                                                    <li><a href="#" title="Quick view"><i class="fa fa-heart-o"></i></a></li>
+                                                    <li><a href="#" title="Quick view"><i class="fa fa-heart-o"></i></a></li> --}}
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="product-info">
-                                            {{-- <div class="customar-comments-box">
+                                            <div class="customar-comments-box">
                                                 <div class="rating-box">
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
@@ -430,12 +157,33 @@
                                                 <div class="review-box">
                                                     <span>1 Review(s)</span>
                                                 </div>
-                                            </div> --}}
+                                            </div>
                                             <a href="single-product.html">{{ $product->name }}</a>
                                             <div class="price-box">
-                                                
-                                                    <span class="price">{{ number_format($product->price) }} VNĐ</span>
-                                                
+                                                {{-- <span class="price">{{ number_format($product->price) }} VNĐ</span> --}}
+                                                @php
+                                                    $currentDate = date('Y-m-d');
+                                                    $discount=[];
+                                                @endphp
+                                                @foreach ($product->promotions as $promotion)
+                                                    @if($promotion->begin_date<=$currentDate && $promotion->end_date>=$currentDate)
+                                                        @php
+                                                            $discount=$promotion->discount;
+                                                        @endphp
+                                                    @endif  
+                                                @endforeach
+                                                @if (!empty($discount))
+                                                    @if (!empty($product->price))
+                                                    @php
+                                                        $price_discount=$product->price *$discount/100;
+                                                        $price_new=$product->price - $price_discount;
+                                                    @endphp
+                                                    <span class="price">{{ number_format($price_new) }} VNĐ</span>  
+                                                    <span class="old-price">{{ number_format($product->price) }} VNĐ</span>
+                                                @endif 
+                                                @else
+                                                <span class="price">{{ number_format($product->price) }} VNĐ</span>               
+                                                @endif
                                             </div>
                                         </div>
                                     </div>									
@@ -450,36 +198,9 @@
                 </div>
                 <!-- ALL GATEGORY-PRODUCT END -->
                 <!-- PRODUCT-SHOOTING-RESULT START -->
-                <div class="product-shooting-result product-shooting-result-border">
-                    {{-- <form action="#">
-                        <button class="btn compare-button">
-                            Compare (<strong class="compare-value">1</strong>)
-                            <i class="fa fa-chevron-right"></i>
-                        </button>
-                    </form> --}}
-                    <div class="showing-item">
-                        <span>Showing 1 - 12 of 13 items</span>
-                    </div>
-                    <div class="showing-next-prev">
-                        <ul class="pagination-bar">
-                            <li class="disabled">
-                                <a href="#" ><i class="fa fa-chevron-left"></i>Previous</a>
-                            </li>
-                            <li class="active">
-                                <span><a class="pagi-num" href="#">1</a></span>
-                            </li>
-                            <li>
-                                <span><a class="pagi-num" href="#">2</a></span>
-                            </li>
-                            <li>
-                                <a href="#" >Next<i class="fa fa-chevron-right"></i></a>
-                            </li>
-                        </ul>
-                        {{-- <form action="#">
-                            <button class="btn showall-button">Show all</button>
-                        </form> --}}
-                    </div>
-                </div>	
+                <div class="text-center">
+                    {{ $products->appends(request()->input())->links('vendor.pagination.custom') }}
+                </div>
                 <!-- PRODUCT-SHOOTING-RESULT END -->
             </div>
         </div>

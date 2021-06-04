@@ -10,7 +10,7 @@ class ProductPromotion extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $table=['product_promotion'];
+    protected $table='product_promotion';
 
     protected $fillable =[
         'product_id',

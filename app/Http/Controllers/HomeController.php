@@ -61,7 +61,7 @@ class HomeController extends Controller
 
             $products = Product::whereIn('category_id' , $ids)
             ->orderBy('id', 'desc')
-            ->get();
+            ->paginate(10);
         }
             $data['sizes']=$sizes;
             $data['products']=$products;
@@ -75,7 +75,7 @@ class HomeController extends Controller
         $data=[];
         $categories_menu = Category::where('parent_id', '=', 0)->get();
         $brand=Brand::where('name',$brand_name)->first();
-        $products=Product::where('brand_id',$brand->id)->orderBy('id','desc')->get();
+        $products=Product::where('brand_id',$brand->id)->orderBy('id','desc')->paginate(10);
         $data['categories']=$categories_menu;
         $data['products']=$products;
         $data['brand']=$brand;
@@ -148,31 +148,32 @@ class HomeController extends Controller
 
             $current_date=date('Y-m-d');
             if($request->sortby==''){
-                $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->whereIn('category_id' , $ids)
+                $products = Product::join('prices', 'prices.product_id', '=', 'products.id')->whereIn('category_id' , $ids)
                 ->where('end_date', '>=', $current_date)
-                ->get();
+                ->paginate(10);
             }elseif($request->sortby=='lowest'){
-                $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->whereIn('category_id' , $ids)
+                $products = Product::join('prices', 'prices.product_id', '=', 'products.id')->whereIn('category_id' , $ids)
                 ->where('end_date', '>=', $current_date)
                 ->orderBy('price', 'asc')
-                ->get();
+                ->paginate(10);
             }elseif($request->sortby=='highest'){
-                $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->whereIn('category_id' , $ids)
+                $products = Product::join('prices', 'prices.product_id', '=', 'products.id')->whereIn('category_id' , $ids)
                 ->where('end_date', '>=', $current_date)
                 ->orderBy('price', 'desc')
-                ->get();
+                ->paginate(10);
             }elseif($request->sortby=='ascending'){
                 $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->whereIn('category_id' , $ids)
                 ->where('end_date', '>=', $current_date)
                 ->orderBy('name', 'asc')
-                ->get();
+                ->paginate(10);
             }elseif($request->sortby=='descending'){
-                $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->whereIn('category_id' , $ids)
+                $products = Product::join('prices', 'prices.product_id', '=', 'products.id')->whereIn('category_id' , $ids)
                 ->where('end_date', '>=', $current_date)
                 ->orderBy('name', 'desc')
-                ->get();
+                ->paginate(10);
             }
         }
+
             $data['products']=$products;
             $data['categories']=$categories_menu;
             $data['cate']=$cate;
@@ -186,29 +187,29 @@ class HomeController extends Controller
         $brand=Brand::where('name',$name)->first();
         $current_date=date('Y-m-d');
         if($request->sortby==''){
-            $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->where('brand_id',$brand->id)
+            $products = Product::join('prices', 'prices.product_id', '=', 'products.id')->where('brand_id',$brand->id)
             ->where('end_date', '>=', $current_date)
-            ->get();
+            ->paginate(10);
         }elseif($request->sortby=='lowest'){
-            $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->where('brand_id',$brand->id)
+            $products = Product::join('prices', 'prices.product_id', '=', 'products.id')->where('brand_id',$brand->id)
             ->where('end_date', '>=', $current_date)
             ->orderBy('price', 'asc')
-            ->get();
+            ->paginate(10);
         }elseif($request->sortby=='highest'){
-            $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->where('brand_id',$brand->id)
+            $products = Product::join('prices', 'prices.product_id', '=', 'products.id')->where('brand_id',$brand->id)
             ->where('end_date', '>=', $current_date)
             ->orderBy('price', 'desc')
-            ->get();
+            ->paginate(10);
         }elseif($request->sortby=='ascending'){
-            $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->where('brand_id',$brand->id)
+            $products = Product::join('prices', 'prices.product_id', '=', 'products.id')->where('brand_id',$brand->id)
             ->where('end_date', '>=', $current_date)
             ->orderBy('name', 'asc')
-            ->get();
+            ->paginate(10);
         }elseif($request->sortby=='descending'){
-            $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')->where('brand_id',$brand->id)
+            $products = Product::join('prices', 'prices.product_id', '=', 'products.id')->where('brand_id',$brand->id)
             ->where('end_date', '>=', $current_date)
             ->orderBy('name', 'desc')
-            ->get();
+            ->paginate(10);
         }
         $data['categories']=$categories_menu;
         $data['products']=$products;
@@ -246,33 +247,33 @@ class HomeController extends Controller
 
             $current_date=date('Y-m-d');
             if($price==''){
-                $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')
+                $products = Product::join('prices', 'prices.product_id', '=', 'products.id')
                 ->whereIn('category_id' , $ids)
                 ->where('end_date', '>=', $current_date)
-                ->get();
+                ->paginate(10);
             }elseif($price=="3000000"){
-                $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')
+                $products = Product::join('prices', 'prices.product_id', '=', 'products.id')
                 ->whereIn('category_id' , $ids)
                 ->where('price','<',$price)
                 ->where('end_date', '>=', $current_date)
-                ->get();
+                ->paginate(10);
                 // dd($products);
             }elseif($price=="9000000"){
-                $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')
+                $products = Product::join('prices', 'prices.product_id', '=', 'products.id')
                 ->whereIn('category_id' , $ids)
                 ->where('price','>',$price)
                 ->where('end_date', '>=', $current_date)
-                ->get();
+                ->paginate(10);
                 // dd($products);
             }else{
                 $price=explode("-",$price);
                 $priceStart=$price[0];
                 $priceEnd=$price[1];
-                $products = DB::table('products')->join('prices', 'prices.product_id', '=', 'products.id')
+                $products = Product::join('prices', 'prices.product_id', '=', 'products.id')
                 ->whereIn('category_id' , $ids)
                 ->whereBetween('price',[$priceStart, $priceEnd])
                 ->where('end_date', '>=', $current_date)
-                ->get();
+                ->paginate(10);
             }
         }
             $data['price']=$request->price;
@@ -282,5 +283,51 @@ class HomeController extends Controller
             $data['cate']=$cate;
 
         return view('categories.filter_product_category_by_price',$data);
+    }
+    public function filter_product_brand(Request $request,$name){
+        // Lấy chi tiết loại sản phẩm
+        $categories_menu = Category::where('parent_id', '=', 0)->get();
+        $brand=Brand::where('name',$name)->first();
+
+        $price=$request->input('price');
+        // $price = explode("-", $request->price);
+        if ($brand) {
+            $current_date=date('Y-m-d');
+            if($price==''){
+                $products = Product::join('prices', 'prices.product_id', '=', 'products.id')
+                ->where('brand_id' , $brand->id)
+                ->where('end_date', '>=', $current_date)
+                ->paginate(10);
+            }elseif($price=="3000000"){
+                $products = Product::join('prices', 'prices.product_id', '=', 'products.id')
+                ->where('brand_id' , $brand->id)
+                ->where('price','<',$price)
+                ->where('end_date', '>=', $current_date)
+                ->paginate(10);
+                // dd($products);
+            }elseif($price=="9000000"){
+                $products = Product::join('prices', 'prices.product_id', '=', 'products.id')
+                ->where('brand_id' , $brand->id)
+                ->where('price','>',$price)
+                ->where('end_date', '>=', $current_date)
+                ->paginate(10);
+                // dd($products);
+            }else{
+                $price=explode("-",$price);
+                $priceStart=$price[0];
+                $priceEnd=$price[1];
+                $products = Product::join('prices', 'prices.product_id', '=', 'products.id')
+                ->where('brand_id' , $brand->id)
+                ->whereBetween('price',[$priceStart, $priceEnd])
+                ->where('end_date', '>=', $current_date)
+                ->paginate(10);
+            }
+        }
+            $data['price']=$request->price;
+            $data['products']=$products;
+            $data['categories']=$categories_menu;
+            $data['brand']=$brand;
+
+        return view('brands.filter_product_brand_by_price',$data);
     }
 }

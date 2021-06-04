@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SearchCategoryProductController;
@@ -54,8 +55,14 @@ Route::get('/view-checkout-complete',[CartController::class,'order_complete'])->
 Route::get('/product-by-category/{name}/sort',[HomeController::class,'sort_list_product_category'])->name('sort_list_product_category');
 Route::get('/product-by-brand/{name}/sort',[HomeController::class,'sort_list_product_brand'])->name('sort_list_product_brand');
 Route::get('/product-by-category/{name}/filter',[HomeController::class,'filter_product_category'])->name('filter_product_category');
+Route::get('/product-by-brand/{name}/filter',[HomeController::class,'filter_product_brand'])->name('filter_product_brand');
 
 Route::get('/history-order',[OrderController::class,'view_order_history'])->middleware(['auth'])->name('view_order_history');
 Route::get('/order-detail/{id}',[OrderController::class,'order_detail'])->middleware(['auth'])->name('order_detail');
 Route::get('/destroy-order/{id}',[OrderController::class,'destroy_order'])->middleware(['auth'])->name('destroy_order');
 
+Route::get('/my-account',[CustomerController::class,'view_profile'])->middleware(['auth'])->name('view_profile');
+Route::get('/edit-profile',[CustomerController::class,'edit_profile'])->middleware(['auth'])->name('edit_profile');
+Route::get('/change-password',[CustomerController::class,'change_password'])->middleware(['auth'])->name('change_password');
+Route::put('/update-profile/{id}',[CustomerController::class,'update_profile'])->middleware(['auth'])->name('update_profile');
+Route::put('/update-password/{id}',[CustomerController::class,'update_password'])->middleware(['auth'])->name('update_password');

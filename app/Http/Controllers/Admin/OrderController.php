@@ -70,4 +70,37 @@ class OrderController extends Controller
         $data['orders']=$orders;
         return view('admin.orders.index',$data);
     }
+    public function list_order_shipping(){
+        $data=[];
+        $orders=Order::where('status','=',2)->orderBy('created_at','desc')->paginate(5);
+        $data['orders']=$orders;
+        return view('admin.orders.list_order_shipping',$data);
+    }
+
+    public function shipping_failure($id){
+        $order=Order::find($id);
+        $order->status=3;
+        DB::beginTransaction();
+        try{
+            $order->save();
+            DB::commit();
+            return redirect()->back()->with('success','Cập nhật tình trạng thành công');
+        }catch(\Exception $ex){
+            DB::rollback();
+            return redirect()->back()->with('error',$ex->getMessage());
+        }
+    }
+    public function shipping_success($id){
+        $order=Order::find($id);
+        $order->status=4;
+        DB::beginTransaction();
+        try{
+            $order->save();
+            DB::commit();
+            return redirect()->back()->with('success','Cập nhật tình trạng thành công');
+        }catch(\Exception $ex){
+            DB::rollback();
+            return redirect()->back()->with('error',$ex->getMessage());
+        }
+    }
 }
