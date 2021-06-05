@@ -10,9 +10,9 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<!-- BSTORE-BREADCRUMB START -->
 						<div class="bstore-breadcrumb">
-							<a href="index.html">HOMe</a>
-							<span><i class="fa fa-caret-right	"></i></span>
-							<span>Check Out</span>
+							<a href="{{ route('index') }}">Trang chủ</a>
+							<span><i class="fa fa-caret-right"></i></span>
+							<span>Thông tin đặt hàng</span>
 						</div>
 						<!-- BSTORE-BREADCRUMB END -->
 					</div>
@@ -43,18 +43,18 @@
                                             </div>
                                             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                                                 <p class="product-name"><a href="#">{{ $row->name }}</a></p>
-                                                <p class="product-name"><a href="#">Size: {{ $row->options->has('size') ? $row->options->size : '' }}</a></p>
+                                                <p class="product-name"><a href="#">Kích cỡ: {{ $row->options->has('size') ? $row->options->size : '' }}</a></p>
                                                 <p>Số lượng:{{ $row->qty }} </p>
                                                     {{-- {{ number_format($row->price).' '.'VNĐ' }} --}}
                                                     @if ($row->options->discount==0)
-															<p class="price">Price: {{ number_format($row->price).' '.'VNĐ' }}</p>
+															<p class="price">Giá: {{ number_format($row->price).' '.'VNĐ' }}</p>
 														@else
 															@php
 																$price_discount=$row->options->discount * $row->price/100;
 																$price_new=$row->price-$price_discount;
 															@endphp
-															<p class="price" style="color: red">Price discount: {{ number_format($price_new).' '.'VNĐ' }}</p>
-															<p class="old-price">Original Price:{{ number_format($row->price).' '.'VNĐ' }}</p>
+															<p class="price" style="color: red">Giá giảm: {{ number_format($price_new).' '.'VNĐ' }}</p>
+															<p class="old-price">Giá gốc:{{ number_format($row->price).' '.'VNĐ' }}</p>
 														@endif
                                             </div>
                                                 @if ($row->options->discount==0)
@@ -77,7 +77,7 @@
                                     
                                 </div>
                                 <h3>Thông tin thanh toán</h3>
-                                <p> Tổng số lượng: {{ Cart::count() }}</p>
+                                <p>Tổng số lượng: {{ Cart::count() }}</p>
                                 <p>Tổng tiền: {{ number_format($total) . " VNĐ" }}</p>
                             @endif
                         </div>
@@ -85,7 +85,7 @@
                             <h2>Thông tin cá nhân</h2>
                             <hr>
                             <div class="p-2">
-                                <label for="">Fullname</label>
+                                <label for="">Họ và tên</label>
                                 <p>{{ Auth::user()->name }}</p>
                             </div>
                             <div class="p-2">
@@ -93,11 +93,11 @@
                                 <p>{{ Auth::user()->email }}</p>
                             </div>
                             <div class="p-2">
-                                <label for="">Phone</label>
+                                <label for="">Số điện thoại</label>
                                 <p>{{ Auth::user()->phone }}</p>
                             </div>
                             <div class="p-2">
-                                <label for="">Address</label>
+                                <label for="">Địa chỉ</label>
                                 <p>{{ Auth::user()->address }}</p>
                             </div>
                         </div>
@@ -132,7 +132,7 @@
                                     </div>
                                     <div class="mt-2">
                                         <div class="returne-continue-shop">
-                                            <button type="submit" class="procedtocheckout" id="btn-checkout" onclick="return confirm('Are you sure checkout your Order?')">Thanh toán<i class="fa fa-chevron-right"></i></button>
+                                            <button type="submit" class="procedtocheckout" id="btn-checkout" onclick="return confirm('Are you sure checkout your Order?')">Đặt hàng<i class="fa fa-chevron-right"></i></button>
                                         </div>
                                     </div>
                                 </form>

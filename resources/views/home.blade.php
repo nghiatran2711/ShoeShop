@@ -11,7 +11,7 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="new-product-area">
                                 <div class="left-title-area">
-                                    <h2 class="left-title">New Products</h2>
+                                    <h2 class="left-title">Sản phẩm mới</h2>
                                 </div>						
                                 <div class="row">
                                     <div class="col-xs-12">
@@ -38,9 +38,9 @@
                                                                         @endif  
                                                                     @endforeach
                                                                     @if (!empty($discount))
-                                                                        {{ 'Sale ' .$discount . '%' }}  
+                                                                        {{ 'Giảm ' .$discount . '%' }}  
                                                                     @else
-                                                                        {{ "New" }}
+                                                                        {{ "Mới" }}
                                                                     @endif
                                                                     </a>
                                     
@@ -247,7 +247,7 @@
                     <!-- FEATURED-PRODUCTS-AREA START -->
                     <div class="featured-products-area">
                         <div class="left-title-area">
-                            <h2 class="left-title">Featured Products</h2>
+                            <h2 class="left-title">Sản phẩm nổi bật</h2>
                         </div>	
                         <div class="row">
                             <!-- FEARTURED-CAROUSEL START -->	
@@ -273,9 +273,9 @@
                                                     @endif  
                                                 @endforeach
                                                 @if (!empty($discount))
-                                                    {{ 'Sale ' .$discount . '%' }}  
+                                                    {{ 'Giảm ' .$discount . '%' }}  
                                                 @else
-                                                    {{ "Feature" }}
+                                                    {{ "Nổi bật" }}
                                                 @endif
                                             </a>
                                             <div class="overlay-content">

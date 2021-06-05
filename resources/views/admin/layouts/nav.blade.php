@@ -214,10 +214,12 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li>
-                            <form action="{{ route('admin.logout') }}" method="POST">
+                            <li><a href="{{ route('admin.logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            <form action="{{ route('admin.logout') }}" id="logout-form" method="POST">@csrf</form>
+                            {{-- <form action="{{ route('admin.logout') }}" method="POST">
                                 @csrf
                                 <button type="submit"><i class="fa fa-sign-out fa-fw"></i>Logout</button>
-                            </form>
+                            </form> --}}
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->

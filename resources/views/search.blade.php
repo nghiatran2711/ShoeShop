@@ -16,9 +16,9 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <!-- BSTORE-BREADCRUMB START -->
                 <div class="bstore-breadcrumb">
-                    <a href="index.html">HOME</a>
+                    <a href="index.html">Trang chủ</a>
                     <span><i class="fa fa-caret-right"></i></span>
-                    <span>Search</span>
+                    <span>Tìm kiếm</span>
                 </div>
                 <!-- BSTORE-BREADCRUMB END -->
             </div>
@@ -29,12 +29,12 @@
                     <div class="product-category-title">
                         <!-- PRODUCT-CATEGORY-TITLE START -->
                         <h1>
-                            {{-- <span class="cat-name">{{ $cate->name }}</span> --}}
+                            <span class="cat-name">Kết quả tìm kiếm "{{ request()->input('keyword') }}"</span>
                             
                             @if ($products->count()>0)
-                                <span class="count-product">There are {{ $products->count() }} products.</span>
+                                <span class="count-product">Có {{ $products->count() }} sản phẩm.</span>
                             @else
-                            <span class="count-product">There are 0 products.</span>
+                            <span class="count-product">Có 0 sản phẩm.</span>
                             @endif
                         </h1>
                         <!-- PRODUCT-CATEGORY-TITLE END -->
@@ -65,9 +65,9 @@
                                                 @endif  
                                             @endforeach
                                             @if (!empty($discount))
-                                                {{ 'Sale ' .$discount . '%' }}  
+                                                {{ 'Giảm ' .$discount . '%' }}  
                                             @else
-                                                {{ "New" }}
+                                                {{ "" }}
                                             @endif
                                         </a>
                                         <div class="overlay-content">

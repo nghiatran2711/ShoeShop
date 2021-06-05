@@ -55,22 +55,22 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<!-- BSTORE-BREADCRUMB START -->
 						<div class="bstore-breadcrumb">
-							<a href="index.html">HOMe</a>
+							<a href="{{ route('index') }}">Trang chủ</a>
 							<span><i class="fa fa-caret-right"></i></span>
-							<span>Reset Password</span>
+							<span>Đặt lại mật khẩu</span>
 						</div>
 						<!-- BSTORE-BREADCRUMB END -->
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<h2 class="page-title">Reset Password</h2>
+						<h2 class="page-title">Đặt lại mật khẩu</h2>
 					</div>
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<!-- REGISTERED-ACCOUNT START -->
                         <div class="col-lg-4 col-lg-offset-4">
                             <div class="primari-box registered-account">
-                                    <h4 class="box-subheading">Reset Pasword</h4>
+                                    <h4 class="box-subheading">Đặt lại mật khẩu</h4>
                                     @if(Session::has('status'))
                                             <p class="text-success">{{ Session::get('status') }}</p>
                                         @endif
@@ -86,15 +86,15 @@
                                             <input type="text" value="{{ old('email', $request->email) }}" name="email" id="loginemail" class="form-control input-feild" required autofocus>
                                         </div>
                                         <div class="form-group primary-form-group">
-                                            <label for="loginemail">Password</label>
+                                            <label for="loginemail">Mật khẩu</label>
                                             <input type="password" value="" name="password" id="loginemail" class="form-control input-feild" required>
                                         </div>
                                         <div class="form-group primary-form-group">
-                                            <label for="loginemail">Confirm Password</label>
+                                            <label for="loginemail">Nhập lại mật khẩu</label>
                                             <input type="password" value="" name="password_confirmation" id="loginemail" class="form-control input-feild" required>
                                         </div>
                                         <div class="submit-button">
-                                            <button class="btn btn-danger" type="submit"><i class="fa fa-link"></i> Reset Password</button>
+                                            <button class="btn btn-danger" type="submit"><i class="fa fa-link"></i> Đặt lại mật khẩu</button>
                                         </div>
                                     </div>
                                 </form>							

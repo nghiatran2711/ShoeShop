@@ -7,7 +7,7 @@
 						<div class="left-category-menu">
 							<div class="left-product-cat">
 								<div class="category-heading">
-									<h2>Brand</h2>
+									<h2>Thương hiệu</h2>
 								</div>
 								<!-- CATEGORY-MENU-LIST START -->
 								<div class="category-menu-list">

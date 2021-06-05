@@ -7,8 +7,8 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <!-- BSTORE-BREADCRUMB START -->
                 <div class="bstore-breadcrumb">
-                    <a href="index.html">HOMe</a>
-                    <span><i class="fa fa-caret-right	"></i></span>
+                    <a href="{{ route('index') }}">Trang chủ</a>
+                    <span><i class="fa fa-caret-right"></i></span>
                     <span>Đơn hàng</span>
                 </div>
                 <!-- BSTORE-BREADCRUMB END -->

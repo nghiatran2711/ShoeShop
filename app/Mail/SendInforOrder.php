@@ -7,19 +7,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SendVerifyCode extends Mailable
+class SendInforOrder extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private $orderVerify = [];
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($orderVerify)
+    public function __construct($orderInfo)
     {
-        $this->orderVerify = $orderVerify;
+        //
+        $this->orderInfo = $orderInfo;
     }
 
     /**
@@ -29,9 +29,6 @@ class SendVerifyCode extends Mailable
      */
     public function build()
     {
-        $data = [];
-        $data['orderVerify'] = $this->orderVerify;
-
-        return $this->view('emails.carts.send_verify_code', $data);
+        return $this->view('emails.orders.order',$this->orderInfo)->with(['message' => $this]);
     }
 }

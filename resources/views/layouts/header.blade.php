@@ -7,7 +7,7 @@
 						<div class="header-left-menu">
 							<div class="welcome-info">
 								@auth
-									Welcome <span>{{ Auth::user()->name }}</span>
+									Xin chào <span>{{ Auth::user()->name }}</span>
 								@endauth
 								
 							</div>
@@ -54,23 +54,24 @@
 									{{-- <li><a href="checkout.html">Check Out</a></li> --}}
 									{{-- <li><a href="wishlist.html">Wishlist</a></li> --}}
 									@auth
-										<li><a href="{{ route('view_order_history') }}">Order History</a></li>
-										<li><a href="{{ route('view_profile') }}">My Account</a></li>
+										<li><a href="{{ route('view_order_history') }}">Lịch sử mua hàng</a></li>
+										<li><a href="{{ route('view_profile') }}">Thông tin cá nhân</a></li>
 									@endauth
-									<li><a href="{{ route('view_cart') }}">My Cart</a></li>
+									<li><a href="{{ route('view_cart') }}">Giỏ hàng</a></li>
                                     @auth
-                                        <li>
-											<form action="{{ route('logout') }}" method="POST">
+
+											<li><a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Đăng xuất</a>
+												<form action="{{ route('logout') }}" id="logout-form" method="POST">@csrf</form>
+											{{-- <form action="{{ route('logout') }}" method="POST">
 												@csrf
 												<button class="btn btn-dark" style="background-color: #363636; color:#fff;" type="submit">Logout</button>
-											</form>	
-										</li>
+											</form>	 --}}
                                     @else
                                         @if (Route::has('login'))
-                                            <li><a href="{{ route('login') }}">Sign in</a></li>
+                                            <li><a href="{{ route('login') }}">Đăng nhập</a></li>
                                         @endif
                                         @if (Route::has('register'))
-                                            <li><a href="{{ route('register') }}">Register</a></li>
+                                            <li><a href="{{ route('register') }}">Đăng ký</a></li>
                                         @endif
                                     @endauth
 								</ul>									
@@ -103,7 +104,7 @@
 							<form action="{{ route('search_product') }}" method="get" class="search-form-cat">
 								<div class="search-product form-group">
 									<select name="catsearch" class="cat-search">
-										<option value="">All Categories</option>
+										<option value="">Loại sản phẩm</option>
 										@foreach ($categories as $category )
 											<option value="{{ $category->id }}" disabled style="font-weight: bold">{{ $category->name }}</option>
 											@foreach ($category->childs as $child )
@@ -112,7 +113,7 @@
 										@endforeach
 																		
 									</select>
-									<input type="text" class="form-control search-form" name="keyword" placeholder="Enter your search key ... "/>
+									<input type="text" class="form-control search-form" name="keyword" placeholder="Nhập tên sản phẩm ... " value="{{ request()->input('keyword') }}"/>
 									<button class="search-button" type="submit">
 										<i class="fa fa-search"></i>
 									</button>									 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendInforOrder;
 use App\Mail\SendVerifyCode;
 use App\Models\Category;
 use App\Models\Order;
@@ -27,7 +28,6 @@ class CartController extends Controller
         $data=[];
         $categories_menu = Category::where('parent_id', '=', 0)->get();
         $data['categories']=$categories_menu;
-        session(['step_by_step' => 1]);
         return view('cart',$data);
     }
     public function addCart(Request $request){
@@ -102,6 +102,8 @@ class CartController extends Controller
         $userId = Auth::id();
         $email = Auth::user()->email;
         $currentDate = date('Y-m-d H:i:s');
+        $code=random_int(100000, 999999);
+
         $dateSubtract15Minutes = date('Y-m-d H:i:s', (time() - 60 * 15)); // current - 15 minutes
         Log::info('dateSubtract15Minutes');
         Log::info($dateSubtract15Minutes);
@@ -116,7 +118,7 @@ class CartController extends Controller
             $dataSave = [
                 'user_id' => $userId,
                 'status'  => OrderVerify::STATUS[0], // default 0
-                'code'  => CommonUtil::generateUUID(),
+                'code'  => $code,
                 'expire_date'  => $currentDate,
             ];
             DB::beginTransaction();
@@ -158,7 +160,7 @@ class CartController extends Controller
             DB::commit();
 
             // add step by step to SESSION
-            session(['step_by_step' => 2]);
+            session(['step_by_step' => 1]);
 
             return response()->json(['message' => 'Confirmed code is OK.']);
         } catch (\Exception $exception) {
@@ -171,7 +173,6 @@ class CartController extends Controller
         $data=[];
         $categories_menu = Category::where('parent_id', '=', 0)->get();
         $data['categories']=$categories_menu;
-        session(['step_by_step' => 2]);
         return view('carts.checkout',$data);
     }
     public function checkoutComplete(Request $request){
@@ -180,6 +181,7 @@ class CartController extends Controller
         $categories_menu = Category::where('parent_id', '=', 0)->get();
         $data['categories']=$categories_menu;
 
+        $email = Auth::user()->email;
         $carts=Cart::content();
         // dd($carts);
         $type_payment=$request->payment_type;
@@ -226,16 +228,21 @@ class CartController extends Controller
                 Cart::destroy();
                 $request->session()->forget(['step_by_step']);
 
-                    // $order_details = DB::table('order_detail')
-                    // ->join('products', 'order_detail.product_id', '=', 'products.id')
-                    // ->join('orders', 'order_detail.order_id', '=', 'orders.id')
-                    // ->join('sizes', 'order_detail.size_id', '=', 'sizes.id')
-                    // ->join('prices', 'order_detail.price_id', '=', 'prices.id')
-                    // ->leftjoin('promotions','order_detail.promotion_id','=','promotions.id')
-                    // ->where('order_id',$orderID)->select('products.thumbnail','products.name as product_name', 'sizes.name as size_name', 'prices.price','order_detail.quantity','promotions.discount')
-                    // ->get();
-                    // $data['order_details']=$order_details;
-                   
+                $order_details = DB::table('order_detail')
+                ->join('products', 'order_detail.product_id', '=', 'products.id')
+                ->join('orders', 'order_detail.order_id', '=', 'orders.id')
+                ->join('sizes', 'order_detail.size_id', '=', 'sizes.id')
+                ->join('prices', 'order_detail.price_id', '=', 'prices.id')
+                ->leftjoin('promotions','order_detail.promotion_id','=','promotions.id')
+                ->where('order_id',$orderID)->select('products.thumbnail','products.name as product_name', 'sizes.name as size_name', 'prices.price','order_detail.quantity','promotions.discount')
+                ->get();
+                $info_order=Order::join('users','orders.user_id','=','users.id')->where('orders.id',$orderID)->select('orders.id','users.name','users.address','users.phone','orders.created_at')->first();
+                $data['info_order']=$info_order;
+                $data['order_details']=$order_details;
+
+                 // send infor order to email
+                 Mail::to($email)->send(new SendInforOrder($data));
+                 
                 return redirect()->route('view_order_complete')->with('success','Cảm ơn bạn đã đặt hàng!!!');
             }catch(\Exception $ex){
                 return redirect()->back()->with('error',$ex->getMessage());
@@ -266,6 +273,23 @@ class CartController extends Controller
 
     //         return view('info_order',$data);
     // }
+    public function view_send_mail(){
+        $data_view_order=[];
+        $order_details = DB::table('order_detail')
+            ->join('products', 'order_detail.product_id', '=', 'products.id')
+            ->join('orders', 'order_detail.order_id', '=', 'orders.id')
+            ->join('sizes', 'order_detail.size_id', '=', 'sizes.id')
+            ->join('prices', 'order_detail.price_id', '=', 'prices.id')
+            ->leftjoin('promotions','order_detail.promotion_id','=','promotions.id')
+            ->where('order_id',3)->select('products.thumbnail','products.name as product_name', 'sizes.name as size_name', 'prices.price','order_detail.quantity','promotions.discount')
+            ->get();
+            $info_order=Order::join('users','orders.user_id','=','users.id')->where('orders.id',3)->select('orders.id','users.name','users.address','users.phone','orders.created_at')->first();
+            $data['info_order']=$info_order;
+           $data['order_details']=$order_details;
+        //    dd($data);
+        return view('emails.orders.order',$data);
+        
+    }
     public function order_complete(){
         $data=[];
         $categories_menu = Category::where('parent_id', '=', 0)->get();

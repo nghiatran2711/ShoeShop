@@ -7,7 +7,7 @@
                     <div class="shopping-cart">
                         <a class="shop-link" href="{{ route('view_cart') }}" title="View my shopping cart">
                             <i class="fa fa-shopping-cart cart-icon"></i>
-                            <b>My Cart</b>
+                            <b>Giỏ hàng</b>
                             <span class="ajax-cart-quantity">{{ Cart::content()->count() }}</span>
                         </a>
                         {{-- <div class="shipping-cart-overly">
@@ -64,8 +64,8 @@
                                     <!-- DRODOWN-MEGA-MENU END -->										
                                 </li>
                             @endforeach
-                            <li><a href="#">Delivery</a></li>
-                            <li><a href="about-us.html">About us</a></li>
+                            {{-- <li><a href="#">Delivery</a></li> --}}
+                            <li><a href="about-us.html">Liên hệ</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -76,63 +76,22 @@
             <!-- MOBILE MENU START -->
             <div class="col-sm-12 mobile-menu-area">
                 <div class="mobile-menu hidden-md hidden-lg" id="mob-menu">
-                    <span class="mobile-menu-title">MENU</span>
+                    <span class="mobile-menu-title"></span>
                     <nav>
                         <ul>
-                            <li><a href="index.html">Home</a>
-                                <ul>
-                                    <li><a href="index.html">Home variation 1</a></li>
-                                    <li><a href="index-2.html">Home variation 2</a></li>
-                                </ul>														
-                            </li>								
-                            <li><a href="shop-gird.html">Women</a>
-                                <ul>
-                                    <li><a href="shop-gird.html">Tops</a>
-                                        <ul>
-                                            <li><a href="shop-gird.html">T-Shirts</a></li>
-                                            <li><a href="shop-gird.html">Blouses</a></li>
-                                        </ul>													
-                                    </li>
-                                    <li><a href="shop-gird.html">Dresses</a>
-                                        <ul>
-                                            <li><a href="shop-gird.html">Casual Dresses</a></li>
-                                            <li><a href="shop-gird.html">Summer Dresses</a></li>
-                                            <li><a href="shop-gird.html">Evening Dresses</a></li>	
-                                        </ul>	
-                                    </li>
-
-                                </ul>
-                            </li>
-                            <li><a href="shop-gird.html">men</a>
-                                <ul>											
-                                    <li><a href="shop-gird.html">Tops</a>
-                                        <ul>
-                                            <li><a href="shop-gird.html">Sports</a></li>
-                                            <li><a href="shop-gird.html">Day</a></li>
-                                            <li><a href="shop-gird.html">Evening</a></li>
-                                        </ul>														
-                                    </li>
-                                    <li><a href="shop-gird.html">Blouses</a>
-                                        <ul>
-                                            <li><a href="shop-gird.html">Handbag</a></li>
-                                            <li><a href="shop-gird.html">Headphone</a></li>
-                                            <li><a href="shop-gird.html">Houseware</a></li>
-                                        </ul>														
-                                    </li>
-                                    <li><a href="shop-gird.html">Accessories</a>
-                                        <ul>
-                                            <li><a href="shop-gird.html">Houseware</a></li>
-                                            <li><a href="shop-gird.html">Home</a></li>
-                                            <li><a href="shop-gird.html">Health & Beauty</a></li>
-                                        </ul>														
-                                    </li>
-                                </ul>										
-                            </li>
-                            <li><a href="shop-gird.html">clothing</a></li>
-                            <li><a href="shop-gird.html">tops</a></li>
-                            <li><a href="shop-gird.html">T-shirts</a></li>
-                            <li><a href="#">Delivery</a></li>
-                            <li><a href="about-us.html">About us</a></li>
+                            <li><a href="{{ route('index') }}">Trang chủ</a></li>	
+                            @foreach ($categories as $category)							
+                                <li><a href="{{route('product_by_category',['id'=>$category->name])}}">{{ $category->name}}</a>
+                                    <ul>
+                                        @foreach ($category->childs as $child )
+                                            <li>
+                                                <a href="{{route('product_by_category',['id'=>$child->name])}}">{{ $child->name }}</a>												
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            @endforeach
+                            <li><a href="about-us.html">Liên hệ</a></li>
                         </ul>
                     </nav>
                 </div>						

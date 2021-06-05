@@ -16,7 +16,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <!-- BSTORE-BREADCRUMB START -->
                 <div class="bstore-breadcrumb">
-                    <a href="index.html">HOME</a>
+                    <a href="{{ route('index') }}">Trang chủ</a>
                     <span><i class="fa fa-caret-right"></i></span>
                     <span>{{$cate->name}}</span>
                 </div>
@@ -28,31 +28,31 @@
                 <!-- PRODUCT-LEFT-SIDEBAR START -->
                 <form action="{{ route('filter_product_category',['name'=>$cate->name]) }}" method="GET">
                     <div class="product-left-sidebar">
-                        <h2 class="left-title pro-g-page-title">Catalog</h2>
+                        <h2 class="left-title pro-g-page-title">Lọc</h2>
                         <div class="product-single-sidebar">
-                            <span class="sidebar-title">Price</span>
+                            <span class="sidebar-title">Giá</span>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="price" value="3000000" id="flexRadioDefault1">
                                     <label class="form-check-label" for="flexRadioDefault1">
-                                        Dưới 3tr
+                                        Dưới 3 triệu
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="price" value="3000000-6000000" id="flexRadioDefault2">
                                     <label class="form-check-label" for="flexRadioDefault2">
-                                        Từ 3tr - 6tr
+                                        Từ 3 triệu - 6 triệu
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="price" value="6000000-9000000" id="flexRadioDefault2">
                                     <label class="form-check-label" for="flexRadioDefault2">
-                                        Từ 6tr - 9tr
+                                        Từ 6 triệu - 9 triệu
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="price" value="9000000" id="flexRadioDefault2">
                                     <label class="form-check-label" for="flexRadioDefault2">
-                                        Trên 9tr
+                                        Trên 9 triệu
                                     </label>
                                 </div>
                         </div>
@@ -84,7 +84,7 @@
                         <!-- PRODUCT-CATEGORY-TITLE START -->
                         <h1>
                             <span class="cat-name">{{$cate->name}}</span>
-                            <span class="count-product">There are {{ count($products) }} products.</span>
+                            <span class="count-product">Có {{ count($products) }} sản phẩm.</span>
                         </h1>
                         <!-- PRODUCT-CATEGORY-TITLE END -->
                     </div>
@@ -92,15 +92,15 @@
                         <div class="product-shooting-bar">
                             <!-- SHOORT-BY START -->
                             <div class="shoort-by">
-                                <label for="productShort">Sort by</label>
+                                <label for="productShort">Sắp xếp</label>
                                 <div class="short-select-option">
                                     <form action="{{ route('sort_list_product_category',['name'=>$cate->name]) }}" method="GET">
                                         <select name="sortby" id="productShort" onchange="this.form.submit()">
                                             <option value="">--</option>
-                                            <option value="lowest" {{ !empty($sort_by)&&$sort_by=="lowest" ? "selected" : '' }}>Price: Lowest first</option>
-                                            <option value="highest" {{ !empty($sort_by)&&$sort_by=="highest" ? "selected" : '' }}>Price: Highest first</option>
-                                            <option value="ascending" {{ !empty($sort_by)&&$sort_by=="ascending" ? "selected" : '' }}>Product Name: A to Z</option>
-                                            <option value="descending" {{ !empty($sort_by)&&$sort_by=="descending" ? "selected" : '' }}>Product Name: Z to A</option>
+                                            <option value="lowest" {{ !empty($sort_by)&&$sort_by=="lowest" ? "selected" : '' }}>Giá: Từ thấp đến cao</option>
+                                            <option value="highest" {{ !empty($sort_by)&&$sort_by=="highest" ? "selected" : '' }}>Giá : Từ cao đến thấp</option>
+                                            <option value="ascending" {{ !empty($sort_by)&&$sort_by=="ascending" ? "selected" : '' }}>Tên sản phẩm: A đến Z</option>
+                                            <option value="descending" {{ !empty($sort_by)&&$sort_by=="descending" ? "selected" : '' }}>Tên sản phẩm: Z đến A</option>
                                         </select>	
                                     </form>											
                                 </div>
@@ -132,7 +132,7 @@
                                                 @endif  
                                             @endforeach
                                             @if (!empty($discount))
-                                                {{ 'Sale ' .$discount . '%' }}  
+                                                {{ 'Giảm ' .$discount . '%' }}  
                                             @else
                                                 {{ '' }}
                                             @endif

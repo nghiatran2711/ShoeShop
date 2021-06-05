@@ -49,7 +49,7 @@
                                         <div class="col-md-4">
                                             <select class="form-control" name="status">
                                                 <option value=""></option>
-                                                <option value="0-1" {{ !empty($status) && $status=='0-1' ? 'selected' : '' }}>Đang chờ duyệt</option>
+                                                <option value="0-1" {{ !empty($status) && $status=='0-1' ? 'selected' : '' }}>Đang chờ xử lý</option>
                                                 <option value="2" {{ !empty($status) && $status=="2" ? 'selected' : '' }}>Đang giao</option>
                                                 <option value="3" {{ !empty($status) && $status=="3" ? 'selected' : '' }}>Bị huỷ bỏ</option>
                                                 <option value="4" {{ !empty($status) && $status=="4" ? 'selected' : '' }}>Đã giao</option>
@@ -73,6 +73,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Mã đơn hàng</th>
+                                    <th>Tên khách hàng</th>
+                                    <th>Ngày đặt</th>
                                     <th>Tình trạng đơn hàng</th>
                                     <th>Xem chi tiết</th>
                                     <th>Thao tác</th>
@@ -83,6 +85,8 @@
                                 <tr>
                                     <td>{{ $key+1 }}</td>
                                     <td>{{ $order->id }}</td>
+                                    <td>{{ $order->name }}</td>
+                                    <td>{{ $order->created_at }}</td>
                                     <td>
                                         @if ($order->status==0 || $order->status==1 )
                                             {{ "Đang chờ xử lý" }}

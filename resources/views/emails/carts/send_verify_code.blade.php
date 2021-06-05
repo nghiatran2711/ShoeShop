@@ -6,7 +6,7 @@
 <body>
     <h1>Hello World!!!</h1>
     <h6>Code</h6>
-    <p>{{ $orderInfo['code'] }}</p>
+    <p>{{ $orderVerify['code'] }}</p>
     <p>Thank you</p>
 </body>
 </html>

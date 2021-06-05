@@ -7,9 +7,9 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<!-- BSTORE-BREADCRUMB START -->
 						<div class="bstore-breadcrumb">
-							<a href="index.html">HOMe</a>
+							<a href="{{ route('index') }}">Trang chủ</a>
 							<span><i class="fa fa-caret-right	"></i></span>
-							<span>Your shopping cart</span>
+							<span>giỏ hàng của bạn</span>
 						</div>
 						<!-- BSTORE-BREADCRUMB END -->
 					</div>
@@ -17,7 +17,7 @@
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<!-- SHOPPING-CART SUMMARY START -->
-						<h2 class="page-title">Shopping-cart summary <span class="shop-pro-item">Your shopping cart contains: {{ Cart::content()->count() }} products</span></h2>
+						<h2 class="page-title">Thông tin giỏ hàng <span class="shop-pro-item">Giỏ hàng của bạn có : {{ Cart::content()->count() }} sản phẩm</span></h2>
 						<!-- SHOPPING-CART SUMMARY END -->
 					</div>	
 					
@@ -170,10 +170,11 @@
 						<!-- RETURNE-CONTINUE-SHOP START -->
 						<div class="returne-continue-shop">
 							<a href="{{ route('index') }}" class="continueshoping"><i class="fa fa-chevron-left"></i>Tiếp tục mua hàng</a>
-							<button type="button" class="procedtocheckout" data-toggle="modal" data-target="#modal-send-code">Tiến hành thanh toán<i class="fa fa-chevron-right"></i></button>
-
+							@if(Cart::content()->count()>0)
+								<button type="button" class="procedtocheckout" data-toggle="modal" data-target="#modal-send-code">Tiến hành thanh toán<i class="fa fa-chevron-right"></i></button>
+							@endif
 						</div>	
-						<!-- RETURNE-CONTINUE-SHOP END -->						
+						<!-- RETURNE-CONTINUE-SHOP END -->							
 					</div>
 				</div>
 			</div>

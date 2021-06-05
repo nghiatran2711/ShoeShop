@@ -7,7 +7,7 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<!-- BSTORE-BREADCRUMB START -->
 						<div class="bstore-breadcrumb">
-							<a href="index.html">HOMe<span><i class="fa fa-caret-right"></i> </span> </a>
+							<a href="index.html">Trang chủ<span><i class="fa fa-caret-right"></i> </span> </a>
 							{{-- <span> <i class="fa fa-caret-right"> </i> </span> --}}
 							{{-- <a href="shop-gird.html"> women </a> --}}
 							<span>{{ $product->name }} </span>
@@ -74,7 +74,7 @@
 										</div> --}}
 										<div class="single-product-condition">
 											{{-- <p>Reference: <span>demo_1</span></p> --}}
-											<p>Condition: <span>New product</span></p>
+											{{-- <p>Condition: <span>New product</span></p> --}}
 										</div>
 											@php
 											$currentDate = date('Y-m-d');
@@ -90,10 +90,10 @@
 											@if (!empty($discount))
 												<div class="single-product-condition">
 													{{-- <p>Reference: <span>demo_1</span></p> --}}
-													<p>Discount: <span>{{ 'Sale ' .$discount . '%' }}</span></p>
+													<p>Giảm giá: <span>{{ 'Sale ' .$discount . '%' }}</span></p>
 												</div>
 											@else
-												<p>Discount: <span>Không</span></p>
+												<p>Giảm giá: <span>Không</span></p>
 											@endif
 										
 										<div class="single-product-price">
@@ -115,11 +115,11 @@
 													$price_discount=$product->latestPrice()->price *$discount/100;
 													$price_new=$product->latestPrice()->price - $price_discount;
 												@endphp
-												<h2>price discount :</h2><h2 class="price"> {{ number_format($price_new)." "."VNĐ" }}</h2>  
-												<h3>Original price :</h3><h3 class="old-price"> {{ number_format($product->latestPrice()->price)." "."VNĐ" }}</h3>
+												<h2>Giá giảm :</h2><h2 class="price"> {{ number_format($price_new)." "."VNĐ" }}</h2>  
+												<h3>Giá gốc :</h3><h3 class="old-price"> {{ number_format($product->latestPrice()->price)." "."VNĐ" }}</h3>
 											@endif 
 										@else
-										<h2>Price :</h2><h2 class="price">  {{ number_format($product->latestPrice()->price) }} VNĐ</h2>               
+										<h2>Giá :</h2><h2 class="price">  {{ number_format($product->latestPrice()->price) }} VNĐ</h2>               
 										 @endif
 											
 										</div>
@@ -128,7 +128,7 @@
 											
 										</div>
 										<div class="single-product-quantity">
-											<p class="small-title">Quantity</p> 
+											<p class="small-title">Số lượng</p> 
 											<div class="cart-quantity">
 												<div class="cart-plus-minus-button single-qty-btn">
 													<input class="cart-plus-minus sing-pro-qty" type="number" name="qty" value="1">
@@ -140,7 +140,7 @@
 												<p>300 products invertory</p>
 											</div>
 											<br> --}}
-											<p class="small-title">Size </p> 
+											<p class="small-title">Kích cỡ </p> 
 											<select name="product_size" id="product-size">
 												@foreach ($product->sizes as $size )
 													<option value="{{ $size->id }}">{{ $size->name }}</option>
@@ -162,7 +162,7 @@
 												<input type="hidden" name="discount" value="0">
 											@endif
 											
-											<button type="submit" class="btn btn-danger"><i class="fa fa-shopping-cart cart-icon"></i> ADD TO CART</button>
+											<button type="submit" class="btn btn-danger"><i class="fa fa-shopping-cart cart-icon"></i> Thêm giỏ hàng</button>
 											<br>
 											{{-- show message --}}
 											@if(Session::has('message'))
@@ -180,9 +180,9 @@
 								<div class="product-more-info-tab">
 									<!-- Nav tabs -->
 									<ul class="nav nav-tabs more-info-tab">
-										<li class="active"><a href="#moreinfo" data-toggle="tab">more info</a></li>
-										<li><a href="#datasheet" data-toggle="tab">data sheet</a></li>
-										<li><a href="#review" data-toggle="tab">reviews</a></li>
+										<li class="active"><a href="#moreinfo" data-toggle="tab">Mô tả</a></li>
+										<li><a href="#datasheet" data-toggle="tab">Thông tin</a></li>
+										<li><a href="#review" data-toggle="tab">Đánh giá</a></li>
 									</ul>
 									  <!-- Tab panes -->
 									<div class="tab-content">
@@ -249,7 +249,7 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="left-title-area">
-									<h2 class="left-title">related products</h2>
+									<h2 class="left-title">Sản phẩm liên quan</h2>
 								</div>	
 							</div>
 							<div class="related-product-area featured-products-area">

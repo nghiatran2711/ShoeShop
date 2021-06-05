@@ -47,8 +47,8 @@ Route::get('/product-details/{id}',[HomeController::class,'product_details'])->n
 
 Route::post('/send-verify-code', [CartController::class, 'sendVerifyCode'])->middleware(['auth'])->name('send-verify-code');
 Route::post('/confirm-verify-code', [CartController::class, 'confirmVerifyCode'])->middleware(['auth'])->name('confirm-verify-code');
-Route::get('/checkout',[CartController::class,'checkout'])/*->middleware('check_order_step_by_step')*/->name('checkout');
-Route::post('/checkout-complete',[CartController::class,'checkoutComplete'])->middleware(['auth'])->name('checkout_complete');
+Route::get('/checkout',[CartController::class,'checkout'])->middleware('check_order_step_by_step')->middleware(['auth'])->name('checkout');
+Route::post('/checkout-complete',[CartController::class,'checkoutComplete'])->middleware('check_order_step_by_step')->middleware(['auth'])->name('checkout_complete');
 Route::get('/view-order1',[CartController::class,'test_view_order'])->name('view_order1');
 Route::get('/view-checkout-complete',[CartController::class,'order_complete'])->name('view_order_complete');
 
@@ -66,3 +66,7 @@ Route::get('/edit-profile',[CustomerController::class,'edit_profile'])->middlewa
 Route::get('/change-password',[CustomerController::class,'change_password'])->middleware(['auth'])->name('change_password');
 Route::put('/update-profile/{id}',[CustomerController::class,'update_profile'])->middleware(['auth'])->name('update_profile');
 Route::put('/update-password/{id}',[CustomerController::class,'update_password'])->middleware(['auth'])->name('update_password');
+
+
+
+Route::get('/view-send-order',[CartController::class,'view_send_mail'])->name('view_send_mail');

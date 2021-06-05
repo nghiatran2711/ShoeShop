@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,15 +13,16 @@ class OrderController extends Controller
     //
     public function list_order(){
         $data=[];
-        $orders=Order::orderBy('created_at','desc')->paginate(5);
+        $orders=Order::join('users','orders.user_id','=','users.id')->select('orders.id','orders.status','users.name','orders.created_at')->orderBy('orders.created_at','desc')->paginate(5);
         $data['orders']=$orders;
+        // dd($data);
         return view('admin.orders.index',$data);
     }
     public function order_detail($id){
         $data=[];
        
         $order=Order::find($id);
-        // $customer=User::select('name','email')->find($order->user_id);
+        $customer=User::select('name','email','address','phone')->find($order->user_id);
         $order_details = DB::table('order_detail')
         ->join('products', 'order_detail.product_id', '=', 'products.id')
         ->join('orders', 'order_detail.order_id', '=', 'orders.id')
@@ -29,7 +31,7 @@ class OrderController extends Controller
         ->leftjoin('promotions','order_detail.promotion_id','=','promotions.id')
         ->where('order_id',$id)->select('products.thumbnail','products.name as product_name', 'sizes.name as size_name', 'prices.price','order_detail.quantity','promotions.discount')
         ->get();
-        $data['order_id']=$id;
+        $data['customer']=$customer;
         $data['order_details']=$order_details;
         return view('admin.orders.order_detail',$data);
     }
@@ -47,24 +49,23 @@ class OrderController extends Controller
         $date=$request->date;
         $status=$request->status;
         $data=[];
-        $orders=Order::with('user');
+        $orders=Order::join('users','orders.user_id','=','users.id')->select('orders.id','orders.status','users.name','orders.created_at');
         if(!empty($date)){
-           $orders=Order::whereDate('created_at','=',$date);
+           $orders=$orders->whereDate('orders.created_at','=',$date);
         }
-
         if($status==2){
-            $orders=Order::where('status','=',$status);
+            $orders=$orders->where('orders.status','=',$status);
         }elseif($status==3){
-            $orders=Order::where('status','=',$status);
+            $orders=$orders->where('orders.status','=',$status);
         }elseif($status==4){
-            $orders=Order::where('status','=',$status);
+            $orders=$orders->where('orders.status','=',$status);
         }elseif($status=="0-1"){
             $status=explode("-",$status);
             $status_first=$status[0];
             $status_second=$status[1];
-            $orders=Order::where('status','=',$status_first)->orWhere('status','=',$status_second);
+            $orders=$orders->where('orders.status','=',$status_first)->orWhere('orders.status','=',$status_second);
         }
-        $orders=$orders->orderBy('created_at', 'desc')->paginate(5);
+        $orders=$orders->orderBy('orders.created_at', 'desc')->paginate(5);
         $data['date']=$date;
         $data['status']=$request->status;
         $data['orders']=$orders;

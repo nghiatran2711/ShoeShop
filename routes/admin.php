@@ -34,7 +34,7 @@ Route::middleware('guest:admin')->group(function(){
     Route::post('login', [AuthController::class, 'postLogin'])->name('login.handle');
 });
 Route::middleware('auth:admin')->group(function(){
-    Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
+    Route::get('/',[DashboardController::class,'dashboard'])->name('dashboard');
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     //brands
     Route::group(['prefix' => 'brand', 'as' => 'brand.'], function () {
