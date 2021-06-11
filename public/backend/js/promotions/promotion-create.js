@@ -41,9 +41,9 @@ $(document).ready(function () {
             ],
             "firstDay": 1
         },
-        "startDate": beginDate1,
+        "startDate": beginDate,
         // "endDate": "2090-05-31 23:59:59",
-        "minDate": beginDate1,
+        "minDate": beginDate,
         "drops": "up"
     }, function(start, end, label) {
       console.log('New date range selected: ' + start.format('YYYY-MM-DD hh:mm:ss'));
@@ -91,9 +91,9 @@ $(document).ready(function () {
             ],
             "firstDay": 1
         },
-        "startDate": beginDate2,
+        "startDate": endDate,
         // "endDate": "2090-05-31 23:59:59",
-        "minDate": beginDate2,
+        "minDate": endDate,
         "drops": "up"
     }, function(start, end, label) {
       console.log('New date range selected: ' + start.format('YYYY-MM-DD hh:mm:ss'));

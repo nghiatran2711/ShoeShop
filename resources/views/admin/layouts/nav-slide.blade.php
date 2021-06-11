@@ -67,9 +67,9 @@
                         <li>
                             <a href="{{ route('admin.order.list_order') }}">List orders</a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="{{ route('admin.order.report_order') }}">Report orders</a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>	
                 <li>

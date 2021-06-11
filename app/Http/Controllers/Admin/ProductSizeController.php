@@ -85,8 +85,7 @@ class ProductSizeController extends Controller
     public function destroy($product_id,$size_id)
     {      
         DB::beginTransaction();
-        try{
-            
+        try{           
             $product=Product::find($product_id);
             $product->sizes()->detach($size_id);
             DB::commit();

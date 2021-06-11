@@ -36,8 +36,6 @@ class CartController extends Controller
         $product_id=$request->product_id;
         $quantity=$request->qty;
         $id_size=$request->product_size;
-        $discount=$request->discount;
-        $promotion_id=$request->promotion_id;
 
         $quantity_product_size=DB::table('product_size')
         ->select('quantity')
@@ -54,6 +52,22 @@ class CartController extends Controller
             $product=Product::find($product_id);
             $size=$product->sizes->find($id_size)->name;
 
+            //lấy thông tin khuyến mãi
+            $currentDate = date('Y-m-d');
+			$discount=0;
+            $promotion_id=null;
+            foreach ($product->promotions as $promotion){
+				if($promotion->begin_date<=$currentDate && $promotion->end_date>=$currentDate){
+					$discount=$promotion->discount;
+					$promotion_id=$promotion->id;
+                }
+            }
+
+            // if(!empty($promotion_id)){
+            //     $discount=$product->promotions->find($promotion_id)->discount;
+            // }else{
+            //     $discount=0;
+            // }
             $data['id']=$product->id;
             $data['name']=$product->name;
             $data['qty']=$quantity;
@@ -139,7 +153,7 @@ class CartController extends Controller
                 'data_table'=>view::make('carts.table_cart_info')->render(),
             ], 200);
         }
-        return response()->json(['message' => "update failed"],500);
+        return response()->json(['message' => "delete failed"],500);
         
     }
 

@@ -1,24 +1,24 @@
 @extends('admin.layouts.master')
 @push('js')
     @php
-    // set Begin Date 1
+    // set Begin Date
         $begin=date('Y-m-d H:i:s',strtotime($promotion->begin_date));
         $end=date('Y-m-d H:i:s',strtotime($promotion->end_date));
         if (!empty($begin) && !empty($end)) {
-            $beginDate1 = date('Y-m-d 00:00:00', strtotime($begin));
-            // set Begin Date 2
-            $beginDate2 = date('Y-m-d H:i:s', strtotime($end));
+            $beginDate = date('Y-m-d 00:00:00', strtotime($begin));
+            // set end date
+            $endDate = date('Y-m-d H:i:s', strtotime($end));
         }else {
-            $beginDate1 = date('Y-m-d 00:00:00');
-            // set Begin Date 2
-            $beginDate2 = date('Y-m-d H:i:s', strtotime($beginDate1 . ' + 1 months'));
-            // dd($beginDate2);
-            $beginDate2 = date('Y-m-d 23:59:59', strtotime($beginDate2 . ' - 1 days'));
+            $beginDate = date('Y-m-d 00:00:00');
+            // set end date
+            $endDate = date('Y-m-d H:i:s', strtotime($beginDate . ' + 1 months'));
+            // dd($endDate);
+            $endDate = date('Y-m-d 23:59:59', strtotime($endDate . ' - 1 days'));
         }
     @endphp
     <script type="text/javascript">
-        var beginDate1 = "{{ $beginDate1 }}";
-        var beginDate2 = "{{ $beginDate2 }}";
+        var beginDate = "{{ $beginDate }}";
+        var endDate = "{{ $endDate }}";
     </script>
     <script type="text/javascript" src="{{ asset('backend/js/promotions/promotion-edit.js') }}"></script>
 @endpush

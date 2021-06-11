@@ -97,6 +97,7 @@
 								      	<th>#</th>
 								      	<th>Hình ảnh</th>
 								        <th>Tên sản phẩm</th>
+                                        <th>kích cỡ</th>
 								        <th>Số lượng</th>
 								        <th>Giá</th>
                                         <th>Thành tiền</th>
@@ -113,6 +114,7 @@
                                                     <td>{{ $key+1 }}</td>
                                                     <td><img src="{{ $message->embed(public_path().'/'.$order_detail->thumbnail) }}" alt="" width="80px"></td>
                                                     <td>{{ $order_detail->product_name }}</td>
+                                                    <td>Size: {{ $order_detail->size_name }}</td>
                                                     <td>{{ $order_detail->quantity }}</td>
                                                     <td>
 
@@ -152,6 +154,7 @@
 								    	<tr>
 								    		<td></td>
 								    		<td></td>
+                                            <td></td>
                                             <td></td>
                                             <td></td>
 								    		<td colspan="2"><b>Tổng tiền: {{ number_format($total).' '.'VNĐ' }}<b></td>

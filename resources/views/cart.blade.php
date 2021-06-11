@@ -59,12 +59,18 @@
 
 				function updateCart(){
 					$(document).ready(function () {
+						$.ajaxSetup({
+							headers: {
+								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+							}
+						});
+
 						$("input[name='quantity']").each(function() {
 							rowId=$(this).data('id');
 							quantity=$(this).val();
 							console.log( rowId + quantity );
 							$.ajax({
-								type: "GET",
+								type: "PUT",
 								url: '{{ url('update-cart') }}',
 								dataType: 'json',
 								data: {

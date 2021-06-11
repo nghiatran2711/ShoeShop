@@ -155,12 +155,6 @@
 										</div> --}}
 										<div class="single-product-add-cart">
 											<input type="hidden" name="product_id" value="{{ $product->id }}">
-											@if (!empty($discount))
-												<input type="hidden" name="discount" value="{{ $discount }}">
-												<input type="hidden" name="promotion_id" value="{{ $promotion_id }}">
-											@else
-												<input type="hidden" name="discount" value="0">
-											@endif
 											
 											<button type="submit" class="btn btn-danger"><i class="fa fa-shopping-cart cart-icon"></i> Thêm giỏ hàng</button>
 											<br>

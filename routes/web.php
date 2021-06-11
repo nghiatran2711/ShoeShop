@@ -38,8 +38,8 @@ Route::get('/product-details/{id}',[HomeController::class,'product_details'])->n
     Route::get('/view-cart',[CartController::class,'viewCart'])->name('view_cart');
     Route::get('/add-cart',[CartController::class,'addCart'])->name('add_cart');
     Route::delete('/remove-item-cart/{id}',[CartController::class,'removeItemCart'])->name('remove_item_cart');
-    Route::get('/check-quantity',[CartController::class,'checkQuantity'])->name('check_quantity');
-    Route::get('/update-cart',[CartController::class,'updateCart'])->name('update_cart');
+    // Route::get('/check-quantity',[CartController::class,'checkQuantity'])->name('check_quantity');
+    Route::put('/update-cart',[CartController::class,'updateCart'])->name('update_cart');
     // Route::post('/update-cart-ajax',[CartController::class,'updateCartAjax'])->name('update_cart_ajax');
 
 
