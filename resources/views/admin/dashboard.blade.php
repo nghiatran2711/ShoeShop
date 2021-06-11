@@ -17,30 +17,31 @@
         <!-- /. ROW  -->
 
         <div class="row">
-            <div class="col-md-3 col-sm-12 col-xs-12">
+            <div class="col-md-4 col-sm-12 col-xs-12">
         <div class="board">
                 <div class="panel panel-primary">
         <div class="number">
         <h3>
-        <h3>44,023</h3>
-        <small>Daily Visits</small>
+        <h3>{{ $user }}</h3>
+        <small>Users</small>
         </h3> 
         </div>
         <div class="icon">
-        <i class="fa fa-eye fa-5x red"></i>
+            <i class="fa fa-user fa-5x yellow"></i>
+        {{-- <i class="fa fa-eye fa-5x red"></i> --}}
         </div>
 
                 </div>
         </div>
             </div>
 
-        <div class="col-md-3 col-sm-12 col-xs-12">
+        <div class="col-md-4 col-sm-12 col-xs-12">
         <div class="board">
                 <div class="panel panel-primary">
         <div class="number">
         <h3>
-        <h3>32,850</h3>
-        <small>Sales</small>
+        <h3>{{ $order }}</h3>
+        <small>Orders</small>
         </h3> 
         </div>
         <div class="icon">
@@ -51,145 +52,144 @@
         </div>
             </div>
 
-        <div class="col-md-3 col-sm-12 col-xs-12">
-        <div class="board">
+        <div class="col-md-4 col-sm-12 col-xs-12">
+            <div class="board">
                 <div class="panel panel-primary">
-        <div class="number">
-        <h3>
-        <h3>56,150</h3>
-        <small>Comments</small>
-        </h3> 
-        </div>
-        <div class="icon">
-        <i class="fa fa-comments fa-5x green"></i>
-        </div>
+                    <div class="number">
+                    <h3>
+                    <h3>{{ $customer }}</h3>
+                    <small>Customers</small>
+                    </h3> 
+                    </div>
+                    <div class="icon">
+                    <i class="fa fa-users fa-5x green"></i><i class="fas fa-users-cog"></i>
+                    </div>
 
                 </div>
-        </div>
             </div>
+        </div>
 
-        <div class="col-md-3 col-sm-12 col-xs-12">
-        <div class="board">
+        {{-- <div class="col-md-3 col-sm-12 col-xs-12">
+            <div class="board">
                 <div class="panel panel-primary">
-        <div class="number">
-        <h3>
-        <h3>89,645</h3>
-        <small>Daily Profits</small>
-        </h3> 
-        </div>
-        <div class="icon">
-        <i class="fa fa-user fa-5x yellow"></i>
-        </div>
+                    <div class="number">
+                    <h3>
+                    <h3>89,645</h3>
+                    <small>Daily Profits</small>
+                    </h3> 
+                    </div>
+                    <div class="icon">
+                    <i class="fa fa-user fa-5x yellow"></i>
+                    </div>
 
                 </div>
-        </div>
             </div>
+        </div> --}}
 
         </div>
-        <div class="row">
-                <div class="col-sm-6 col-xs-12">  
-                    <div class="panel panel-default chartJs">
-                        <div class="panel-heading">
-                            <div class="card-title">
-                                <div class="title">Line Chart</div>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <canvas id="line-chart" class="chart"></canvas>
+        {{-- <div class="row">
+            <div class="col-sm-6 col-xs-12">  
+                <div class="panel panel-default chartJs">
+                    <div class="panel-heading">
+                        <div class="card-title">
+                            <div class="title">Line Chart</div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6 col-xs-12">
-                    <div class="panel panel-default chartJs">
-                        <div class="panel-heading">
-                            <div class="card-title">
-                                <div class="title">Bar Chart</div>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <canvas id="bar-chart" class="chart"></canvas>
-                        </div>
+                    <div class="panel-body">
+                        <canvas id="line-chart" class="chart"></canvas>
                     </div>
                 </div>
             </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default chartJs">
+                    <div class="panel-heading">
+                        <div class="card-title">
+                            <div class="title">Bar Chart</div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <canvas id="bar-chart" class="chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
 
-        <div class="row">
-        <div class="col-xs-6 col-md-3">
-        <div class="panel panel-default">
-        <div class="panel-body easypiechart-panel">
-        <h4>Profit</h4>
-        <div class="easypiechart" id="easypiechart-blue" data-percent="82" ><span class="percent">82%</span>
-        </div>
-        </div>
-        </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-        <div class="panel panel-default">
-        <div class="panel-body easypiechart-panel">
-        <h4>Sales</h4>
-        <div class="easypiechart" id="easypiechart-orange" data-percent="55" ><span class="percent">55%</span>
-        </div>
-        </div>
-        </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-        <div class="panel panel-default">
-        <div class="panel-body easypiechart-panel">
-        <h4>Customers</h4>
-        <div class="easypiechart" id="easypiechart-teal" data-percent="84" ><span class="percent">84%</span>
-        </div>
-        </div>
-        </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-        <div class="panel panel-default">
-        <div class="panel-body easypiechart-panel">
-        <h4>No. of Visits</h4>
-        <div class="easypiechart" id="easypiechart-red" data-percent="46" ><span class="percent">46%</span>
-        </div>
-        </div>
-        </div>
-        </div>
-        </div><!--/.row-->
+        {{-- <div class="row">
+            <div class="col-xs-6 col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body easypiechart-panel">
+                    <h4>Profit</h4>
+                        <div class="easypiechart" id="easypiechart-blue" data-percent="82" ><span class="percent">82%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body easypiechart-panel">
+                    <h4>Sales</h4>
+                        <div class="easypiechart" id="easypiechart-orange" data-percent="55" ><span class="percent">55%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body easypiechart-panel">
+                    <h4>Customers</h4>
+                        <div class="easypiechart" id="easypiechart-teal" data-percent="84" ><span class="percent">84%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body easypiechart-panel">
+                    <h4>No. of Visits</h4>
+                        <div class="easypiechart" id="easypiechart-red" data-percent="46" ><span class="percent">46%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/.row--> --}}
 
 
-        <div class="row">
-        <div class="col-md-5">
-        <div class="panel panel-default">
-        <div class="panel-heading">
-        Line Chart
-        </div>
-        <div class="panel-body">
-        <div id="morris-line-chart"></div>
-        </div>						
-        </div>   
-        </div>		
+        {{-- <div class="row">
+            <div class="col-md-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                    Line Chart
+                    </div>
+                    <div class="panel-body">
+                        <div id="morris-line-chart"></div>
+                    </div>						
+                </div>   
+            </div>		
 
-        <div class="col-md-7">
-        <div class="panel panel-default">
-        <div class="panel-heading">
+            <div class="col-md-7">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
                         Bar Chart Example
                     </div>
                     <div class="panel-body">
                         <div id="morris-bar-chart"></div>
                     </div>
 
-        </div>  
-        </div>
-
-        </div> 
-
+                </div>  
+            </div>
+        </div>  --}}
 
 
-        <div class="row">
+
+        {{-- <div class="row">
             <div class="col-md-9 col-sm-12 col-xs-12">
                 <div class="panel panel-default">                            
-        <div class="panel-heading">
-        Area Chart
-        </div>
-        <div class="panel-body">
-        <div id="morris-area-chart"></div>
-        </div>
+                        <div class="panel-heading">
+                        Area Chart
+                        </div>
+                        <div class="panel-body">
+                            <div id="morris-area-chart"></div>
+                        </div>
                 </div>
             </div>
             <div class="col-md-3 col-sm-12 col-xs-12">
@@ -203,19 +203,19 @@
                 </div>
             </div>
 
-        </div>
-        <div class="row">
-        <div class="col-md-12">
+        </div> --}}
+        {{-- <div class="row">
+            <div class="col-md-12">
 
-        </div>		
-        </div> 	
+            </div>		
+        </div> 	 --}}
         <!-- /. ROW  -->
 
 
 
 
 
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -325,7 +325,7 @@
                 </div>
 
             </div>
-        </div>
+        </div> --}}
         <!-- /. ROW  -->
 
 

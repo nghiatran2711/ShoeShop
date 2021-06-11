@@ -14,7 +14,7 @@
 						<!-- BSTORE-BREADCRUMB END -->
 					</div>
 				</div>
-				
+					@include('admin.errors.error')
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<!-- CART TABLE_BLOCK START -->
@@ -60,7 +60,12 @@
 														<a href="{{ route('order_detail',['id'=>$value->id]) }}">Xem chi tiết</a>
 													</td>
 													<td>
-													<a href="{{ route('destroy_order',['id'=>$value->id]) }}">Huỷ đơn hàng</a>
+														@if ($value->status==0 || $order->status==1)
+															<a href="{{ route('destroy_order',['id'=>$value->id]) }}">Huỷ đơn hàng</a>
+														@else
+															{{ '' }}
+														@endif
+													
 													</td>
 												</tr>
 											@endforeach

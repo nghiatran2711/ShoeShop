@@ -7,9 +7,9 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<!-- BSTORE-BREADCRUMB START -->
 						<div class="bstore-breadcrumb">
-							<a href="index.html">HOMe</a>
+							<a href="index.html">Trang chủ</a>
 							<span><i class="fa fa-caret-right"></i></span>
-							<span>Info profile</span>
+							<span>Thông tin cá nhân</span>
 						</div>
 						<!-- BSTORE-BREADCRUMB END -->
 					</div>
@@ -42,14 +42,14 @@
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                         <div class="form-group primary-form-group">
-                                            <label for="loginemail">Address</label>
+                                            <label for="loginemail">Địa chỉ</label>
                                             <input type="text" value="{{ Auth::user()->address }}" name="address" id="loginemail" class="form-control input-feild" required>
                                         </div>
                                         @error('address')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                         <div class="form-group primary-form-group">
-                                            <label for="loginemail">phone</label>
+                                            <label for="loginemail">Số điện thoại</label>
                                             <input type="text" value="{{ 0 .''.Auth::user()->phone }}" name="phone" id="loginemail" class="form-control input-feild" required>
                                         </div>
                                         @error('phone')

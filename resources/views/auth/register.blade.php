@@ -73,7 +73,7 @@
 						<!-- BSTORE-BREADCRUMB END -->
 					</div>
 				</div>
-                @include('admin.errors.error')
+                
 				<div class="row">
 					{{-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<h2 class="page-title">Đăng ký tài khoản</h2>
@@ -85,6 +85,7 @@
                                 <form class="new-account-box" id="accountLogin" method="POST" action="{{ route('register') }}">
                                     @csrf
                                     <h4 class="box-subheading">Đăng ký tài khoản</h4>
+                                    @include('admin.errors.error')
                                     <div class="form-content">
                                         <div class="form-group primary-form-group">
                                             <label for="loginemail">Họ và tên</label>
@@ -101,14 +102,14 @@
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                         <div class="form-group primary-form-group">
-                                            <label for="loginemail">Address</label>
+                                            <label for="loginemail">Địa chỉ</label>
                                             <input type="text" value="" name="address" id="loginemail" class="form-control input-feild">
                                         </div>
                                         @error('address')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                         <div class="form-group primary-form-group">
-                                            <label for="loginemail">phone</label>
+                                            <label for="loginemail">Số điện thoại</label>
                                             <input type="text" value="" name="phone" id="loginemail" class="form-control input-feild">
                                         </div>
                                         @error('phone')

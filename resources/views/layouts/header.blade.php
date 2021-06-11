@@ -62,6 +62,7 @@
 
 											<li><a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Đăng xuất</a>
 												<form action="{{ route('logout') }}" id="logout-form" method="POST">@csrf</form>
+											</li>
 											{{-- <form action="{{ route('logout') }}" method="POST">
 												@csrf
 												<button class="btn btn-dark" style="background-color: #363636; color:#fff;" type="submit">Logout</button>
@@ -95,7 +96,7 @@
 						<!-- LOGO END -->
 						<!-- HEADER-RIGHT-CALLUS START -->
 						<div class="header-right-callus">
-							<h3>call us free</h3>
+							<h3>Liên hệ chúng tôi</h3>
 							<span>0123-456-789</span>
 						</div>
 						<!-- HEADER-RIGHT-CALLUS END -->

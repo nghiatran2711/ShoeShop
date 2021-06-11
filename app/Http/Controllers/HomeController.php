@@ -14,7 +14,7 @@ class HomeController extends Controller
     //
     public function index(){
         $data=[];
-        $product_new=Product::limit(10)->get();
+        $product_new=Product::orderBy('created_at','desc')->limit(10)->get();
         $product_feature=Product::where('is_feature',1)->get();
         $currentDate = date('Y-m-d');
         // $product_promotions = DB::table('products')
@@ -61,7 +61,7 @@ class HomeController extends Controller
 
             $products = Product::whereIn('category_id' , $ids)
             ->orderBy('id', 'desc')
-            ->paginate(10);
+            ->paginate(12);
         }
             $data['sizes']=$sizes;
             $data['products']=$products;
@@ -75,7 +75,7 @@ class HomeController extends Controller
         $data=[];
         $categories_menu = Category::where('parent_id', '=', 0)->get();
         $brand=Brand::where('name',$brand_name)->first();
-        $products=Product::where('brand_id',$brand->id)->orderBy('id','desc')->paginate(10);
+        $products=Product::where('brand_id',$brand->id)->orderBy('id','desc')->paginate(12);
         $data['categories']=$categories_menu;
         $data['products']=$products;
         $data['brand']=$brand;

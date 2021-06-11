@@ -16,8 +16,6 @@ class PromotionSeeder extends Seeder
     public function run()
     {
         //
-        // $products = Product::pluck('id')->toArray();
-
         // discount: 5%, 10%, 20%, ...
         $discounts = [
             5,
@@ -28,28 +26,37 @@ class PromotionSeeder extends Seeder
             50,
         ];
 
-        $beginDates = [
-            '2021-04-25 00:00:00',
-            '2021-05-31 00:00:00',
-            '2021-06-15 00:00:00',
-        ];
-
-        $endDates = [
-            '2021-07-02 23:59:59',
-            '2021-06-18 23:59:59',
-            '2021-06-20 23:59:59',
-        ];
-
-        // foreach ($products as $productId) {
-        for ($j = 0; $j < 4; $j++) {
+        $beginDate = date('2021-04-01 00:00:00');
+        $endDate = date('Y-m-d 23:59:59', strtotime($beginDate . ' + 1 months'));
+        $endDate = date('Y-m-d 23:59:59', strtotime($endDate . ' - 1 days'));
+        
+        for ($i = 0; $i <  10; $i++) {
             $promotion = [
+                'name' => 'Promotion Name ' . ($i + 1), 
                 'discount' => $discounts[array_rand($discounts)],
-                'begin_date' => $beginDates[array_rand($beginDates)],
-                'end_date' => $endDates[array_rand($endDates)],
+                'begin_date' => $beginDate,
+                'end_date' => $endDate,
+                'quantity' => 100,
                 'status' => 1,
             ];
+
             Promotion::create($promotion);
+
+            /**
+             * update increment for Begin Date
+             * 
+             * add +1 day for Begin Date
+             */
+            $beginDate = date('Y-m-d 00:00:00', strtotime($endDate . ' + 1 days'));
+
+            /**
+             * update increment for End Date
+             * 
+             * @add +1 month for End Date
+             * @subtract -1 day for End Date
+             */
+            $endDate = date('Y-m-d 23:59:59', strtotime($beginDate . ' + 1 months'));
+            $endDate = date('Y-m-d 23:59:59', strtotime($endDate . ' - 1 days'));
         }
-        // }
     }
 }

@@ -41,4 +41,15 @@ class OrderController extends Controller
         $data['order_details']=$order_details;
         return view('order.order_detail',$data);
     }
+
+    public function destroy_order($id){
+        $order=Order::find($id);
+        $order->status=3;
+        try{
+            $order->save();
+            return redirect()->route('view_order_history')->with('success',"Huỷ đơn hàng $id thành công");
+        }catch(\Exception $ex){
+            return redirect()->back()->with('error',$ex->getMessage());
+        }
+    }
 }

@@ -6,7 +6,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE html>
 <html>
 <head>
-<title>Magnificent login form a Flat Responsive Widget Template :: w3layouts</title>
+<title>Login admin</title>
 <!-- metatags-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -29,21 +29,46 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					<div class="agileits-2">
 						<h2>login</h2>
 					</div>
+					@if ($errors->any())
+						<div class="alert alert-danger">
+							<ul>
+								@foreach ($errors->all() as $error)
+									<li>{{ $error }}</li>
+								@endforeach
+							</ul>
+						</div>
+						@endif
+
+						{{-- show message --}}
+						@if(Session::has('success'))
+						<p style="color: white;">{{ Session::get('success') }}</p>
+						@endif
+
+						{{-- show error message --}}
+						@if(Session::has('error'))
+						<p style="color: red">{{ Session::get('error') }}</p>
+						@endif
 					<form action="{{ route('admin.login.handle') }}" method="POST">
 						@csrf
 						<div class="w3-user">
 							<span><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
 							<input type="email" name="email" placeholder="Email" required="">
 						</div>
+						@error('email')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
 						<div class="clear"></div>
 						<div class="w3-psw">
 							<span><i class="fa fa-key" aria-hidden="true"></i></span>
 							<input type="password" name="password" placeholder="Password" required="">
 						</div>
+						@error('password')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
 						<div class="clear"></div>
-						<div class="w3l">
+						{{-- <div class="w3l">
 							<span><a href="#">forgot password ?</a></span>  
-						</div>
+						</div> --}}
 						<div class="clear"></div>
 						<div class="w3l-submit">
 							<input type="submit" value="login">

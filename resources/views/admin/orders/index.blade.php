@@ -74,6 +74,8 @@
                                     <th>#</th>
                                     <th>Mã đơn hàng</th>
                                     <th>Tên khách hàng</th>
+                                    {{-- <th>Tổng số lượng</th> --}}
+                                    <th>Tổng tiền</th>
                                     <th>Ngày đặt</th>
                                     <th>Tình trạng đơn hàng</th>
                                     <th>Xem chi tiết</th>
@@ -86,16 +88,18 @@
                                     <td>{{ $key+1 }}</td>
                                     <td>{{ $order->id }}</td>
                                     <td>{{ $order->name }}</td>
+                                    {{-- <td>{{ $order->quantity }}</td>--}}
+                                    <td>{{ number_format($order->total).' '.'VNĐ' }}</td>
                                     <td>{{ $order->created_at }}</td>
                                     <td>
                                         @if ($order->status==0 || $order->status==1 )
-                                            {{ "Đang chờ xử lý" }}
+                                            <p class="btn btn-primary">{{ "Đang chờ xử lý" }}</p>
                                         @elseif($order->status==2)
-                                            {{ "Đang giao" }}
+                                            <p class="btn btn-info">{{ "Đang giao" }}</p>
                                         @elseif ($order->status==3)
-                                            {{ "Đơn hàng bị huỷ" }}
+                                            <p class="btn btn-danger">{{ "Đơn hàng bị huỷ" }}</p>
                                         @elseif ($order->status==4)
-                                            {{ "Hoàn thành" }}
+                                            <p class="btn btn-success">{{ "Hoàn thành" }}</p>
                                         @endif
                                     </td>
                                     <td><a href="{{ route('admin.order.order_detail',['id'=>$order->id]) }}">Xem chi tiết</a></td>
@@ -104,7 +108,12 @@
                                             <a href="{{ route('admin.order.confirm_order',['id'=>$order->id]) }}" class="btn btn-success">Duyệt</a><br>
                                         @endif
                                         <br>
-                                        <a href="" class="btn btn-danger">Huỷ đơn hàng</a>
+                                        @if ($order->status==3)
+                                            {{ '' }}
+                                        @else
+                                            <a href="" class="btn btn-danger">Huỷ đơn hàng</a>
+                                        @endif
+                                        
                                     </td>
                                 </tr> 
                                 @endforeach

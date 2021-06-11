@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 use phpDocumentor\Reflection\Types\Null_;
 
 class CartController extends Controller
@@ -38,8 +39,17 @@ class CartController extends Controller
         $discount=$request->discount;
         $promotion_id=$request->promotion_id;
 
-        $quantity_product_size=DB::table('product_size')->select('quantity')->where('product_id',$product_id)->where('size_id',$id_size)->first();
-        if($quantity <= $quantity_product_size->quantity){
+        $quantity_product_size=DB::table('product_size')
+        ->select('quantity')
+        ->where('product_id',$product_id)
+        ->where('size_id',$id_size)
+        ->first();
+
+        $quantity_sale=OrderDetail::where('product_id',$product_id)->where('size_id',$id_size)->sum('quantity');
+
+        $quantityStock=$quantity_product_size->quantity-(int)$quantity_sale;
+
+        if($quantity <= $quantityStock){
             $data=[];
             $product=Product::find($product_id);
             $size=$product->sizes->find($id_size)->name;
@@ -60,38 +70,77 @@ class CartController extends Controller
             return redirect()->route('view_cart');
         }else{
             
-            $message='Only '. $quantity_product_size->quantity . ' products in stock';
+            $message='Only '. $quantityStock . ' products in stock';
             return redirect()->back()->with('message',$message);
         }
     }
 
     public function updateCart(Request $request){
-        
         $rowId=$request->rowId;
+        $data=[];
         $quantity=$request->quantity;
         $cart=Cart::get($rowId);
         $size_id=Size::select('id')->where('name',$cart->options->size)->first();
         $quantity_product_size=DB::table('product_size')->select('quantity')->where('product_id',$cart->id)->where('size_id',$size_id->id)->first();
-        if($quantity <=$quantity_product_size->quantity){
-            try{
+    
+            $quantity_sale=OrderDetail::where('product_id',$cart->id)->where('size_id',$size_id->id)->sum('quantity');
 
-                Cart::update($rowId, $quantity);
-                return response()->json('message','update cart success');
-            }catch(\Exception $ex){
-                return response()->json(['message' => $ex->getMessage()]);
+            $quantityStock=$quantity_product_size->quantity-(int)$quantity_sale;
+  
+            if($quantity > $quantityStock){
+                $message='Only '. $quantityStock . ' products in stock';
+                return response()->json(['message' => $message],500);
             }
-        }else{
-            $message='Only '. $quantity_product_size->quantity . ' products in stock';
-            return response()->json('message',$message);
-        }
-        
-        // return redirect()->route('view_cart');
+
+            if(!empty(Cart::content())){
+                Cart::update($rowId, $quantity);
+                
+                return response()->json([
+                    'message' => 'The product is in stock.',
+                    'data_table'=>view::make('carts.table_cart_info')->render(),
+                ], 200);
+            }
+               
     }
 
-    public function removeItemCart($id){
-        Cart::remove($id);
-        return redirect()->back();
+    // public function updateCart(Request $request){
+        
+    //     $rowId=$request->rowId;
+    //     $quantity=$request->quantity;
+    //     $cart=Cart::get($rowId);
+    //     $size_id=Size::select('id')->where('name',$cart->options->size)->first();
+    //     $quantity_product_size=DB::table('product_size')->select('quantity')->where('product_id',$cart->id)->where('size_id',$size_id->id)->first();
+    
+    //         $quantity_sale=OrderDetail::where('product_id',$cart->id)->where('size_id',$size_id->id)->sum('quantity');
 
+    //         $quantityStock=$quantity_product_size->quantity-(int)$quantity_sale;
+    
+    //     if($quantity <=$quantityStock){
+    //         try{
+    //             Cart::update($rowId, $quantity);
+    //             return response()->json(['message' =>'update cart success']);
+    //         }catch(\Exception $ex){
+    //             return response()->json(['message' => $ex->getMessage()]);
+    //         }
+    //     }else{
+    //         $message='Only '. $quantityStock . ' products in stock';
+    //         return response()->json(['message' => $message]);
+    //     }
+        
+    //     // return redirect()->route('view_cart');
+    // }
+
+
+    public function removeItemCart($id){
+        if(!empty(Cart::content())){
+            Cart::remove($id);
+            return response()->json([
+                'message' => 'The product is in stock.',
+                'data_table'=>view::make('carts.table_cart_info')->render(),
+            ], 200);
+        }
+        return response()->json(['message' => "update failed"],500);
+        
     }
 
     // Send code xác thực check out
@@ -183,15 +232,35 @@ class CartController extends Controller
 
         $email = Auth::user()->email;
         $carts=Cart::content();
+
         // dd($carts);
         $type_payment=$request->payment_type;
         $data_order=[];
         $data_order_detail=[];
-
+        $subtotal=0;
+        $total=0;
+        if(!empty($carts)){
+            foreach($carts as $cart){
+                $product=Product::where('id',$cart->id)->first();
+                $quantity=$cart->qty;
+                if ($cart->options->discount!=0){
+                    $price_discount=$cart->options->discount * $cart->price/100;
+                    $price_new=$cart->price-$price_discount;
+				}			
+                if ($cart->options->discount==0){
+                                                   
+                    $subtotal=$cart->price* $cart->qty;
+                }else{
+                    $subtotal=$price_new * $cart->qty;
+                }
+                $total+=$subtotal;
+            }
+        }
         if($type_payment==1){
             $data_order=[
                 'user_id' => Auth()->id(),
                 'status' => Order::STATUS[0],
+                'total'=>$total,
             ];
             // dd($data_order);
             try{

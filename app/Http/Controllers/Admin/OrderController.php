@@ -13,7 +13,14 @@ class OrderController extends Controller
     //
     public function list_order(){
         $data=[];
-        $orders=Order::join('users','orders.user_id','=','users.id')->select('orders.id','orders.status','users.name','orders.created_at')->orderBy('orders.created_at','desc')->paginate(5);
+        // $orders=Order::join('users','orders.user_id','=','users.id')->select('orders.id','orders.status','users.name','orders.created_at')->orderBy('orders.created_at','desc')->paginate(5);
+        $orders=Order::join('users','orders.user_id','=','users.id')
+        ->join('order_detail','orders.id','=','order_detail.order_id')
+        ->select('orders.*','users.name',DB::raw('SUM(order_detail.quantity) AS quantity'))
+        ->groupBy('order_detail.order_id')->orderBy('created_at','desc')
+        ->paginate(5);
+
+        // SELECT orders.*,users.name,SUM(order_detail.quantity) as quantity FROM orders INNER JOIN order_detail ON order_detail.order_id = orders.id INNER JOIN users ON users.id = orders.user_id GROUP BY order_detail.order_id;
         $data['orders']=$orders;
         // dd($data);
         return view('admin.orders.index',$data);

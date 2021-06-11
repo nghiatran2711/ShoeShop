@@ -4,8 +4,7 @@
     <title>Send Verify Code</title>
 </head>
 <body>
-    <h1>Hello World!!!</h1>
-    <h6>Code</h6>
+    <h6>Your code confirm</h6>
     <p>{{ $orderVerify['code'] }}</p>
     <p>Thank you</p>
 </body>

@@ -28,7 +28,7 @@
 												<img src="{{ asset($product->thumbnail) }}" alt="single-product-image" />
 												<a class="new-mark-box" href="#">
 												</a>
-												<a class="fancybox" href="{{ asset($product->thumbnail) }}" data-fancybox-group="gallery"><span class="btn large-btn">View larger <i class="fa fa-search-plus"></i></span></a>
+												<a class="fancybox" href="{{ asset($product->thumbnail) }}" data-fancybox-group="gallery"><span class="btn large-btn">Phóng to<i class="fa fa-search-plus"></i></span></a>
 											</div>	
 										</div>
 										{{-- <div class="tab-pane" id="thumbnail_6">

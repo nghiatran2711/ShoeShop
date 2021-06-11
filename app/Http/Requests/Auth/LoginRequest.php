@@ -35,6 +35,20 @@ class LoginRequest extends FormRequest
     }
 
     /**
+     * Custom message for validation
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'email.required' => 'Trường bắt buộc!',
+            'email.email'=>'Không phải là địa chỉ email!',
+            'password.required' => 'Trường bắt buộc!'
+        ];
+    }
+
+    /**
      * Attempt to authenticate the request's credentials.
      *
      * @return void

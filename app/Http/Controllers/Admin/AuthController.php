@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Validator;
 use Session;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\AuthenticationUsers;
 use App\Http\Requests;
 use App\Models\Admin;
 
@@ -23,15 +23,14 @@ class AuthController extends Controller
     // | to conveniently provide its functionality to your applications.
     // |
     // */
-
-    // // use AuthenticatesUsers;
-
+    
     // /**
     //  * Where to redirect users after login.
     //  *
     //  * @var string
     //  */
-    protected $redirectTo = '/admin/login';
+    protected $redirectTo = '/admin/home';
+    // protected $redirectTo = '/admin/login';
 
     /**
      * Create a new controller instance.
@@ -62,13 +61,15 @@ class AuthController extends Controller
         ]);
         if (auth()->guard('admin')->attempt(['email' => $request->input('email'), 'password' => $request->input('password')]))
         {
-            $user = auth()->guard('admin')->user();
-            
-            \Session::put('lsuccess','You are Login successfully!!');
+            $user = auth()->guard('admin')->user()->status;
+            if($user==0){
+                auth()->guard('admin')->logout();
+                \Session::flush();      
+                return redirect()->route('admin.login')->with('success','Tài khoản của bạn chưa được active!');
+            }
             return redirect()->route('admin.dashboard');
-            
         } else {
-            return back()->with('lerror','your username and password are wrong.');
+            return back()->with('error','Email hoặc mật khẩu sai.');
         }
 
     }
@@ -82,7 +83,7 @@ class AuthController extends Controller
     {
         auth()->guard('admin')->logout();
         \Session::flush();
-        \Session::put('lsuccess','You are logout successfully');        
+        \Session::put('success','You are logout successfully');        
         return redirect()->route('admin.login');
     }
 

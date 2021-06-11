@@ -81,15 +81,22 @@
                                 <form class="new-account-box" action="{{ route('handle.login') }}" id="accountLogin" method="POST">
                                     @csrf
                                     <h4 class="box-subheading">Đăng nhập</h4>
+                                    @include('admin.errors.error')
                                     <div class="form-content">
                                         <div class="form-group primary-form-group">
                                             <label for="loginemail">Email</label>
                                             <input type="text" value="" name="email" id="loginemail" class="form-control input-feild">
                                         </div>
+                                        @error('email')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                         <div class="form-group primary-form-group">
                                             <label for="password">Mật khẩu</label>
                                             <input type="password" value="" name="password" id="password" class="form-control input-feild">
                                         </div>
+                                        @error('password')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                         <div class="forget-password">
                                             @if (Route::has('password.request'))
                                                 <p><a href="{{ route('password.request') }}">Quên mật khẩu?</a></p>

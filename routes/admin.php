@@ -133,6 +133,7 @@ Route::middleware('auth:admin')->group(function(){
         Route::get('list-order-shipping',[OrderController::class,'list_order_shipping'])->name('list_order_shipping');
         Route::get('shipping-success/{id}',[OrderController::class,'shipping_success'])->name('shipping_success');    
         Route::get('shipping-failure/{id}',[OrderController::class,'shipping_failure'])->name('shipping_failure');
+        Route::get('report-order',[OrderController::class,'report_order'])->name('report_order');
     });
 
     Route::group(['prefix' => 'user','as'=>'user.'],function () {
@@ -148,6 +149,4 @@ Route::middleware('auth:admin')->group(function(){
         Route::get('/list',[CustomerController::class,'index'])->name('list_customer')->middleware('check_role');
         Route::get('/search',[CustomerController::class,'index'])->name('search')->middleware('check_role');
     });
-
-
 });

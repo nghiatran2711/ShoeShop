@@ -16,7 +16,7 @@ class UserController extends Controller
     //
     public function index(){
         $data=[];
-        $users=Admin::select('id','name','email','role_id','created_at','status')->where('role_id','<>',1)->paginate(3);
+        $users=Admin::select('id','name','email','role_id','created_at','status')->where('role_id','<>',1)->paginate(10);
         $data['users']=$users;
         return view('admin.users.list_user',$data);
     }

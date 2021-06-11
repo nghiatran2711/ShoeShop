@@ -12,7 +12,7 @@ Website: http://www.webthemez.com/
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta content="" name="description" />
     <meta content="webthemez" name="author" />
-    <title>BRILLIANT Free Bootstrap Admin Template - WebThemez</title>
+    <title>BRILLIANT Admin</title>
     <!-- Bootstrap Styles-->
     <link href="{{ asset('backend/css/bootstrap.css') }}" rel="stylesheet" />
     <!-- FontAwesome Styles-->

@@ -46,4 +46,37 @@ $(document).ready(function () {
             dataType: 'json'
         });
     });
+
+    $(document).on('submit', '.frm-remove-product-in-cart', function (event) {
+        event.preventDefault();
+
+        // Define variable
+        let url = $(this).attr('action');
+        let csrf = $(this).find('input[name=_token]').val();
+        
+        // Process AJAX
+        $.ajax({
+            url: url,
+            type: 'DELETE',
+            data: {
+                _token: csrf
+            },
+            success: function (response) {
+                // rewrite html
+                $('.list-product').html(response.data_table);
+
+                // show message success
+                toastr.success('Delete Product In Cart Successful!');
+            },
+            error: function (err) {
+                // Display an error
+                if (err.responseJSON.message) {
+                    toastr.error(err.responseJSON.message);
+                } else {
+                    toastr.error('Cannot Delete Product In Cart.');
+                }
+            },
+            dataType: 'json'
+        });
+    });
 });
